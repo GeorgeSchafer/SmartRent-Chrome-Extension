@@ -6,4 +6,6 @@ This is a short demonstration of a project for a Chrome extension. SmartRent res
 - Toggle switches
 - Retrieve Delivery Codes
 
+Links to 
 
+- [popup](https://georgeschafer.github.io/SmartRent-Chrome-Extension/devices.html)
