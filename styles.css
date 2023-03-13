@@ -1,0 +1,59 @@
+
+body {
+    background-color: black;
+    width: 200px;
+    color: cyan;
+}
+
+a {
+    color: orange;
+}
+
+footer {
+  margin-top: 16px;
+}
+
+.refresh {
+    display: inline;
+    font-size: 16px;
+    padding: 8px 0px;
+}
+
+.util-svg {
+    padding: 8px;
+    height: 16px;
+    width: 16px;
+}
+
+.device-wrapper, .code-wrapper {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    margin-top: 8px;
+}
+
+.device {
+    display: inline;
+    font-size: 32px;
+}
+
+.icon {
+    display: inline;
+    margin-left: 8px;
+}
+
+.svg {
+    height: 32px;
+    width: 32px;
+}
+
+.delivery {
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.centered {
+  text-align: center;
+}
+
+
+
