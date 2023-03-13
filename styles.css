@@ -6,6 +6,7 @@ html {
 body {
     background-color: black;
     color: cyan;
+    padding: 8px;
 }
 
 a {
