@@ -1,6 +1,5 @@
-import { DeliveryCode, DeliveryMenu } from './codeClass.js';
-import {Lock,Binary_Switch} from './deviceClass.js'
-import { SmartRentAPI as srapi } from './SmartRentApi.js';
+import { DeliveryCode } from './codeClass.js';
+import { Lock, Binary_Switch}  from './deviceClass.js'
 
 // Functions
 const fns = {
@@ -14,16 +13,8 @@ const fns = {
         devices.plug = plug;
         els.wrapper.appendChild(devices.plug.div_device_wrapper);
 
-        const delivery = new DeliveryMenu();
-        els.delivery = delivery.code_wrapper;
-        els.wrapper.appendChild(els.delivery);
-    },
-
-    getDeliveryCode(){
-        const r = srapi.deliveryCode();
-        const delivery = new DeliveryCode(r);
+        const delivery = new DeliveryCode();
         code.delivery = delivery;
-        els.delivery.remove(); 
         els.delivery = delivery.code_wrapper;
         els.wrapper.appendChild(els.delivery);
     }
@@ -47,16 +38,13 @@ const code = {
     delivery: null
 }
 
-
 fns.load();
 
 // Event Listeners
 els.refresh.querySelector('.icon').addEventListener('click', () => location.reload() );
-devices.primary_lock.div_device_wrapper.querySelector('.icon').addEventListener( 'click', () => devices.primary_lock.toggle(devices.primary_lock) );
-devices.plug.div_device_wrapper.querySelector('.icon').addEventListener( 'click', () => devices.plug.toggle(devices.plug) );
-els.delivery.addEventListener('click', () => fns.getDeliveryCode() );
-
-// This is not firing because the div.svg is being replaced.
-els.delivery.querySelector('.icon').addEventListener( 'click', () => code.delivery.copy() )
+devices.primary_lock.icon.addEventListener( 'click', () => devices.primary_lock.toggle(devices.primary_lock) );
+devices.plug.icon.addEventListener( 'click', () => devices.plug.toggle(devices.plug) );
+code.delivery.code_display.addEventListener('click', () => code.delivery.getCode() );
+code.delivery.icon.addEventListener( 'click', () => code.delivery.copy() )
 
 

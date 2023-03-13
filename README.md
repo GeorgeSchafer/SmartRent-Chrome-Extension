@@ -1,10 +1,9 @@
 # The SmartRent Chrome Extension
 
-This is a short demonstration of a project that would chreat a chrome extension for SmartRent residents. They can perform quick actions from their chrome browser.
+This is a short demonstration of a project for a Chrome extension. SmartRent residents can perform quick actions from their Chrome browser.
 
 - Lock/Unlock doors
 - Toggle switches
-- Create Delivery Codes
-
+- Retrieve Delivery Codes
 
 

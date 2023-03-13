@@ -83,16 +83,16 @@ export class Binary_Switch extends Device {
 
 const icon = {
     is_locked: {
-        true: './images/on.svg',
-        false: './images/open.svg'
+        true: '../images/on.svg',
+        false: '../images/open.svg'
     },
     is_on: {
-        true: './images/on.svg',
-        false: './images/off.svg'
+        true: '../images/on.svg',
+        false: '../images/off.svg'
     },
-    refresh: './images/refresh.svg',
-    smartrent: './images/smartrent.png',
-    unknown: './images/unknown.svg',
-    warning: './images/warning.svg'
+    refresh: '../images/refresh.svg',
+    smartrent: '../images/smartrent.png',
+    unknown: '../images/unknown.svg',
+    warning: '../images/warning.svg'
 };
 
