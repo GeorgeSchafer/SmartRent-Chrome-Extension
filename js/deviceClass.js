@@ -10,15 +10,15 @@ class Device {
         this.div_name = document.createElement('div');
         this.div_name.classList.add('device');
 
-        this.div_icon = document.createElement('div');
-        this.div_icon.classList.add('icon');
+        this.icon = document.createElement('div');
+        this.icon.classList.add('icon');
 
         this.svg = document.createElement('img');
         this.svg.classList.add('svg');
 
         this.div_device_wrapper.appendChild(this.div_name);
-        this.div_device_wrapper.appendChild(this.div_icon);
-        this.div_icon.appendChild(this.svg);
+        this.div_device_wrapper.appendChild(this.icon);
+        this.icon.appendChild(this.svg);
     }
 }
 
