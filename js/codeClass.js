@@ -58,8 +58,8 @@ export class DeliveryCode extends Code {
 
 const paths = {
     clipboard: {
-        gray: '../images/clipboard-gray.svg',
-        green: '../images/clipboard-green.svg'
+        gray: './images/clipboard-gray.svg',
+        green: './images/clipboard-green.svg'
     }
 };
 
