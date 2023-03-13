@@ -24,9 +24,6 @@ const fns = {
 const els = {
   wrapper: document.querySelector('.wrapper'),
   refresh: document.querySelector('header')
-  /* 
-  delivery: document.querySelector('.code-wrapper');
-  */
 };
 
 const devices = {
@@ -38,13 +35,15 @@ const code = {
     delivery: null
 }
 
-fns.load();
-
 // Event Listeners
 els.refresh.querySelector('.icon').addEventListener('click', () => location.reload() );
+
 devices.primary_lock.icon.addEventListener( 'click', () => devices.primary_lock.toggle(devices.primary_lock) );
 devices.plug.icon.addEventListener( 'click', () => devices.plug.toggle(devices.plug) );
+
 code.delivery.code_display.addEventListener('click', () => code.delivery.getCode() );
 code.delivery.icon.addEventListener( 'click', () => code.delivery.copy() )
 
 
+
+fns.load();
