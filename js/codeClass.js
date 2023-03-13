@@ -2,25 +2,14 @@ import { SmartRentAPI as srapi } from "./SmartRentApi.js";
 
 class Code { 
     constructor(){
-        this.code = null;
-        this.type = null;
-    }
-}
-
-export class DeliveryCode extends Code {
-
-    // r is the response from the Resident API with the information about the code.
-    constructor(){
-
-        super();
+        this.r = null;
 
         this.code_wrapper = document.createElement('div');
         this.code_wrapper.classList.add('code-wrapper');
 
         this.code_display = document.createElement('div');
-        this.code_display.classList.add('delivery');
+        this.code_display.classList.add('code');
         this.code_display.classList.add('centered');
-        this.code_display.textContent = "Request Delivery Code";
 
         this.icon = document.createElement('div');
         this.icon.classList.add('icon');
@@ -33,12 +22,24 @@ export class DeliveryCode extends Code {
         // img is NOT added to this.icon as it has no need to be displayed.
 
     }
+}
+
+export class DeliveryCode extends Code {
+
+    // r is the response from the Resident API with the information about the code.
+    constructor(){
+
+        super();
+
+        this.code_display.textContent = "Request Delivery Code";
+
+    }
 
     getCode(){
 
-        const r = srapi.deliveryCode();
+        this.r = srapi.deliveryCode();
 
-        this.code_display.textContent = r.code;
+        this.code_display.textContent = this.r.code;
 
         this.img.src = paths.clipboard.gray;
 
@@ -49,10 +50,10 @@ export class DeliveryCode extends Code {
 
     copy(){
 
+        navigator.clipboard.writeText(this.code_display.textContent);
         this.img.src = paths.clipboard.green;
 
     }
-
 
 }
 
