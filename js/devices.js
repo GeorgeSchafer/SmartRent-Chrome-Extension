@@ -35,6 +35,10 @@ const code = {
     delivery: null
 }
 
+fns.load();
+
+
+
 // Event Listeners
 els.refresh.querySelector('.icon').addEventListener('click', () => location.reload() );
 
@@ -46,4 +50,3 @@ code.delivery.icon.addEventListener( 'click', () => code.delivery.copy() )
 
 
 
-fns.load();
