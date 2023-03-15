@@ -4,7 +4,12 @@
   "description": "A device dashboard for Chrome",
   "version": "1.0",
   "action": {
-    "default_popup": "devices.html",
+    "default_popup": "./devices.html",
     "default_icon": "./images/smartrent.png"
+  },
+  "options_page": "./options.html",
+  "options_ui": {
+    "page": "./options.html",
+    "open_in_tab": false
   }
 }
