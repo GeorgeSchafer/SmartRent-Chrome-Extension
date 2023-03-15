@@ -1,8 +1,12 @@
 
 
+const fn = {
+    load(){
+        
+    }
+};
 
-
-load()
+load();
 
 // Event Listeners
 
