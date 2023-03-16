@@ -37,6 +37,7 @@ const fns = {
         els.dark_preference = document.createElement('input');
         els.dark_preference.type = "checkbox";
         els.dark_preference.id = 'dark-preference';
+        els.dark_preference.checked = true;
         els.ui_options.querySelector('p').appendChild(els.dark_preference);
         els.ui_options.querySelector('p').appendChild(document.createTextNode('Dark Mode'));
 
@@ -66,6 +67,8 @@ const fns = {
         els.greeting.appendChild(document.createElement('p'));
         els.greeting.querySelector('p').textContent = `Welcome ${session.first_name}`;
         els.login.appendChild(els.greeting);
+
+        srapi.logged_in = true;
     },
 
     // save options to storage - Google examples are not working - trying something else.
@@ -98,9 +101,11 @@ const els = {
 
 const session = {};
 
+const listeners = [];
+
 fns.load();
 
 // Event Listeners
-document.addEventListener('DOMContentLoaded', fns.restore_options());
-els.save.addEventListener('click',() => {fns.save_options()} );
-els.loginbtn.addEventListener('click', () => {fns.login()} );
+listeners.push( document.addEventListener('DOMContentLoaded', fns.restore_options()) );
+listeners.push( els.save.addEventListener('click',() => {fns.save_options()} ));
+listeners.push( els.loginbtn.addEventListener('click', () => {fns.login()} ));

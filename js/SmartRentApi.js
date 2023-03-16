@@ -9,7 +9,14 @@ export const SmartRentAPI = {
         return {user_id: 1111, first_name: 'Jaded', access_token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"};
     },
 
-    getDevices(toggled){
+    getDevices(){
+
+        const r = Math.floor( Math.random() * 2 );
+        let toggled;
+
+        r === 0
+            ? toggled = false
+            : toggled = true;
 
         if (toggled){
             return [
@@ -20,7 +27,7 @@ export const SmartRentAPI = {
                 },
                 {
                     type: 'binary_switch',
-                    is_on: false,
+                    is_on: true,
                     name: 'Plug'
                 }
             ];  
@@ -34,15 +41,17 @@ export const SmartRentAPI = {
                 },
                 {
                     type: 'binary_switch',
-                    is_on: true,
+                    is_on: false,
                     name: 'Plug'
                 }
             ];    
         }
 
-    }
-}
+    },
 
+    logged_in: true
+
+}
 
 
 
