@@ -9,7 +9,7 @@ const fns = {
         const srdevices = srapi.getDevices();
 
         srdevices.forEach( (device) => {
-          if(device.type == "lock"){
+          if(device.type == 'entry_control'){
             const lock = new Lock(device);
             const name = lock.name;
 
@@ -17,7 +17,7 @@ const fns = {
             els[`${name}`] = lock.device_wrapper;
             els.devices.appendChild(els[`${name}`]);
             listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
-          } else if ( device.type == "binary_switch" ){
+          } else if ( device.type == 'binary_switch' ){
             const binary_switch = new Binary_Switch(device);
             const name = binary_switch.name;
 
@@ -28,14 +28,8 @@ const fns = {
           }
         } );
 
-
-
-      // els.devices.appendChild(devices.primary_lock.div_device_wrapper);
-
-      // els.devices.appendChild(devices.plug.div_device_wrapper);
-
-      // els.delivery = code.delivery.code_wrapper;
-      // els.devices.appendChild(els.delivery);
+        els.delivery = code.delivery.code_wrapper;
+        els.devices.appendChild(els.delivery);
     },
 
     createListeners(element){

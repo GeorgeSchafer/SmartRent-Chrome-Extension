@@ -10,15 +10,18 @@ const fns = {
         els.email.appendChild(document.createElement('input'));
         els.email.querySelector('input').type = 'email';
         els.email.querySelector('input').placeholder = 'eMail';
+        els.email.querySelector('input').required = true;
         els.login.appendChild(els.email);
 
         els.password = document.createElement('label');
         els.password.appendChild(document.createElement('input'));
         els.password.querySelector('input').type = 'password';
         els.password.querySelector('input').placeholder = 'Password';
+        els.password.querySelector('input').required = true;
         els.login.appendChild(els.password);
 
-        els.loginbtn = document.createElement('div');
+        els.loginbtn = document.createElement('button');
+        els.loginbtn.type = 'button';
         els.loginbtn.classList.add('btn');
         els.loginbtn.id = 'loginbtn';
         els.loginbtn.textContent = 'Login';
@@ -35,7 +38,7 @@ const fns = {
         els.ui_options.querySelector('label').appendChild(els.dark_preference);
         els.ui_options.querySelector('label').appendChild(document.createTextNode('Dark Mode'));
 
-        els.save = document.createElement('div');
+        els.save = document.createElement('button');
         els.save.classList.add('btn');
         els.save.id = 'save';
         els.save.textContent = 'Save';
@@ -47,6 +50,7 @@ const fns = {
     },
 
     login(){
+        
         const srsession = srapi.session();
         session.user_id = srsession.user_id;
         session.access_token = srsession.access_token;
@@ -101,5 +105,5 @@ fns.load();
 
 // Event Listeners
 listeners.push( document.addEventListener('DOMContentLoaded', fns.restore_options()) );
-listeners.push( els.save.addEventListener('click',() => {fns.save_options()} ));
-listeners.push( els.loginbtn.addEventListener('click', () => {fns.login()} ));
+listeners.push( els.save.addEventListener('click',() => { fns.save_options()} ));
+listeners.push( els.loginbtn.addEventListener('click', () => { fns.login();} ));

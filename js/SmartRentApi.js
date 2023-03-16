@@ -21,7 +21,7 @@ export const SmartRentAPI = {
         if (toggled){
             return [
                 {
-                    type: "lock",
+                    type: "entry_control",
                     is_locked: false,
                     name: "Front Door"
                 },
@@ -29,13 +29,23 @@ export const SmartRentAPI = {
                     type: 'binary_switch',
                     is_on: true,
                     name: 'Plug'
+                },
+                {
+                    type: 'binary_switch',
+                    is_on: true,
+                    name: 'Kitchen'
+                },
+                {
+                    type: "entry_control",
+                    is_locked: false,
+                    name: "Bedroom"
                 }
             ];  
 
         } else {
             return [
                 {
-                    type: "lock",
+                    type: "entry_control",
                     is_locked: true,
                     name: "Front Door"
                 },
@@ -43,6 +53,16 @@ export const SmartRentAPI = {
                     type: 'binary_switch',
                     is_on: false,
                     name: 'Plug'
+                },
+                {
+                    type: 'binary_switch',
+                    is_on: false,
+                    name: 'Kitchen'
+                },
+                {
+                    type: "entry_control",
+                    is_locked: true,
+                    name: "Bedroom"
                 }
             ];    
         }

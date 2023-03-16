@@ -9,7 +9,7 @@ const fns = {
     darkMode(){
 
         els.styles = document.createElement('link');
-        els.styles.href = './mode-dark.css';
+        els.styles.href = './styles/mode-dark.css';
         els.styles.rel='stylesheet';
 
         els.head = document.querySelector('head');
