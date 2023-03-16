@@ -3,8 +3,7 @@ html {
     width: 256px;
 }
 
-body {
-    background-color: black;
+body,p {
     color: cyan;
 }
 
@@ -19,6 +18,7 @@ footer {
 form {
     border: 1px solid cyan;
     padding: 8px;
+    margin: 8px;
 }
 
 .btn {
@@ -78,5 +78,7 @@ form {
   text-align: center;
 }
 
-
+#greeting {
+    text-align: right;
+}
 

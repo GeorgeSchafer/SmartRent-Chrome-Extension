@@ -5,31 +5,28 @@ import { Lock, Binary_Switch}  from './deviceClass.js'
 const fns = {
   
     load(){
-        devices.primary_lock = new Lock({name: 'Front Door', status: true});
-        els.wrapper.appendChild(devices.primary_lock.div_device_wrapper);
+      els.devices.appendChild(devices.primary_lock.div_device_wrapper);
 
-        devices.plug = new Binary_Switch({name: 'Plug', status: false});
-        els.wrapper.appendChild(devices.plug.div_device_wrapper);
+      els.devices.appendChild(devices.plug.div_device_wrapper);
 
-        code.delivery = new DeliveryCode();
-        els.delivery = code.delivery.code_wrapper;
-        els.wrapper.appendChild(els.delivery);
+      els.delivery = code.delivery.code_wrapper;
+      els.devices.appendChild(els.delivery);
     }
   
 };
 
 const els = {
-  wrapper: document.querySelector('.wrapper'),
+  devices: document.querySelector('.devices'),
   refresh: document.querySelector('header')
 };
 
 const devices = {
-  primary_lock: null,
-  plug: null
+  primary_lock: new Lock({name: 'Front Door', status: true}),
+  plug: new Binary_Switch({name: 'Plug', status: false})
 };
 
 const code = {
-    delivery: null
+    delivery: new DeliveryCode()
 }
 
 fns.load();

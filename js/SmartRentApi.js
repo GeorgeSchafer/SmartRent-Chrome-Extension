@@ -5,8 +5,8 @@ export const SmartRentAPI = {
         return {code: 121212, type: 'delivery'};
     },
 
-    login(){
-        return {user_id: 1111, access_token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"};
+    session(){
+        return {user_id: 1111, first_name: 'Jaded', access_token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"};
     }
 }
 
