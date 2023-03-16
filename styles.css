@@ -7,18 +7,23 @@ body,p {
     color: cyan;
 }
 
-a {
-    color: orange;
+input {
+    margin: 4px;
 }
 
 footer {
   margin-top: 16px;
 }
 
+a {
+    color: orange;
+}
+
 form {
     border: 1px solid cyan;
     padding: 8px;
     margin: 8px;
+    font-size: 14px;
 }
 
 .wrapper {
@@ -33,7 +38,7 @@ form {
     border-radius:8px;
     box-shadow: 0px 0px 2px 2px cyan;
     width: 64px;
-    margin: 0px 0px 8px auto;
+    margin: 8px 0px 8px auto;
     text-align: center;
 }
 

@@ -1,27 +1,21 @@
-import { SmartRentAPI as srapi } from "./SmartRentApi.js";
+import { SmartRentAPI as srapi } from './SmartRentApi.js';
 
 const fns = {
     load(){
 
         els.login = document.createElement('form');
-        els.login.id = "login";
+        els.login.id = 'login';
 
         els.email = document.createElement('label');
-        els.email.appendChild(document.createElement('p'));
-        els.email.querySelector('p').textContent = 'eMail:';
-        els.email.querySelector('p').appendChild(document.createElement('br'));
-        els.email.querySelector('p').appendChild(document.createElement('input'));
-        els.email.querySelector('input').type = "text";
+        els.email.appendChild(document.createElement('input'));
+        els.email.querySelector('input').type = 'email';
+        els.email.querySelector('input').placeholder = 'eMail';
         els.login.appendChild(els.email);
 
-        els.password = document.createElement('form');
-        els.password.id = "password";
         els.password = document.createElement('label');
-        els.password.appendChild(document.createElement('p'));
-        els.password.querySelector('p').textContent = 'Password:';
-        els.password.querySelector('p').appendChild(document.createElement('br'));
-        els.password.querySelector('p').appendChild(document.createElement('input'));
-        els.password.querySelector('input').type = "password";
+        els.password.appendChild(document.createElement('input'));
+        els.password.querySelector('input').type = 'password';
+        els.password.querySelector('input').placeholder = 'Password';
         els.login.appendChild(els.password);
 
         els.loginbtn = document.createElement('div');
@@ -31,15 +25,15 @@ const fns = {
         els.login.appendChild(els.loginbtn);
 
         els.ui_options = document.createElement('form');
-        els.ui_options.id = "ui_options";
-        els.ui_options.appendChild(document.createElement('p'));
+        els.ui_options.id = 'ui_options';
+        els.ui_options.appendChild(document.createElement('label'));
 
         els.dark_preference = document.createElement('input');
-        els.dark_preference.type = "checkbox";
+        els.dark_preference.type = 'checkbox';
         els.dark_preference.id = 'dark-preference';
         els.dark_preference.checked = true;
-        els.ui_options.querySelector('p').appendChild(els.dark_preference);
-        els.ui_options.querySelector('p').appendChild(document.createTextNode('Dark Mode'));
+        els.ui_options.querySelector('label').appendChild(els.dark_preference);
+        els.ui_options.querySelector('label').appendChild(document.createTextNode('Dark Mode'));
 
         els.save = document.createElement('div');
         els.save.classList.add('btn');
@@ -61,7 +55,7 @@ const fns = {
         els.login.querySelector('label').remove();
         els.login.querySelector('label').remove();
         els.loginbtn.remove();
-        els.login;
+
         els.greeting = document.createElement('div');
         els.greeting.id = 'greeting';
         els.greeting.appendChild(document.createElement('p'));
@@ -77,7 +71,7 @@ const fns = {
     },
     // /**
     //  *  chrome.storage.sync.set({ key: value }).then(() => {
-    //         console.log("Value is set to " + value);
+    //         console.log('Value is set to ' + value);
     //     });
     // */
     restore_options(){
@@ -86,8 +80,8 @@ const fns = {
     }
 
     /**
-        chrome.storage.sync.get(["key"]).then((result) => {
-            console.log("Value currently is " + result.key);
+        chrome.storage.sync.get(['key']).then((result) => {
+            console.log('Value currently is ' + result.key);
         });
      */
 

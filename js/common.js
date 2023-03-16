@@ -29,6 +29,6 @@ const listeners = [];
 fns.load();
 
 // Event Listeners
-if(dark_preference || dark_preference == null){
+if( pref.dark_preference || pref.dark_preference == null){
     listeners.push( document.addEventListener('DOMContentLoaded', fns.darkMode()) );
 }
