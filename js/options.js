@@ -76,12 +76,17 @@ const fns = {
         chrome.storage.local.set({
             dark_preference: els.dark_preference.checked
         })
-            .then( () => {
+            .then( (dark_preference) => {
             // confirmation 
+            console.log(`dark_preference is set to ${dark_preference}`);
             els.save.textContent = 'Saved!';
         });
     },
-
+    /**
+     *  chrome.storage.local.set({ key: value }).then(() => {
+            console.log("Value is set to " + value);
+        });
+    */
     restore_options(){
 
         chrome.storage.local.get([
@@ -94,6 +99,11 @@ const fns = {
         console.log('els.dark_preference:', els.dark_preference.checked);
     }
 
+    /**
+        chrome.storage.local.get(["key"]).then((result) => {
+            console.log("Value currently is " + result.key);
+        });
+     */
 
 };
 
