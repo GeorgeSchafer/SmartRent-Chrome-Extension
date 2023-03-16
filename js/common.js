@@ -1,16 +1,13 @@
-function load(){
-
-    chrome.storage.local.get(["dark_preference"], (items) => {
-        pref.dark_preference = items.dark_preference;
-    });
-    
-    pref.dark_preference === null || pref.dark_preference
-        ? fns.darkMode()
-        : false ;
-}
+ 
 
 const fns = {
 
+    load(){
+
+        fns.darkMode()
+    
+    },
+    
     darkMode(){
         els.head = document.querySelector('head');
         els.styles = document.createElement('link');
@@ -26,7 +23,7 @@ const pref = {
     dark_preference: null
 };
 
-load();
+fns.load();
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', fns.darkMode());

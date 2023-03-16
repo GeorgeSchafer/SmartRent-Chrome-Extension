@@ -79,8 +79,7 @@ const fns = {
     // */
     restore_options(){
 
-        chrome.storage.sync.clear();
-
+        
     }
 
     /**

@@ -21,6 +21,11 @@ form {
     margin: 8px;
 }
 
+.wrapper {
+    border: 1px solid cyan;
+    padding: 4px;
+}
+
 .btn {
     background-color:cyan;
     color: #000;
