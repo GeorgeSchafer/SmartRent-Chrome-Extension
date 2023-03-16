@@ -56,9 +56,6 @@ const fns = {
         session.user_id = srsession.user_id;
         session.access_token = srsession.access_token;
         session.first_name = srsession.first_name;
-        chrome.storage.sync.set({
-            session: session
-        });
 
         els.login.querySelector('label').remove();
         els.login.querySelector('label').remove();
@@ -71,36 +68,23 @@ const fns = {
         els.login.appendChild(els.greeting);
     },
 
-    // save options to storage
+    // save options to storage - Google examples are not working - trying something else.
     save_options(){
-        chrome.storage.local.set({
-            dark_preference: els.dark_preference.checked
-        })
-            .then( (dark_preference) => {
-            // confirmation 
-            console.log(`dark_preference is set to ${dark_preference}`);
-            els.save.textContent = 'Saved!';
-        });
+        els.save.textContent = 'Saved!';
     },
-    /**
-     *  chrome.storage.local.set({ key: value }).then(() => {
-            console.log("Value is set to " + value);
-        });
-    */
+    // /**
+    //  *  chrome.storage.sync.set({ key: value }).then(() => {
+    //         console.log("Value is set to " + value);
+    //     });
+    // */
     restore_options(){
 
-        chrome.storage.local.get([
-            "dark_preference"
-        ])
-        .then( (items) => {
-            els.dark_preference.checked = items.dark_preference;
-        } );
+        chrome.storage.sync.clear();
 
-        console.log('els.dark_preference:', els.dark_preference.checked);
     }
 
     /**
-        chrome.storage.local.get(["key"]).then((result) => {
+        chrome.storage.sync.get(["key"]).then((result) => {
             console.log("Value currently is " + result.key);
         });
      */
