@@ -51,8 +51,9 @@ export class DeliveryCode extends Code {
     copy(){
 
         navigator.clipboard.writeText(this.code_display.textContent);
-        this.img.src = paths.clipboard.green;
-
+        this.img.src = paths.clipboard.check;
+        setTimeout( () => {this.img.src = paths.clipboard.green}, 500 );
+    
     }
 
 }
@@ -60,6 +61,7 @@ export class DeliveryCode extends Code {
 const paths = {
     clipboard: {
         gray: './images/clipboard-gray.svg',
+        check: './images/check-mark.svg',
         green: './images/clipboard-green.svg'
     }
 };
