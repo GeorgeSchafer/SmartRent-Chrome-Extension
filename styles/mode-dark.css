@@ -7,3 +7,7 @@ input {
     background-color: #333;
     color: cyan;
 }
+
+.device-wrapper,.code-wrapper {
+    color: cyan;
+} 
