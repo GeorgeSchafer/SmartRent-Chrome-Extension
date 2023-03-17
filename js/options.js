@@ -21,7 +21,6 @@ const fns = {
         els.login.appendChild(els.password);
 
         els.loginbtn = document.createElement('button');
-        els.loginbtn.classList.add('btn');
         els.loginbtn.id = 'loginbtn';
         els.loginbtn.textContent = 'Login';
         els.login.appendChild(els.loginbtn);
@@ -38,7 +37,7 @@ const fns = {
         els.ui_options.querySelector('label').appendChild(document.createTextNode('Dark Mode'));
 
         els.save = document.createElement('div');
-        els.save.classList.add('btn');
+        els.save.classList.add('btn')
         els.save.id = 'save';
         els.save.textContent = 'Save';
         els.ui_options.appendChild(els.save);
