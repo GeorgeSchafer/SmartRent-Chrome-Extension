@@ -44,8 +44,8 @@ const fns = {
         els.save.textContent = 'Save';
         els.ui_options.appendChild(els.save);
 
-        document.querySelector('#options').appendChild(els.login);
-        document.querySelector('#options').appendChild(els.ui_options);
+        options.appendChild(els.login);
+options.appendChild(els.ui_options);
 
     },
 
@@ -93,6 +93,7 @@ const fns = {
 
 
 const els = {
+    options: document.querySelector('#options'), 
     dark_preference: document.querySelector('#dark-mode'),
     save: document.querySelector('#save')
 }
