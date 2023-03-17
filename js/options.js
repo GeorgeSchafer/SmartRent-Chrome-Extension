@@ -38,7 +38,7 @@ const fns = {
         els.ui_options.querySelector('label').appendChild(els.dark_preference);
         els.ui_options.querySelector('label').appendChild(document.createTextNode('Dark Mode'));
 
-        els.save = document.createElement('button');
+        els.save = document.createElement('div');
         els.save.classList.add('btn');
         els.save.id = 'save';
         els.save.textContent = 'Save';
@@ -50,7 +50,7 @@ const fns = {
     },
 
     login(){
-        
+
         const srsession = srapi.session();
         session.user_id = srsession.user_id;
         session.access_token = srsession.access_token;
@@ -105,5 +105,5 @@ fns.load();
 
 // Event Listeners
 listeners.push( document.addEventListener('DOMContentLoaded', fns.restore_options()) );
-listeners.push( els.save.addEventListener('click',() => { fns.save_options()} ));
-listeners.push( els.loginbtn.addEventListener('click', () => { fns.login();} ));
+listeners.push( els.save.addEventListener('click',() => {fns.save_options()} ));
+listeners.push( els.loginbtn.addEventListener('click', (e) => {fns.login();}) );
