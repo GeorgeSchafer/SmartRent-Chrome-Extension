@@ -38,14 +38,13 @@ const fns = {
         els.ui_options.querySelector('label').appendChild(document.createTextNode('Dark Mode'));
 
         els.save = document.createElement('div');
-        els.save = document.createElement('div');
         els.save.classList.add('btn');
         els.save.id = 'save';
         els.save.textContent = 'Save';
         els.ui_options.appendChild(els.save);
 
-        options.appendChild(els.login);
-options.appendChild(els.ui_options);
+        els.options.appendChild(els.login);
+        els.options.appendChild(els.ui_options);
 
     },
 
