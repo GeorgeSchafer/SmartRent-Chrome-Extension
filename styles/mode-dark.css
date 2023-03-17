@@ -8,6 +8,6 @@ input {
     color: cyan;
 }
 
-.device-wrapper,.code-wrapper {
+form, footer, .device-wrapper, .code-wrapper {
     color: cyan;
 } 
