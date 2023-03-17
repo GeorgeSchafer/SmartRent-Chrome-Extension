@@ -44,8 +44,8 @@ const fns = {
         els.save.textContent = 'Save';
         els.ui_options.appendChild(els.save);
 
-        document.querySelector('.wrapper').appendChild(els.login);
-        document.querySelector('.wrapper').appendChild(els.ui_options);
+        document.querySelector('#options').appendChild(els.login);
+        document.querySelector('#options').appendChild(els.ui_options);
 
     },
 
