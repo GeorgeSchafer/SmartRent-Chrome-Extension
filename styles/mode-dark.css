@@ -4,6 +4,11 @@ input {
     color: cyan;
 }
 
-form, footer, .device-wrapper, .code-wrapper {
+form, p, footer, .device-wrapper, .code-wrapper {
     color: cyan;
 } 
+
+form {
+    border: 1px solid cyan;
+    box-shadow: 0px 0px 4px cyan ;
+}
