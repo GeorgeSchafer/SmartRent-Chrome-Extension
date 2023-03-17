@@ -20,8 +20,7 @@ const fns = {
         els.password.querySelector('input').required = true;
         els.login.appendChild(els.password);
 
-        els.loginbtn = document.createElement('button');
-        els.loginbtn.type = 'button';
+        els.loginbtn = document.createElement('div');
         els.loginbtn.classList.add('btn');
         els.loginbtn.id = 'loginbtn';
         els.loginbtn.textContent = 'Login';
