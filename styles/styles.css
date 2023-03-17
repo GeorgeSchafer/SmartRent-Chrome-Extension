@@ -16,10 +16,6 @@ footer {
   text-align: center;
 }
 
-a {
-    color: orange;
-}
-
 form {
     padding: 8px;
     margin: 8px;
@@ -35,6 +31,11 @@ button {
     width: 64px;
     margin: 8px 8px 0px 150px;
     text-align: center;
+}
+
+button:active {
+    transform: scale(0.98);
+    box-shadow: 0px 0px -2px 2px darkcyan;
 }
 
 .wrapper {
@@ -95,6 +96,11 @@ button {
     margin: 8px 8px 0px auto;
     text-align: center;
 } 
+
+.btn:active {
+    transform: scale(0.98);
+    box-shadow: 0px 0px -2px 2px darkcyan;
+}
 
 #greeting {
     text-align: right;
