@@ -7,6 +7,10 @@ input {
     margin: 4px;
 }
 
+input[type="email"], input[type="password"] {
+    width: 206px;
+}
+
 footer {
   margin-top: 16px;
   text-align: center;
