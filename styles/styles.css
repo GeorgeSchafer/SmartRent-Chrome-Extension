@@ -7,34 +7,41 @@ body,p {
     color: cyan;
 }
 
-a {
-    color: orange;
+input {
+    margin: 4px;
 }
 
 footer {
   margin-top: 16px;
+  text-align: center;
+}
+
+a {
+    color: orange;
 }
 
 form {
     border: 1px solid cyan;
+    box-shadow: 0px 0px 4px cyan ;
     padding: 8px;
     margin: 8px;
+    font-size: 14px;
 }
 
-.wrapper {
-    border: 1px solid cyan;
-    padding: 4px;
-}
-
-.btn {
+button {
     background-color:cyan;
     color: #000;
     border:none;
     border-radius:8px;
     box-shadow: 0px 0px 2px 2px cyan;
     width: 64px;
-    margin: 0px 0px 8px auto;
+    margin: 8px 8px 0px 126px;
     text-align: center;
+}
+
+.wrapper {
+    padding: 4px;
+    box-shadow: 0px 0px 4px whitesmoke ;
 }
 
 .menu {
@@ -79,11 +86,8 @@ form {
     margin-top: 8px;
 }
 
-.centered {
-  text-align: center;
-}
-
 #greeting {
     text-align: right;
 }
+
 

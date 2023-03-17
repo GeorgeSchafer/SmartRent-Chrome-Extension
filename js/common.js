@@ -3,17 +3,18 @@
 const fns = {
 
     load(){
-
-        fns.darkMode()
     
     },
     
     darkMode(){
-        els.head = document.querySelector('head');
+
         els.styles = document.createElement('link');
-        els.styles.href = './mode-dark.css';
+        els.styles.href = './styles/mode-dark.css';
         els.styles.rel='stylesheet';
+
+        els.head = document.querySelector('head');
         els.head.appendChild(els.styles);
+
     }
 }
 
@@ -23,7 +24,11 @@ const pref = {
     dark_preference: null
 };
 
+const listeners = [];
+
 fns.load();
 
 // Event Listeners
-document.addEventListener('DOMContentLoaded', fns.darkMode());
+if( pref.dark_preference || pref.dark_preference == null){
+    listeners.push( document.addEventListener('DOMContentLoaded', fns.darkMode()) );
+}

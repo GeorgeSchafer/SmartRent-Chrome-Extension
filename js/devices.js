@@ -1,3 +1,4 @@
+import { SmartRentAPI as srapi } from './SmartRentApi.js';
 import { DeliveryCode } from './codeClass.js';
 import { Lock, Binary_Switch}  from './deviceClass.js'
 
@@ -5,12 +6,34 @@ import { Lock, Binary_Switch}  from './deviceClass.js'
 const fns = {
   
     load(){
-      els.devices.appendChild(devices.primary_lock.div_device_wrapper);
+        const srdevices = srapi.getDevices();
 
-      els.devices.appendChild(devices.plug.div_device_wrapper);
+        srdevices.forEach( (device) => {
+          if(device.type == 'entry_control'){
+            const lock = new Lock(device);
+            const name = lock.name;
 
-      els.delivery = code.delivery.code_wrapper;
-      els.devices.appendChild(els.delivery);
+            devices[`${name}`] = lock;
+            els[`${name}`] = lock.device_wrapper;
+            els.devices.appendChild(els[`${name}`]);
+            listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
+          } else if ( device.type == 'binary_switch' ){
+            const binary_switch = new Binary_Switch(device);
+            const name = binary_switch.name;
+
+            devices[`${name}`] = binary_switch;
+            els[`${binary_switch.name}`] = binary_switch.device_wrapper;
+            els.devices.appendChild(els[`${binary_switch.name}`]);
+            listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
+          }
+        } );
+
+        els.delivery = code.delivery.code_wrapper;
+        els.devices.appendChild(els.delivery);
+    },
+
+    createListeners(element){
+      listeners.push(element.icon.addEventListener('click'));
     }
   
 };
@@ -20,24 +43,26 @@ const els = {
   refresh: document.querySelector('header')
 };
 
-const devices = {
-  primary_lock: new Lock({name: 'Front Door', status: true}),
-  plug: new Binary_Switch({name: 'Plug', status: false})
-};
+const devices = {};
 
 const code = {
     delivery: new DeliveryCode()
 }
 
-fns.load();
+const listeners = [];
+
+if(srapi.logged_in){
+  fns.load();
+}
+
 
 
 
 // Event Listeners
-els.refresh.querySelector('.icon').addEventListener('click', () => location.reload() );
 
-devices.primary_lock.icon.addEventListener( 'click', () => devices.primary_lock.toggle(devices.primary_lock) );
-devices.plug.icon.addEventListener( 'click', () => devices.plug.toggle(devices.plug) );
+listeners.push(els.refresh.querySelector('.icon').addEventListener('click', () => location.reload() ));
 
-code.delivery.code_display.addEventListener('click', () => code.delivery.getCode() );
-code.delivery.icon.addEventListener( 'click', () => code.delivery.copy() )
+listeners.push(code.delivery.code_display.addEventListener('click', () => code.delivery.getCode() ));
+listeners.push(code.delivery.icon.addEventListener( 'click', () => code.delivery.copy() ));
+
+
