@@ -103,6 +103,8 @@ const listeners = [];
 
 fns.load();
 
+
+
 // Event Listeners
 listeners.push( document.addEventListener('DOMContentLoaded', fns.restore_options()) );
 listeners.push( els.save.addEventListener('click',() => { fns.save_options()} ));
