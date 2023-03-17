@@ -37,7 +37,7 @@ const fns = {
         els.ui_options.querySelector('label').appendChild(els.dark_preference);
         els.ui_options.querySelector('label').appendChild(document.createTextNode('Dark Mode'));
 
-        els.save = document.createElement('button');
+        els.save = document.createElement('div');
         els.save.classList.add('btn');
         els.save.id = 'save';
         els.save.textContent = 'Save';
