@@ -21,7 +21,6 @@ const fns = {
         els.login.appendChild(els.password);
 
         els.loginbtn = document.createElement('button');
-        els.loginbtn.type = 'button';
         els.loginbtn.classList.add('btn');
         els.loginbtn.id = 'loginbtn';
         els.loginbtn.textContent = 'Login';
@@ -44,8 +43,8 @@ const fns = {
         els.save.textContent = 'Save';
         els.ui_options.appendChild(els.save);
 
-        document.querySelector('.wrapper').appendChild(els.login);
-        document.querySelector('.wrapper').appendChild(els.ui_options);
+        options.appendChild(els.login);
+options.appendChild(els.ui_options);
 
     },
 
@@ -93,6 +92,7 @@ const fns = {
 
 
 const els = {
+    options: document.querySelector('#options'), 
     dark_preference: document.querySelector('#dark-mode'),
     save: document.querySelector('#save')
 }
@@ -103,7 +103,10 @@ const listeners = [];
 
 fns.load();
 
+
+
 // Event Listeners
 listeners.push( document.addEventListener('DOMContentLoaded', fns.restore_options()) );
-listeners.push( els.save.addEventListener('click',() => {fns.save_options()} ));
-listeners.push( els.loginbtn.addEventListener('click', (e) => {fns.login();}) );
+
+listeners.push( els.save.addEventListener('click',() => { fns.save_options()} ));
+listeners.push( els.loginbtn.addEventListener('click', () => { fns.login();} ));

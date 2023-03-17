@@ -7,3 +7,7 @@ input {
     background-color: #333;
     color: cyan;
 }
+
+form, footer, .device-wrapper, .code-wrapper {
+    color: cyan;
+} 
