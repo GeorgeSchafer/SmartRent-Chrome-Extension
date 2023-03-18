@@ -19,7 +19,9 @@ class Code {
 
         this.code_wrapper.appendChild(this.code_display);
         this.code_wrapper.appendChild(this.icon);
-        // img is NOT added to this.icon as it has no need to be displayed.
+        /**
+         * @ img is NOT added to this.icon as it has no need to be displayed.
+         */
 
     }
 }
