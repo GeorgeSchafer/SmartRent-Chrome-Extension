@@ -8,7 +8,7 @@ This is a short demonstration of a project for a Chrome extension. SmartRent res
 
 Links to:
 
-- [Documentation](https://georgeschafer.github.io/SmartRent-Chrome-Extension/index.html)
+- [Documentation](https://georgeschafer.github.io/SmartRent-Chrome-Extension/out/index.html)
 - [popup](https://georgeschafer.github.io/SmartRent-Chrome-Extension/devices.html)
 - [options](https://georgeschafer.github.io/SmartRent-Chrome-Extension/options.html)
 
