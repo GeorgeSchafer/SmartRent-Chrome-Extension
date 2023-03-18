@@ -6,12 +6,14 @@ This is a short demonstration of a project for a Chrome extension. SmartRent res
 - Toggle switches
 - Retrieve Delivery Codes
 
-Links to 
+Links to:
 
+- [Documentation](https://georgeschafer.github.io/SmartRent-Chrome-Extension/index.html)
 - [popup](https://georgeschafer.github.io/SmartRent-Chrome-Extension/devices.html)
 - [options](https://georgeschafer.github.io/SmartRent-Chrome-Extension/options.html)
 
-Resources
+Resources:
+
 - [Refresh](https://www.iconpacks.net/free-icon/reset-arrow-14418.html)
 - [Off/On](https://www.iconpacks.net/free-icon/turn-off-4779.html)
 - [Unknown](https://www.iconpacks.net/free-icon/red-question-11802.html)
