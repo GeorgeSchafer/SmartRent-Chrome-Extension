@@ -51,11 +51,11 @@ button:active {
 .refresh {
     display: inline;
     font-size: 16px;
-    padding: 8px 0px;
 }
 
 .util-svg {
-    padding: 8px;
+    padding: 0px auto;
+    margin-left: 8px;
     height: 16px;
     width: 16px;
 }
@@ -74,10 +74,11 @@ button:active {
 .icon {
     display: inline;
     margin-left: 8px;
+    padding: auto;
 }
 
-icon:active {
-    transform: scale(0.98);
+.icon:active {
+    transform: scale(0.94);
 }
 
 .svg {
@@ -87,7 +88,6 @@ icon:active {
 
 .code {
     font-size: 16px;
-    margin-top: 8px;
 }
 
 .btn {
