@@ -76,8 +76,8 @@ button:active {
     margin-left: 8px;
 }
 
-img:active {
-    transform: 90%;
+icon:active {
+    transform: scale(0.98);
 }
 
 .svg {
