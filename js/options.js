@@ -1,5 +1,5 @@
 import { SmartRentAPI as srapi } from './SmartRentApi.js';
-import { fn, prefer} from './common.js'
+import { fn } from './common.js'
 
 const fns = {
     load(){
