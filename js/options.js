@@ -1,4 +1,5 @@
 import { SmartRentAPI as srapi } from './SmartRentApi.js';
+import { fn, prefer} from './common.js'
 
 const fns = {
     load(){
@@ -69,6 +70,7 @@ const fns = {
 
     // save options to storage - Google examples are not working - trying something else.
     save_options(){
+        fn.toggleDark();
         els.save.textContent = 'Saved!';
     },
     // /**
