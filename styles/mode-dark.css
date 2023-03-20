@@ -8,15 +8,6 @@ form, p, footer, .device-wrapper, .code-wrapper {
     color: cyan;
 } 
 
-form {
-    border: 1px solid cyan;
-    box-shadow: 0px 0px 4px cyan ;
-}
-
-a {
-    color: orange;
-}
-
 .wrapper {
     background-color: #000;
 }
