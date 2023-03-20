@@ -4,11 +4,22 @@ import { fn as common, pref } from './common.js'
 const fns = {
     load(){
 
+        fns.createLoginForm();
+        fns.createLoginInputs();
+        fns.createUIForm();
+
+    },
+    
+    createLoginForm(){
         els.login = document.createElement('form');
         els.login.id = 'login';
+    },
+
+    createLoginInputs(){
 
         els.email = document.createElement('label');
         els.email.appendChild(document.createElement('input'));
+        els.email.querySelector('input').id = 'email';
         els.email.querySelector('input').type = 'email';
         els.email.querySelector('input').placeholder = 'eMail';
         els.email.querySelector('input').required = true;
@@ -16,16 +27,20 @@ const fns = {
 
         els.password = document.createElement('label');
         els.password.appendChild(document.createElement('input'));
+        els.password.querySelector('input').id = 'password';
         els.password.querySelector('input').type = 'password';
         els.password.querySelector('input').placeholder = 'Password';
         els.password.querySelector('input').required = true;
         els.login.appendChild(els.password);
 
-        els.loginbtn = document.createElement('button');
+        els.loginbtn = document.createElement('div');
+        els.loginbtn.classList.add('btn');
         els.loginbtn.id = 'loginbtn';
         els.loginbtn.textContent = 'Login';
         els.login.appendChild(els.loginbtn);
+    },
 
+    createUIForm(){
         els.ui_options = document.createElement('form');
         els.ui_options.id = 'ui_options';
         els.ui_options.appendChild(document.createElement('label'));
@@ -45,27 +60,44 @@ const fns = {
 
         els.options.appendChild(els.login);
         els.options.appendChild(els.ui_options);
-
     },
 
     login(){
 
-        const srsession = srapi.session();
-        session.user_id = srsession.user_id;
-        session.access_token = srsession.access_token;
-        session.first_name = srsession.first_name;
+        session.response = srapi.session(els.email.querySelector('input').value, els.password.querySelector('input').value);
 
-        els.login.querySelector('label').remove();
-        els.login.querySelector('label').remove();
-        els.loginbtn.remove();
+        if(session.response.status === 201){
+            session.user_id = srsession.user_id;
+            session.access_token = srsession.access_token;
+            session.first_name = srsession.first_name;
 
-        els.greeting = document.createElement('div');
-        els.greeting.id = 'greeting';
-        els.greeting.appendChild(document.createElement('p'));
-        els.greeting.querySelector('p').textContent = `Welcome ${session.first_name}`;
-        els.login.appendChild(els.greeting);
+            els.login.querySelector('label').remove();
+            els.login.querySelector('label').remove();
+            els.loginbtn.remove();
 
-        srapi.logged_in = true;
+            els.greeting = document.createElement('div');
+            els.greeting.id = 'greeting';
+            els.greeting.appendChild(document.createElement('p'));
+            els.greeting.querySelector('p').textContent = `Welcome ${session.first_name}`;
+            els.login.appendChild(els.greeting);
+
+        } else {
+            
+            els.login.querySelector('#email').remove();
+            els.login.querySelector('#password').remove();
+            els.loginbtn.remove();
+            els.perror = document.createElement('p');
+            els.perror.classList.add('p-error');
+            els.perror.classList.add('centered');
+            els.perror.innerHTML = session.error;
+            els.login.appendChild(els.perror);
+
+            setTimeout(() => {
+                els.perror.remove();
+                fns.createLoginInputs();
+                listeners.push( els.loginbtn.addEventListener('click', () => { fns.login();} ));
+            } ,1000)
+        }
     },
 
     // save options to storage - Google examples are not working - trying something else.

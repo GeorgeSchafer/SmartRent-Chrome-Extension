@@ -79,7 +79,7 @@ const code = {
 const listeners = [];
 
 
-if(srapi.logged_in){
+if(true){
   fns.load();
 }
 

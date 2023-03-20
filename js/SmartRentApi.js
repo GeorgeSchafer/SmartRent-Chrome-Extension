@@ -5,8 +5,12 @@ export const SmartRentAPI = {
         return {code: 121212, type: 'delivery'};
     },
 
-    session(){
-        return {user_id: 1111, first_name: 'Jaded', access_token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"};
+    session(email, password){
+        if( email == 'george.schafer@smartrent.com' && password == 'Smartrent1!' ){
+            return {status: 201, user_id: 1111, first_name: 'Jaded', access_token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"};
+        } else {
+            return {status: 401, error: 'Login failed, check your email and password.'}
+        }
     },
 
     getDevices(){
@@ -67,9 +71,7 @@ export const SmartRentAPI = {
             ];    
         }
 
-    },
-
-    logged_in: true
+    }
 
 }
 

@@ -104,6 +104,11 @@ button:active, .btn:active {
     font-size: 16px;
 }
 
+.p-error {
+    color: red;
+    text-align: center;
+}
+
 #greeting {
     text-align: right;
 }
