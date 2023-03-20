@@ -16,7 +16,7 @@ export const fn = {
         els.head = document.querySelector('head');
         els.head.appendChild(els.styles);
 
-    }
+    },
 
 
     toggleDark() {
