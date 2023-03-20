@@ -20,7 +20,7 @@ export const fn = {
 
 
     toggleDark() {
-        pref.dark = !prefer.dark;
+        pref.dark = !pref.dark;
         if(!prefer.dark){
             els.dark = document.createElement('link');
             els.dark.href = './styles/mode-dark.css';
