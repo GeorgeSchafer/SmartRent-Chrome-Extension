@@ -26,7 +26,6 @@ export const fn = {
             document.querySelector('.dark')?.remove();
         } else {
             const present = document.querySelector('.dark');
-            console.log('Present is:', present);
 
             if (present === null){
                 els.dark = document.createElement('link');
