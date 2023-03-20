@@ -11,6 +11,7 @@ export const fn = {
         els.dark = document.createElement('link');
         els.dark.href = './styles/mode-dark.css';
         els.dark.rel ='stylesheet';
+        els.dark.classList.add('dark');
         pref.dark = true;
 
         els.head = document.querySelector('head');
@@ -19,18 +20,24 @@ export const fn = {
     },
 
 
-    toggleDark() {
-        pref.dark = !pref.dark;
-        if(!prefer.dark){
-            els.dark = document.createElement('link');
-            els.dark.href = './styles/mode-dark.css';
-            els.dark.rel ='stylesheet';
+    updateDark( dark ) {
+        pref.dark = dark;
+        if(!pref.dark){
+            document.querySelector('.dark')?.remove();
         } else {
-            els.dark = document.createElement('link');
-            els.dark.href = './styles/mode-dark.css';
-            els.dark.rel ='stylesheet';
-            els.head = document.querySelector('head');
-            els.head.appendChild(els.styles);
+            const present = document.querySelector('.dark');
+            console.log('Present is:', present);
+
+            if (present === null){
+                els.dark = document.createElement('link');
+                els.dark.href = './styles/mode-dark.css';
+                els.dark.rel ='stylesheet';
+                els.dark.classList.add('dark');
+                els.head = document.querySelector('head');
+                els.head.appendChild(els.dark);
+            } else {
+                return;
+            }
         }
     }
 }
@@ -38,7 +45,7 @@ export const fn = {
 const els = {};
 
 export const pref = {
-    dark: null
+    dark: true
 };
 
 const listeners = [];
@@ -46,6 +53,6 @@ const listeners = [];
 fn.load();
 
 // Event Listeners
-if( pref.dark || pref.dark == null){
+if( pref.dark ){
     listeners.push( document.addEventListener('DOMContentLoaded', fn.darkMode()) );
 }
