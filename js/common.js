@@ -14,7 +14,7 @@ export const fn = {
         pref.dark = true;
 
         els.head = document.querySelector('head');
-        els.head.appendChild(els.styles);
+        els.head.appendChild(els.dark);
 
     },
 
@@ -43,7 +43,7 @@ export const pref = {
 
 const listeners = [];
 
-fns.load();
+fn.load();
 
 // Event Listeners
 if( pref.dark || pref.dark == null){
