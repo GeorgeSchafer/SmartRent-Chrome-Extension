@@ -8,6 +8,16 @@ form, p, footer, .device-wrapper, .code-wrapper {
     color: cyan;
 } 
 
+button, .btn {
+    background-color:cyan;
+    color: #000;
+    box-shadow: -2px -2px 8px 1px black inset;
+}
+
+a {
+    color: orange;
+}
+
 .wrapper {
     background-color: #000;
 }

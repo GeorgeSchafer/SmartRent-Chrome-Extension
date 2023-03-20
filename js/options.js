@@ -72,6 +72,7 @@ const fns = {
     save_options(){
         common.updateDark(els.dark_preference.checked);
         els.save.textContent = 'Saved!';
+        setTimeout(()=>{els.save.textContent = 'Save'}, 500);
     },
     // /**
     //  *  chrome.storage.sync.set({ key: value }).then(() => {
