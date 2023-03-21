@@ -1,6 +1,6 @@
  
 
-export const fn = {
+export const fns = {
 
     load(){
     
@@ -49,9 +49,9 @@ export const pref = {
 
 const listeners = [];
 
-fn.load();
+fns.load();
 
 // Event Listeners
 if( pref.dark ){
-    listeners.push( document.addEventListener('DOMContentLoaded', fn.darkMode()) );
+    listeners.push( document.addEventListener('DOMContentLoaded', fns.darkMode()) );
 }
