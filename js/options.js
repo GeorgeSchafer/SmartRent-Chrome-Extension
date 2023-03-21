@@ -23,7 +23,7 @@ const fns = {
         els.emailInput = els.email.querySelector('input');
         els.emailInput.id = 'email';
         els.emailInput.type = 'email';
-        els.emailInput.minlength = 5; // @todo: figure out why this isn't working
+        els.emailInput.min = 5; // @todo: figure out why this isn't working
         els.emailInput.placeholder = 'eMail';
         els.emailInput.classList.add('textInput');
         els.emailInput.required = true;
@@ -35,7 +35,7 @@ const fns = {
         els.passwordInput = els.password.querySelector('input');
         els.passwordInput.id = 'password';
         els.passwordInput.type = 'password';
-        els.passwordInput.minlength = 8; // @todo: figure out why this isn't working
+        els.passwordInput.min = 8; // @todo: figure out why this isn't working
         els.passwordInput.placeholder = 'Password';
         els.passwordInput.classList.add('textInput');
         els.passwordInput.required = true;
@@ -177,6 +177,6 @@ listeners.push( document.addEventListener('DOMContentLoaded', fns.restore_option
 
 
 listeners.push( els.loginbtn.addEventListener('click', () => { fns.login();} ));
-listeners.push( els.save.addEventListener('click',() => { fns.save_options()} ));
+listeners.push( els.save.addEventListener('click',(e) => { e.preventDefault(); fns.save_options(); } ));
 
 

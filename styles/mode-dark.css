@@ -8,7 +8,7 @@ form, p, footer, .device-wrapper, .code-wrapper {
     color: cyan;
 } 
 
-button, .btn, input[type="submit"] {
+input[type="submit"] {
     background-color:cyan;
     color: #000;
     box-shadow: -2px -2px 8px 1px black inset;
@@ -22,6 +22,4 @@ a {
     background-color: #000;
 }
 
-.disabled {
-    opacity: 0.25;
-}
+
