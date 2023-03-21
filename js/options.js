@@ -1,4 +1,4 @@
-import { SmartRentAPI as srapi } from './SmartRentApi.js';
+import { SmartRentAPI as smart_rent_api } from './SmartRentApi.js';
 import { fn as common, pref } from './common.js'
 
 const fns = {
@@ -21,6 +21,7 @@ const fns = {
         els.email.appendChild(document.createElement('input'));
         els.email.querySelector('input').id = 'email';
         els.email.querySelector('input').type = 'email';
+        els.email.querySelector('input').minlength = 5;
         els.email.querySelector('input').placeholder = 'eMail';
         els.email.querySelector('input').required = true;
         els.login.appendChild(els.email);
@@ -29,12 +30,14 @@ const fns = {
         els.password.appendChild(document.createElement('input'));
         els.password.querySelector('input').id = 'password';
         els.password.querySelector('input').type = 'password';
+        els.password.querySelector('input').minlength = 8;
         els.password.querySelector('input').placeholder = 'Password';
         els.password.querySelector('input').required = true;
         els.login.appendChild(els.password);
 
-        els.loginbtn = document.createElement('div');
-        els.loginbtn.classList.add('btn');
+        els.loginbtn = document.createElement('input');
+        els.loginbtn.type = "submit";
+        // els.loginbtn.classList.add('btn');
         els.loginbtn.id = 'loginbtn';
         els.loginbtn.textContent = 'Login';
         els.login.appendChild(els.loginbtn);
@@ -52,8 +55,8 @@ const fns = {
         els.ui_options.querySelector('label').appendChild(els.dark_preference);
         els.ui_options.querySelector('label').appendChild(document.createTextNode('Dark Mode'));
 
-        els.save = document.createElement('div');
-        els.save.classList.add('btn')
+        els.save = document.createElement('input');
+        els.save.type = 'submit';
         els.save.id = 'save';
         els.save.textContent = 'Save';
         els.ui_options.appendChild(els.save);
@@ -64,7 +67,7 @@ const fns = {
 
     login(){
 
-        session.response = srapi.session(els.email.querySelector('input').value, els.password.querySelector('input').value);
+        session.response = smart_rent_api.session(els.email.querySelector('input').value, els.password.querySelector('input').value);
 
         if(session.response.status === 201){
             session.user_id = srsession.user_id;
@@ -102,25 +105,25 @@ const fns = {
 
     // save options to storage - Google examples are not working - trying something else.
     save_options(){
-        common.updateDark(els.dark_preference.checked);
-        els.save.textContent = 'Saved!';
-        setTimeout(()=>{els.save.textContent = 'Save'}, 500);
-    },
     // /**
     //  *  chrome.storage.sync.set({ key: value }).then(() => {
     //         console.log('Value is set to ' + value);
     //     });
     // */
+        common.updateDark(els.dark_preference.checked);
+        els.save.textContent = 'Saved!';
+        setTimeout(()=>{els.save.textContent = 'Save'}, 500);
+    },
     restore_options(){
-
-        
-    }
-
     /**
         chrome.storage.sync.get(['key']).then((result) => {
             console.log('Value currently is ' + result.key);
         });
      */
+        
+    }
+
+
 
 };
 
