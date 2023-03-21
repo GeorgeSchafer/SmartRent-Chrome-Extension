@@ -19,27 +19,30 @@ const fns = {
 
         els.email = document.createElement('label');
         els.email.appendChild(document.createElement('input'));
-        els.email.querySelector('input').id = 'email';
-        els.email.querySelector('input').type = 'email';
-        els.email.querySelector('input').minlength = 5;
-        els.email.querySelector('input').placeholder = 'eMail';
-        els.email.querySelector('input').required = true;
+        els.emailInput = els.email.querySelector('input');
+        els.emailInput.id = 'email';
+        els.emailInput.type = 'email';
+        els.emailInput.minlength = 5;
+        els.emailInput.placeholder = 'eMail';
+        els.emailInput.required = true;
         els.login.appendChild(els.email);
 
         els.password = document.createElement('label');
         els.password.appendChild(document.createElement('input'));
-        els.password.querySelector('input').id = 'password';
-        els.password.querySelector('input').type = 'password';
-        els.password.querySelector('input').minlength = 8;
-        els.password.querySelector('input').placeholder = 'Password';
-        els.password.querySelector('input').required = true;
+        els.passwordInput = els.password.querySelector('input');
+        els.passwordInput.id = 'password';
+        els.passwordInput.type = 'password';
+        els.passwordInput.minlength = 8;
+        els.passwordInput.placeholder = 'Password';
+        els.passwordInput.required = true;
         els.login.appendChild(els.password);
 
         els.loginbtn = document.createElement('input');
         els.loginbtn.type = "submit";
-        // els.loginbtn.classList.add('btn');
+        els.loginbtn.classList.add('disabled');
         els.loginbtn.id = 'loginbtn';
         els.loginbtn.textContent = 'Login';
+        els.loginbtn.disabled = true;
         els.login.appendChild(els.loginbtn);
     },
 
@@ -65,9 +68,16 @@ const fns = {
         els.options.appendChild(els.ui_options);
     },
 
-    login(){
+    enableSubmit(){
+        if( els.emailInput.value.length >= 5 || els.passwordInput.value.length >= 8  ){
+            els.save.disabled = false;
+            els.save.classList.remove('disabled');
+        }
+    },
 
-        session.response = smart_rent_api.session(els.email.querySelector('input').value, els.password.querySelector('input').value);
+    login(){
+        // @todo fixe Smart_rent_api.session call.
+        session.response = smart_rent_api.session(els.emailInput.value, els.passwordInput.value);
 
         if(session.response.status === 201){
             session.user_id = srsession.user_id;
@@ -131,7 +141,10 @@ const fns = {
 const els = {
     options: document.querySelector('#options'), 
     dark_preference: document.querySelector('#dark-mode'),
-    save: document.querySelector('#save')
+    save: document.querySelector('#save'),
+    login: null,
+    emailInput: null,
+    loginbtn: null
 }
 
 const session = {};
@@ -144,5 +157,16 @@ fns.load();
 
 // Event Listeners
 listeners.push( document.addEventListener('DOMContentLoaded', fns.restore_options()) );
-listeners.push( els.save.addEventListener('click',() => { fns.save_options()} ));
+
+/**
+ * Add a css class to group these buttons together so I can listen for changes.
+ */
+listeners.push( document.querySelectorAll('input[type="password/email"]').forEach( field => {
+    submit.addEventListener('change', (submit) => {
+        if( submit. )
+    } )
+}));
 listeners.push( els.loginbtn.addEventListener('click', () => { fns.login();} ));
+listeners.push( els.save.addEventListener('click',() => { fns.save_options()} ));
+
+
