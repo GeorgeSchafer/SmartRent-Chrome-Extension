@@ -28,11 +28,11 @@ form {
     box-shadow: 0px 0px 4px darkcyan ;
 }
 
-button {
+button, input[type="submit"] {
     margin: 8px 8px 0px 150px;
 }
 
-button, .btn {
+button, .btn, input[type="submit"] {
     background-color:darkcyan;
     color: beige;
     border: none;
@@ -41,10 +41,6 @@ button, .btn {
     width: 64px;
     text-align: center;
 }
-
-.btn {
-    margin: 8px 8px 0px auto;
-} 
 
 button:active, .btn:active {
     transform: scale(0.98);
