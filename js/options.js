@@ -45,7 +45,7 @@ const fns = {
         els.loginbtn.type = "submit";
         els.loginbtn.classList.add('disabled');
         els.loginbtn.id = 'loginbtn';
-        els.loginbtn.textContent = 'Login';
+        els.loginbtn.value = 'Login';
         els.loginbtn.disabled = true;
         els.login.appendChild(els.loginbtn);
     },
@@ -117,10 +117,10 @@ const fns = {
         }
     },
 
-    // save options to storage - Google examples are not working - trying something else.
     save_options(){
-    // /**
-    //  *  chrome.storage.sync.set({ key: value }).then(() => {
+    ///**
+    // * @todo save options to storage - Google examples are not working - trying something else.
+    // * chrome.storage.sync.set({ key: value }).then(() => {
     //         console.log('Value is set to ' + value);
     //     });
     // */
@@ -128,6 +128,7 @@ const fns = {
         els.save.textContent = 'Saved!';
         setTimeout(()=>{els.save.textContent = 'Save'}, 500);
     },
+
     restore_options(){
     /**
         chrome.storage.sync.get(['key']).then((result) => {
@@ -166,9 +167,11 @@ listeners.push( document.addEventListener('DOMContentLoaded', fns.restore_option
 /**
  * Add a css class to group these buttons together so I can listen for changes.
  */
-// listeners.push( document.querySelectorAll('.textInput').forEach( field => {
-//     submit.addEventListener('change', () => {
-//         if( els.passwordInput.value.length >= field.minlength && els.emailInput.value.length >= els.emailInput.minLength ){
+// listeners.push( login.querySelectorAll('input').forEach( field => {
+//     field.addEventListener('change', () => {
+//         console.log('Login values: ', { "passwordLength": els.passwordInput.value.length, "\npasswordMinLength": field.min})
+
+//         if( els.passwordInput.value.length >= field.min && els.emailInput.value.length >= els.emailInput.min ){
 //             els.loginbtn.classList.remove('disabled');
 //         }
 //     } )
