@@ -1,19 +1,69 @@
 
+import { common, user } from './common.js'
+
+
 
 export const SmartRentAPI = {
-    deliveryCode(){
+
+    constructor() {
+        this.base_url = 'https://d7167c60-a760-4d7d-9fdc-dff440526304.mock.pstmn.io';
+        this.endpoint = null;
+    },
+    
+    resetEndpoint(){
+        this.endpoint = null;
+    },
+
+    deliveryCode(){f
         return {code: 121212, type: 'delivery'};
     },
 
     session(email, password){
-        if( email == 'george.schafer@smartrent.com' && password == 'Smartrent1!' ){
-            return {status: 201, user_id: 1111, first_name: 'Jaded', access_token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"};
-        } else {
-            return {status: 401, error: 'Login failed, check your email and password.'}
-        }
+
+        /** @description: sessions endpoint */
+        this.endpoint = '/api/v1/sessions';
+
+        fetch(`${this.base_url}${this.endpoint}`, { body: { email: email, password: password }})
+            .then( (r) => {
+                r = r.data.JSON();
+                user.session = r;
+                return r;
+            } )
+            .then( (r) => {
+                // Replace the code here.
+                r = r;
+            } );
+        
+        this.resetEndpoint();
     },
 
-    getDevices(){
+    sessionFail(){
+
+        /** @todo created a fail mock {endpoint: response} in Postman */
+
+        /** @description: sessions endpoint */
+        const sessions = '/api/v1/sessions';
+        const email = 'a@b.d';
+        const password = '12345678'
+
+        fetch(`${this.base_url}${sessions}`, { body: { email: email, password: password }})
+            .then( (r) => {
+                r = r.data.JSON();
+                user.session = r;
+                return r;
+            } )
+            .then( (r) => {
+                // Replace the code here.
+                r = r;
+            } );
+    },
+    
+    getUnits(){
+
+        this.endpoint = '/api/v2/units';
+    },
+
+    getDevices(unit_id){
 
         const r = Math.floor( Math.random() * 2 );
         let toggled;

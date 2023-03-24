@@ -1,6 +1,29 @@
- 
+export const user = {
+    
+    pref: { 
+        /** 
+         * @todo : add references to preferences from options.js
+         * "dark": {type: boolean}
+         * 
+         */
+            dark: true 
+    }, 
+    session: {
+    /**
+        "access_token": {type: string}},
+        "expires": {type: number},
+        "refresh_token": {type: string},
+        "user_id": {type: number}
+    */
+    },
+    devices: {
+        /**
+         * @todo : Add listDevices 
+         */
+    }
+ }
 
-export const fns = {
+export const common = {
 
     load(){
     
@@ -12,7 +35,7 @@ export const fns = {
         els.dark.href = './styles/mode-dark.css';
         els.dark.rel ='stylesheet';
         els.dark.classList.add('dark');
-        pref.dark = true;
+        user.pref.dark = true;
 
         els.head = document.querySelector('head');
         els.head.appendChild(els.dark);
@@ -21,8 +44,8 @@ export const fns = {
 
 
     updateDark( dark ) {
-        pref.dark = dark;
-        if(!pref.dark){
+        user.pref.dark = dark;
+        if(!user.pref.dark){
             document.querySelector('.dark')?.remove();
         } else {
             const present = document.querySelector('.dark');
@@ -43,15 +66,11 @@ export const fns = {
 
 const els = {};
 
-export const pref = {
-    dark: true
-};
-
 const listeners = [];
 
-fns.load();
+common.load();
 
 // Event Listeners
-if( pref.dark ){
-    listeners.push( document.addEventListener('DOMContentLoaded', fns.darkMode()) );
+if( user.pref.dark ){
+    listeners.push( document.addEventListener('DOMContentLoaded', common.darkMode()) );
 }

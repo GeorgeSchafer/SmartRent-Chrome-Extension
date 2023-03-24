@@ -1,9 +1,12 @@
 import { SmartRentAPI as srapi } from './SmartRentApi.js';
 import { DeliveryCode } from './codeClass.js';
 import { Lock, Binary_Switch}  from './deviceClass.js'
+import { common, user } from './common.js'
+
+
 
 /**
- * @summary Functions object literal stores functions for the sake of 
+ * @summary fns (functions) object literal stores functions for the sake of 
  * organization.
  * @author George Schafer
  */
@@ -31,8 +34,8 @@ const fns = {
             const name = binary_switch.name;
 
             devices[`${name}`] = binary_switch;
-            els[`${binary_switch.name}`] = binary_switch.device_wrapper;
-            els.devices.appendChild(els[`${binary_switch.name}`]);
+            els[`${devices[`${name}`].name}`] = binary_switch.device_wrapper;
+            els.devices.appendChild(els[`${devices[`${name}`].name}`]);
             listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
           }
         } );

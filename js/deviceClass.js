@@ -90,7 +90,7 @@ const icon = {
         false: './images/unlocked.svg'
     },
     is_on: {
-        true: './images/on.svg',
+        true: './images/on-orange.svg',
         false: './images/off.svg'
     },
     refresh: './images/refresh.svg',

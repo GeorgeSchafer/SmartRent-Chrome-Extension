@@ -1,5 +1,7 @@
 import { SmartRentAPI as smart_rent_api } from './SmartRentApi.js';
-import { fns as common, pref } from './common.js'
+import { common, user } from './common.js'
+
+
 
 const fns = {
     load(){
@@ -18,9 +20,9 @@ const fns = {
     createLoginInputs(){
 
         els.email = document.createElement('label');
-        els.email.appendChild(document.createElement('input'));
+        els.emailInput = document.createElement('input');
+        els.email.appendChild(els.emailInput);
         els.email.for = els.login;
-        els.emailInput = els.email.querySelector('input');
         els.emailInput.id = 'email';
         els.emailInput.type = 'email';
         els.emailInput.min = 5; // @todo: figure out why this isn't working
@@ -43,10 +45,10 @@ const fns = {
 
         els.loginbtn = document.createElement('input');
         els.loginbtn.type = "submit";
-        els.loginbtn.classList.add('disabled');
         els.loginbtn.id = 'loginbtn';
         els.loginbtn.value = 'Login';
-        els.loginbtn.disabled = true;
+        // els.loginbtn.disabled = true;
+        // els.loginbtn.classList.add('disabled');
         els.login.appendChild(els.loginbtn);
     },
 
@@ -81,21 +83,20 @@ const fns = {
 
     login(){
         // @todo fixe Smart_rent_api.session call.
-        const srsession = smart_rent_api.session(els.emailInput.value, els.passwordInput.value);
+        const response = smart_rent_api.session(els.emailInput.value, els.passwordInput.value);
 
-        if(session.response.status === 201){
-            session.user_id = srsession.user_id;
-            session.access_token = srsession.access_token;
-            session.first_name = srsession.first_name;
+        if(response.status === 201){
+            login.user_id = response.user_id;
+            login.access_token = response.access_token;
+            login.first_name = response.first_name;
 
             els.login.querySelector('label').remove();
             els.login.querySelector('label').remove();
             els.loginbtn.remove();
 
-            els.greeting = document.createElement('div');
+            els.greeting = document.createElement('p'); // document.createElement('div');
             els.greeting.id = 'greeting';
-            els.greeting.appendChild(document.createElement('p'));
-            els.greeting.querySelector('p').textContent = `Welcome ${session.first_name}`;
+            els.greeting.textContent = `Welcome ${login.first_name}`;
             els.login.appendChild(els.greeting);
 
         } else {
@@ -115,6 +116,17 @@ const fns = {
                 listeners.push( els.loginbtn.addEventListener('click', () => { fns.login();} ));
             } ,1000)
         }
+    },
+
+    createUnitPicker(){
+
+        /**
+         * @todo 
+         *  Write fns.createUnitPicker()
+         *      Should be an input.type="select".
+         *      After selecting the unit, the unit devices should be saved to common.js > user.devices
+         */
+
     },
 
     save_options(){
@@ -153,7 +165,7 @@ const els = {
     save: document.querySelector('#save')
 }
 
-const session = {};
+const login = {};
 
 const listeners = [];
 
@@ -179,7 +191,7 @@ listeners.push( document.addEventListener('DOMContentLoaded', fns.restore_option
 
 
 
-listeners.push( els.loginbtn.addEventListener('click', () => { fns.login();} ));
+listeners.push( els.loginbtn.addEventListener('click', (e) => { e.preventDefault(); fns.login();} ));
 listeners.push( els.save.addEventListener('click',(e) => { e.preventDefault(); fns.save_options(); } ));
 
 
