@@ -3,15 +3,17 @@ import { common, user } from './common.js'
 
 
 
-export const SmartRentAPI = {
+const url = {
 
-    constructor() {
-        this.base_url = 'https://d7167c60-a760-4d7d-9fdc-dff440526304.mock.pstmn.io';
-        this.endpoint = null;
-    },
+    base: 'https://d7167c60-a760-4d7d-9fdc-dff440526304.mock.pstmn.io';
+    endpoint: null
+
+};
+
+export const SmartRentAPI = {
     
     resetEndpoint(){
-        this.endpoint = null;
+        url.endpoint = null;
     },
 
     deliveryCode(){f
@@ -20,18 +22,13 @@ export const SmartRentAPI = {
 
     session(email, password){
 
-        /** @description: sessions endpoint */
-        this.endpoint = '/api/v1/sessions';
+        url.endpoint = '/api/v1/sessions';
 
-        fetch(`${this.base_url}${this.endpoint}`, { body: { email: email, password: password }})
+        fetch(`${url.base}${url.endpoint}`, { body: { email: email, password: password }})
             .then( (r) => {
                 r = r.data.JSON();
                 user.session = r;
                 return r;
-            } )
-            .then( (r) => {
-                // Replace the code here.
-                r = r;
             } );
         
         this.resetEndpoint();
@@ -41,29 +38,52 @@ export const SmartRentAPI = {
 
         /** @todo created a fail mock {endpoint: response} in Postman */
 
-        /** @description: sessions endpoint */
         const sessions = '/api/v1/sessions';
         const email = 'a@b.d';
         const password = '12345678'
 
-        fetch(`${this.base_url}${sessions}`, { body: { email: email, password: password }})
+        fetch(url.base+sessions, { body: { email: email, password: password }})
             .then( (r) => {
                 r = r.data.JSON();
                 user.session = r;
                 return r;
-            } )
-            .then( (r) => {
-                // Replace the code here.
-                r = r;
-            } );
+            } 
+        );
     },
     
     getUnits(){
+    /** @todo ready for testing */
 
-        this.endpoint = '/api/v2/units';
+        url.endpoint = '/api/v2/units';
+
+        fetch(url.base+url.endpoint)
+            .then( (r) => {
+                r = r.JSON();
+                user.units = r;
+            } 
+        );
+        
+        this.resetEndpoint();
     },
 
-    getDevices(unit_id){
+    getDevices(user_id){
+    /**
+     * @todo ready for testing
+     */
+        url.endpoint = '';
+
+        fetch(url.base+url.endpoint)
+            .then( (r) => {
+                r = r.json();
+                user.devices = r;
+            } 
+        );
+
+        this.resetEndpoint();
+
+    },
+
+    getDemoDevices(){
 
         const r = Math.floor( Math.random() * 2 );
         let toggled;
