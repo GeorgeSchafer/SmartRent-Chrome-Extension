@@ -119,13 +119,17 @@ const fns = {
     },
 
     createUnitPicker(){
+    /**
+     * @todo 
+     *  Write fns.createUnitPicker()
+     *      Should be an input.type="select".
+     *      After selecting the unit, the unit devices should be saved to common.js > user.devices
+     */
 
-        /**
-         * @todo 
-         *  Write fns.createUnitPicker()
-         *      Should be an input.type="select".
-         *      After selecting the unit, the unit devices should be saved to common.js > user.devices
-         */
+        els.unitPicker = document.createElement('input');
+        els.unitPicker.type = 'select';
+        els.unitPicker.classList.add('selector');
+        
 
     },
 
