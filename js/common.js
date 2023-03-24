@@ -1,5 +1,5 @@
 export const user = {
-    
+
     pref: { 
         /** 
          * @todo : add references to preferences from options.js
@@ -13,9 +13,15 @@ export const user = {
         "access_token": {type: string}},
         "expires": {type: number},
         "refresh_token": {type: string},
-        "user_id": {type: number}
-    */
+        "user_id": {type: number} */
     },
+    
+    units: {
+        /** 
+         * {} */
+    },
+
+
     devices: {
         /**
          * @todo : Add listDevices 

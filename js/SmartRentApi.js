@@ -5,7 +5,7 @@ import { common, user } from './common.js'
 
 const url = {
 
-    base: 'https://d7167c60-a760-4d7d-9fdc-dff440526304.mock.pstmn.io';
+    base: 'https://d7167c60-a760-4d7d-9fdc-dff440526304.mock.pstmn.io',
     endpoint: null
 
 };
