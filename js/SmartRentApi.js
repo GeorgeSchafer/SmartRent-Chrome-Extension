@@ -58,10 +58,9 @@ export const SmartRentAPI = {
 
         fetch(url.base+url.endpoint)
             .then( (r) => {
-                r = r.JSON();
+                r = r.records.JSON();
                 user.units = r;
-            } 
-        );
+            });
         
         this.resetEndpoint();
     },
