@@ -11,10 +11,10 @@ const url = {
 
 };
 
-const request = {
+const options = {
 
-    method: 200,
-    headers: {
+    "method": 200,
+    "headers": {
         'Content-Type': 'application/json',
         'Content-Length': null,
         'Host': url.base,
@@ -22,7 +22,7 @@ const request = {
         'Connection': 'keep-alive',
         'Authorization': user.session.access_token
     },
-    body: null
+    "body": null
     
 };
 
@@ -40,18 +40,18 @@ export const SmartRentAPI = {
 
         url.endpoint = '/api/v1/sessions';
 
-        request.body = { 
-            email: email, 
-            password: password 
+        options.body = { 
+            "email": email, 
+            "password": password 
         };
 
-        request.headers['Content-Length'] = request.body.stringify().length;
+        options.headers['Content-Length'] = JSON.stringify(options.body).length;
 
-        await fetch(`${url.https}${url.base}${url.endpoint}`, request)
+        await fetch(`${url.https}${url.base}${url.endpoint}`, options)
             .then( (response) => {
-//                response = response.JSON();
-                console.log('Session:', response);
-                const r = response.data;/** data is already in json, remove comment when going live *///.JSON();
+                // response = response.JSON();
+                console.log('Response:', response);
+                const r = response.data;/** data is already in json, remove comment when going live *///.json();
                 r.status = response.status;
                 user.session = r;
             } );
