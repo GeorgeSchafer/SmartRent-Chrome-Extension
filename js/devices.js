@@ -18,30 +18,41 @@ const fns = {
      * display and allow manipulation. 
      */
     load(){
-        const srdevices = srapi.getDevices();
+        
+        if( user.devices != null ) {
 
-        srdevices.forEach( (device) => {
-          if(device.type == 'entry_control'){
-            const lock = new Lock(device);
-            const name = lock.name;
+            srdevices.forEach( (device) => {
+                if(device.type == 'entry_control'){
+                      const lock = new Lock(device);
+                      const name = lock.name;
 
-            devices[`${name}`] = lock;
-            els[`${name}`] = lock.device_wrapper;
-            els.devices.appendChild(els[`${name}`]);
-            listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
-          } else if ( device.type == 'binary_switch' ){
-            const binary_switch = new Binary_Switch(device);
-            const name = binary_switch.name;
+                      devices[`${name}`] = lock;
+                      els[`${name}`] = lock.device_wrapper;
+                      els.devices.appendChild(els[`${name}`]);
+                      listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
+                  } else if ( device.type == 'binary_switch' ){
+                      const binary_switch = new Binary_Switch(device);
+                      const name = binary_switch.name;
 
-            devices[`${name}`] = binary_switch;
-            els[`${devices[`${name}`].name}`] = binary_switch.device_wrapper;
-            els.devices.appendChild(els[`${devices[`${name}`].name}`]);
-            listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
-          }
-        } );
+                      devices[`${name}`] = binary_switch;
+                      els[`${devices[`${name}`].name}`] = binary_switch.device_wrapper;
+                      els.devices.appendChild(els[`${devices[`${name}`].name}`]);
+                      listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
+                }
+            } );
 
-        els.delivery = code.delivery.code_wrapper;
-        els.devices.appendChild(els.delivery);
+            els.delivery = code.delivery.code_wrapper;
+            els.devices.appendChild(els.delivery);
+
+        } else {
+
+          // redirect to options
+          els.meta = document.createElement('meta');
+          els.meta.httpEquiv = 'Refresh';
+          els.meta.content='0; URL=./options.html';
+          document.querySelector('head').appendChild(els.meta);
+
+        }
     },
 
     createListeners(element){
@@ -56,8 +67,8 @@ const fns = {
  * other element functions such as document.createElement().
  */
 const els = {
-  devices: document.querySelector('.devices'),
-  refresh: document.querySelector('header')
+    devices: document.querySelector('.devices'),
+    refresh: document.querySelector('header')
 };
 
 /**
@@ -82,9 +93,7 @@ const code = {
 const listeners = [];
 
 
-if(true){
-  fns.load();
-}
+fns.load();
 
 
 

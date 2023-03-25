@@ -5,9 +5,19 @@ import { common, user } from './common.js'
 
 const url = {
 
-    base: 'https://d7167c60-a760-4d7d-9fdc-dff440526304.mock.pstmn.io',
+    https: 'https://',
+    base: 'control.smartrent-qa.com',
     endpoint: null
 
+};
+
+const headers = {
+    'Content-Type': 'application/json',
+    'Content-Length': null,
+    'Host': url.base,
+    'Accept': '*/*',
+    'Connection': 'keep-alive',
+    'Authorization': user.session.access_token
 };
 
 export const SmartRentAPI = {
@@ -20,20 +30,21 @@ export const SmartRentAPI = {
         return {code: 121212, type: 'delivery'};
     },
 
-    session(email, password){
+    async session(email, password){
 
         url.endpoint = '/api/v1/sessions';
 
-        fetch(`${url.base}${url.endpoint}`, { body: { email: email, password: password }})
-            .then( (r) => {
-                r = r.data.JSON();
+        await fetch(`${url.https}${url.base}${url.endpoint}`, { method: 'POST', headers: headers, body: { email: email, password: password }})
+            .then( (response) => {
+//                response = response.JSON();
+                console.log('Session:', response);
+                const r = response.data;/** data is already in json, remove comment when going live *///.JSON();
+                r.status = response.status;
                 user.session = r;
-                return r;
             } );
         
         this.resetEndpoint();
     },
-
     sessionFail(){
 
         /** @todo created a fail mock {endpoint: response} in Postman */
@@ -42,7 +53,7 @@ export const SmartRentAPI = {
         const email = 'a@b.d';
         const password = '12345678'
 
-        fetch(url.base+sessions, { body: { email: email, password: password }})
+        fetch(url.base+sessions, `{ method: POST, headers: ${headers}, body: { email: email, password: password }}`)
             .then( (r) => {
                 r = r.data.JSON();
                 user.session = r;
@@ -69,7 +80,7 @@ export const SmartRentAPI = {
     /**
      * @todo ready for testing
      */
-        url.endpoint = '';
+        url.endpoint = '/api/v3/units/:unit_id/devices';
 
         fetch(url.base+url.endpoint)
             .then( (r) => {

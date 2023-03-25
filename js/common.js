@@ -22,11 +22,10 @@ export const user = {
     },
 
 
-    devices: {
+    devices: null
         /**
          * @todo : Add listDevices 
          */
-    }
  }
 
 export const common = {

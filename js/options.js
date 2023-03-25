@@ -22,21 +22,24 @@ const fns = {
         els.email = document.createElement('label');
         els.emailInput = document.createElement('input');
         els.email.appendChild(els.emailInput);
-        els.email.for = els.login;
+        els.emailInput.for = els.login;
         els.emailInput.id = 'email';
         els.emailInput.type = 'email';
         els.emailInput.min = 5; // @todo: figure out why this isn't working
+        els.emailInput.value = 'phy@sr.com'; // here for testing purposes
         els.emailInput.placeholder = 'eMail';
         els.emailInput.classList.add('textInput');
         els.emailInput.required = true;
         els.login.appendChild(els.email);
 
         els.password = document.createElement('label');
-        els.password.appendChild(document.createElement('input'));
-        els.password.for = els.login;
+        els.passwordInput = document.createElement('input');
+        els.password.appendChild(els.passwordInput);
+        els.passwordInput.for = els.login;
         els.passwordInput = els.password.querySelector('input');
         els.passwordInput.id = 'password';
         els.passwordInput.type = 'password';
+        els.passwordInput.value = 'Smartrent1!'; // here for testing purposes
         els.passwordInput.min = 8; // @todo: figure out why this isn't working
         els.passwordInput.placeholder = 'Password';
         els.passwordInput.classList.add('textInput');
@@ -98,6 +101,7 @@ const fns = {
             els.greeting.id = 'greeting';
             els.greeting.textContent = `Welcome ${login.first_name}`;
             els.login.appendChild(els.greeting);
+            // els.login.appendChild(fns.createUnitPicker());
 
         } else {
             
@@ -129,8 +133,18 @@ const fns = {
         els.unitPicker = document.createElement('input');
         els.unitPicker.type = 'select';
         els.unitPicker.classList.add('selector');
-        
+        fns.createOption('', 'Select a unit' );
+        user.units.forEach( unit => {
+            els.unitPicker.appendChild(createOption(unit.id, `${unit.marketing_name}, ${unit.group.marketing_name}`));
+        } );
 
+    },
+
+    createOption(value, text){
+        const option = document.createElement('option');
+        option.value = value;
+        option.innerText = text;
+        els.unitPicker.appendChild(option);
     },
 
     save_options(){
@@ -164,9 +178,11 @@ const els = {
     emailInput: null,
     passwordInput: null,
     loginbtn: null,
+    unitPicker: null,
     options: document.querySelector('#options'), 
     dark_preference: document.querySelector('#dark-mode'),
-    save: document.querySelector('#save')
+    save: document.querySelector('#save'),
+    perror: document.createTextNode('Login Error, invalid email or password')
 }
 
 const login = {};
