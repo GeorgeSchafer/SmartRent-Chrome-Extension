@@ -25,7 +25,7 @@ const fns = {
         els.emailInput.for = els.login;
         els.emailInput.id = 'email';
         els.emailInput.type = 'email';
-        els.emailInput.min = 5; // @todo: figure out why this isn't working
+        els.emailInput.min = 5;
         els.emailInput.value = 'phy@sr.com'; // here for testing purposes
         els.emailInput.placeholder = 'eMail';
         els.emailInput.classList.add('textInput');
@@ -40,7 +40,7 @@ const fns = {
         els.passwordInput.id = 'password';
         els.passwordInput.type = 'password';
         els.passwordInput.value = 'Smartrent1!'; // here for testing purposes
-        els.passwordInput.min = 8; // @todo: figure out why this isn't working
+        els.passwordInput.min = 8;
         els.passwordInput.placeholder = 'Password';
         els.passwordInput.classList.add('textInput');
         els.passwordInput.required = true;
@@ -110,15 +110,14 @@ const fns = {
             els.loginbtn.remove();
             els.perror = document.createElement('p');
             els.perror.classList.add('p-error');
-            els.perror.classList.add('centered');
-            els.perror.innerHTML = session.error;
+            els.perror.innerHTML = els.perror;
             els.login.appendChild(els.perror);
 
             setTimeout(() => {
                 els.perror.remove();
                 fns.createLoginInputs();
                 listeners.push( els.loginbtn.addEventListener('click', () => { fns.login();} ));
-            } ,1000)
+            } ,2000)
         }
     },
 

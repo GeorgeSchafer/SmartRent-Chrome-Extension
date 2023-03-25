@@ -1,5 +1,5 @@
 
-import { common, user } from './common.js'
+import { user } from './common.js'
 
 
 
@@ -11,13 +11,19 @@ const url = {
 
 };
 
-const headers = {
-    'Content-Type': 'application/json',
-    'Content-Length': null,
-    'Host': url.base,
-    'Accept': '*/*',
-    'Connection': 'keep-alive',
-    'Authorization': user.session.access_token
+const request = {
+
+    method: 200,
+    headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': null,
+        'Host': url.base,
+        'Accept': '*/*',
+        'Connection': 'keep-alive',
+        'Authorization': user.session.access_token
+    },
+    body: null
+    
 };
 
 export const SmartRentAPI = {
@@ -34,7 +40,14 @@ export const SmartRentAPI = {
 
         url.endpoint = '/api/v1/sessions';
 
-        await fetch(`${url.https}${url.base}${url.endpoint}`, { method: 'POST', headers: headers, body: { email: email, password: password }})
+        request.body = { 
+            email: email, 
+            password: password 
+        };
+
+        request.headers['Content-Length'] = request.body.stringify().length;
+
+        await fetch(`${url.https}${url.base}${url.endpoint}`, request)
             .then( (response) => {
 //                response = response.JSON();
                 console.log('Session:', response);
