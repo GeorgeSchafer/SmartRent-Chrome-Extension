@@ -37,21 +37,25 @@ export const SmartRentAPI = {
     },
 
     async session(email, password){
-
+    /**
+     * @todo Figure out why I keep getting a 400 response. 
+     * BEARER TOKEN!!!
+     */
         url.endpoint = '/api/v1/sessions';
 
-        options.body = { 
+        options.body = //JSON.stringify
+        ({ 
             "email": email, 
             "password": password 
-        };
+        });
 
-        options.headers['Content-Length'] = JSON.stringify(options.body).length;
+        options.headers['Content-Length'] = options.body.length; // JSON.stringify(options.body).length;
 
         await fetch(`${url.https}${url.base}${url.endpoint}`, options)
             .then( (response) => {
-                // response = response.JSON();
+                response = response.json(); // response is already in JSON() format.
                 console.log('Response:', response);
-                const r = response.data;/** data is already in json, remove comment when going live *///.json();
+                const r = response.data;
                 r.status = response.status;
                 user.session = r;
             } );
