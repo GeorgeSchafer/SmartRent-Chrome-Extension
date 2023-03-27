@@ -4,32 +4,38 @@ import { user } from './common.js'
 
 
 const url = {
-
-    https: 'https://',
-    base: 'control.smartrent-qa.com',
-    endpoint: null
-
+    base: 'https://control.smartrent-qa.com',
+    endpoint: null,
+    host: 'control.smartrent-qa.com'
 };
 
 const options = {
-
-    "method": 200,
+    "method": null,
     "headers": {
+        'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json',
-        'Content-Length': null,
-        'Host': url.base,
-        'Accept': '*/*',
-        'Connection': 'keep-alive',
-        'Authorization': user.session.access_token
+        'Authorization': `Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJTbWFydFJlbnQiLCJleHAiOjE2Nzk5NDEwNjUsImlhdCI6MTY3OTk0MDE2NSwiaXNzIjoiU21hcnRSZW50IiwianRpIjoiMTY1N2MxNjUtNjQwOC00ZDE5LTk3NzktZDAzOTNkOTcxM2EyIiwibmJmIjoxNjc5OTQwMTY0LCJzdWIiOiJVc2VyOjE4NjE2IiwidHlwIjoiYWNjZXNzIn0._xymzJRIZabw9nLlVLlFtg8JpBZz_gdG0QC3Jb2dqDbDN-XeIMaZQGK-QPEaG1c7ZHoVktIq72hGUDxm-rlgEw`
+        // 'Content-Length': 'calculated in method',
+        // 'Host': url.host,
+        // 'Connection': 'keep-alive'
     },
     "body": null
-    
 };
 
 export const SmartRentAPI = {
     
     resetEndpoint(){
         url.endpoint = null;
+    },
+
+    resetOptions() {
+        options.method = null;
+        options.body = null;
+    },
+
+    reset(){
+        this.resetEndpoint();
+        this.resetOptions();
     },
 
     deliveryCode(){f
@@ -43,42 +49,33 @@ export const SmartRentAPI = {
      */
         url.endpoint = '/api/v1/sessions';
 
-        options.body = //JSON.stringify
-        ({ 
+        options.method = 'POST';
+        options.body = JSON.stringify({ 
             "email": email, 
             "password": password 
         });
 
         options.headers['Content-Length'] = options.body.length; // JSON.stringify(options.body).length;
 
-        await fetch(`${url.https}${url.base}${url.endpoint}`, options)
+        await fetch(url.base+url.endpoint, options)
             .then( (response) => {
-                response = response.json(); // response is already in JSON() format.
+                // response = response.json(); // response is already in JSON() format.
                 console.log('Response:', response);
                 const r = response.data;
-                r.status = response.status;
+                // r.status = response.status;
                 user.session = r;
             } );
         
-        this.resetEndpoint();
+        this.reset();
     },
-    sessionFail(){
 
-        /** @todo created a fail mock {endpoint: response} in Postman */
+    /**
+    *  sessionFail(){
+    *  @todo created a fail mock {endpoint: response} in Postman
+    *  },
+    */
 
-        const sessions = '/api/v1/sessions';
-        const email = 'a@b.d';
-        const password = '12345678'
 
-        fetch(url.base+sessions, `{ method: POST, headers: ${headers}, body: { email: email, password: password }}`)
-            .then( (r) => {
-                r = r.data.JSON();
-                user.session = r;
-                return r;
-            } 
-        );
-    },
-    
     getUnits(){
     /** @todo ready for testing */
 
@@ -90,7 +87,7 @@ export const SmartRentAPI = {
                 user.units = r;
             });
         
-        this.resetEndpoint();
+        this.reset();
     },
 
     getDevices(user_id){
@@ -106,7 +103,7 @@ export const SmartRentAPI = {
             } 
         );
 
-        this.resetEndpoint();
+        this.reset();
 
     },
 
