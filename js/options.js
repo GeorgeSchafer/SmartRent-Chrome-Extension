@@ -84,9 +84,9 @@ const fns = {
         }
     },
 
-    login(){
+    async login(){
 
-        smart_rent_api.session(els.emailInput.value, els.passwordInput.value)
+        await smart_rent_api.session(els.emailInput.value, els.passwordInput.value)
             .then( response => {
                 if(response.status === 201){
                     login.user_id = response.user_id;

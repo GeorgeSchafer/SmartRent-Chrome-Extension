@@ -52,7 +52,7 @@ export const SmartRentAPI = {
             "password": password 
         });
 
-        options.headers['Content-Length'] = options.body.length; // JSON.stringify(options.body).length;
+        options.headers['Content-Length'] = options.body.length;
 
         await fetch(url.base+url.endpoint, options)
             .then( (response) => {
