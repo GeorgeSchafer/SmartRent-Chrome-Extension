@@ -30,18 +30,18 @@ export class SmartRentAPI {
         
     }
 
-    resetEndpoint(){
+    #resetEndpoint(){
         this.#url.endpoint = null;
     }
 
-    resetOptions() {
+    #resetOptions() {
         this.#options.method = null;
         this.#options.body = null;
     }
 
-    reset(){
-        this.resetEndpoint();
-        this.resetOptions();
+    #reset(){
+        this.#resetEndpoint();
+        this.#resetOptions();
     }
 
     deliveryCode(){
@@ -51,7 +51,6 @@ export class SmartRentAPI {
     async session(email, password){
 
         this.#url.endpoint = '/api/v1/sessions';
-
         this.#options.method = 'POST';
         this.#options.body = JSON.stringify({ 
             "email": email, 
@@ -60,20 +59,24 @@ export class SmartRentAPI {
 
         this.#options.headers['Content-Length'] = this.#options.body.length;
 
-        await fetch(this.#url.base+this.#url.endpoint, options)
+        await fetch(this.#url.base+this.#url.endpoint, this.#options)
             .then( (response) => {
                 const text = response.text();
-                return { body: text, status: response.status}
+                return { body: text, status: response.status }
             } )
             .then( (response) => {
+                let r;
                 console.log('response is:' , response);
-                const r = JSON.parse(response.body);
+                response.body( (body)=> {
+                    
+                } );
+                console.log('r is:' , r);
                 r = r.data;
                 r.status = response.status;
                 return r;
             } );
         
-        this.reset();
+        this.#reset();
     }
 
     /**
