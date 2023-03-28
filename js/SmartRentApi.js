@@ -5,7 +5,8 @@ import { user } from './common.js'
 
 export class SmartRentAPI {
 
-
+    #url;
+    #options;
 
     constructor(){
         this.#url = {
@@ -21,7 +22,7 @@ export class SmartRentAPI {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJTbWFydFJlbnQiLCJleHAiOjE2Nzk5NDEwNjUsImlhdCI6MTY3OTk0MDE2NSwiaXNzIjoiU21hcnRSZW50IiwianRpIjoiMTY1N2MxNjUtNjQwOC00ZDE5LTk3NzktZDAzOTNkOTcxM2EyIiwibmJmIjoxNjc5OTQwMTY0LCJzdWIiOiJVc2VyOjE4NjE2IiwidHlwIjoiYWNjZXNzIn0._xymzJRIZabw9nLlVLlFtg8JpBZz_gdG0QC3Jb2dqDbDN-XeIMaZQGK-QPEaG1c7ZHoVktIq72hGUDxm-rlgEw`,
                 'Content-Length': 'calculated in method',
-                'Host': url.host,
+                'Host': url.#host,
                 'Connection': 'keep-alive'
             },
             "body": null
@@ -30,7 +31,7 @@ export class SmartRentAPI {
     }
 
     resetEndpoint(){
-        url.endpoint = null;
+        url.#endpoint = null;
     }
 
     resetOptions() {
@@ -49,7 +50,7 @@ export class SmartRentAPI {
 
     async session(email, password){
 
-        url.endpoint = '/api/v1/sessions';
+        url.#endpoint = '/api/v1/sessions';
 
         options.method = 'POST';
         options.body = JSON.stringify({ 
@@ -59,7 +60,7 @@ export class SmartRentAPI {
 
         options.headers['Content-Length'] = options.body.length;
 
-        await fetch(url.base+url.endpoint, options)
+        await fetch(url.#base+url.#endpoint, options)
             .then( (response) => {
                 const text = response.text();
                 return { body: text, status: response.status}
@@ -85,9 +86,9 @@ export class SmartRentAPI {
     getUnits(){
     /** @todo ready for testing */
 
-        url.endpoint = '/api/v2/units';
+        url.#endpoint = '/api/v2/units';
 
-        fetch(url.base+url.endpoint)
+        fetch(url.#base+url.#endpoint)
             .then( (r) => {
                 r = r.records.JSON();
                 user.units = r;
@@ -100,9 +101,9 @@ export class SmartRentAPI {
     /**
      * @todo ready for testing
      */
-        url.endpoint = '/api/v3/units/:unit_id/devices';
+        url.#endpoint = '/api/v3/units/:unit_id/devices';
 
-        fetch(url.base+url.endpoint)
+        fetch(url.#base+url.#endpoint)
             .then( (r) => {
                 r = r.json();
                 user.devices = r;
