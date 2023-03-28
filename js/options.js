@@ -1,7 +1,7 @@
-import { SmartRentAPI as smart_rent_api } from './SmartRentApi.js';
+import { SmartRentAPI } from './SmartRentApi.js';
 import { common, user } from './common.js'
 
-
+const srapi = new SmartRentAPI();
 
 const fns = {
     load(){
@@ -86,7 +86,7 @@ const fns = {
 
     async login(){
 
-        await smart_rent_api.session(els.emailInput.value, els.passwordInput.value)
+        await srapi.session(els.emailInput.value, els.passwordInput.value)
             .then( response => {
                 if(response.status == 201){
                     login.user_id = response.user_id;
@@ -244,7 +244,7 @@ listeners.push( document.addEventListener('DOMContentLoaded', fns.restore_option
 
 
 
-listeners.push( els.loginbtn.addEventListener('click', (e) => { e.preventDefault(); fns.login();} ));
+listeners.push( els.loginbtn.addEventListener('click', async (e) => { e.preventDefault(); await fns.login();} ));
 listeners.push( els.save.addEventListener('click',(e) => { e.preventDefault(); fns.save_options(); } ));
 
 
