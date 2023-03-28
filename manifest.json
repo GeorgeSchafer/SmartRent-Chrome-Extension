@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "SmartRent",
   "description": "A smart device dashboard for Chrome",
-  "version": "1.0",
+  "version": "0.0.1",
   "action": {
     "default_popup": "./devices.html",
     "default_icon": "./images/smartrent.png"
