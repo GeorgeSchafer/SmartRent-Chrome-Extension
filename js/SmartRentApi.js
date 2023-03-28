@@ -3,44 +3,49 @@ import { user } from './common.js'
 
 
 
-const url = {
-    base: 'https://control.smartrent-qa.com',
-    endpoint: null,
-    host: 'control.smartrent-qa.com'
-};
+export class SmartRentAPI {
 
-const options = {
-    "method": null,
-    "headers": {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJTbWFydFJlbnQiLCJleHAiOjE2Nzk5NDEwNjUsImlhdCI6MTY3OTk0MDE2NSwiaXNzIjoiU21hcnRSZW50IiwianRpIjoiMTY1N2MxNjUtNjQwOC00ZDE5LTk3NzktZDAzOTNkOTcxM2EyIiwibmJmIjoxNjc5OTQwMTY0LCJzdWIiOiJVc2VyOjE4NjE2IiwidHlwIjoiYWNjZXNzIn0._xymzJRIZabw9nLlVLlFtg8JpBZz_gdG0QC3Jb2dqDbDN-XeIMaZQGK-QPEaG1c7ZHoVktIq72hGUDxm-rlgEw`,
-        'Content-Length': 'calculated in method',
-        'Host': url.host,
-        'Connection': 'keep-alive'
-    },
-    "body": null
-};
 
-export const SmartRentAPI = {
-    
+
+    constructor(){
+        this.#url = {
+            base: 'https://control.smartrent-qa.com',
+            endpoint: null,
+            host: 'control.smartrent-qa.com'
+        };
+        
+        this.#options = {
+            "method": null,
+            "headers": {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJTbWFydFJlbnQiLCJleHAiOjE2Nzk5NDEwNjUsImlhdCI6MTY3OTk0MDE2NSwiaXNzIjoiU21hcnRSZW50IiwianRpIjoiMTY1N2MxNjUtNjQwOC00ZDE5LTk3NzktZDAzOTNkOTcxM2EyIiwibmJmIjoxNjc5OTQwMTY0LCJzdWIiOiJVc2VyOjE4NjE2IiwidHlwIjoiYWNjZXNzIn0._xymzJRIZabw9nLlVLlFtg8JpBZz_gdG0QC3Jb2dqDbDN-XeIMaZQGK-QPEaG1c7ZHoVktIq72hGUDxm-rlgEw`,
+                'Content-Length': 'calculated in method',
+                'Host': url.host,
+                'Connection': 'keep-alive'
+            },
+            "body": null
+        };        
+        
+    }
+
     resetEndpoint(){
         url.endpoint = null;
-    },
+    }
 
     resetOptions() {
         options.method = null;
         options.body = null;
-    },
+    }
 
     reset(){
         this.resetEndpoint();
         this.resetOptions();
-    },
+    }
 
     deliveryCode(){
         return {code: 121212, type: 'delivery'};
-    },
+    }
 
     async session(email, password){
 
@@ -68,7 +73,7 @@ export const SmartRentAPI = {
             } );
         
         this.reset();
-    },
+    }
 
     /**
     *  sessionFail(){
@@ -89,7 +94,7 @@ export const SmartRentAPI = {
             });
         
         this.reset();
-    },
+    }
 
     getDevices(user_id){
     /**
@@ -106,7 +111,7 @@ export const SmartRentAPI = {
 
         this.reset();
 
-    },
+    }
 
     getDemoDevices(){
 
