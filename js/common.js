@@ -8,6 +8,18 @@ export const user = {
          */
             dark: true 
     }, 
+
+    profile: {
+        /**
+         * "email": { "type": "string" },
+         * "first_name": { "type": "string" },
+         * "id": { "type": "number" },
+         * "last_name": { "type": "string" },
+         * "mobile_phone": { "type": "string" },
+         * "tos_accepted_at": { "type": "string" },
+         * "user_needs_to_accept_tos": { "type": "boolean" }*/
+    },
+
     session: {
     /**
         "access_token": {type: string}},

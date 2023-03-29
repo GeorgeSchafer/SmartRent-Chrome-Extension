@@ -87,11 +87,8 @@ const fns = {
     async login(){
 
         await srapi.session(els.emailInput.value, els.passwordInput.value)
-            .then( response => {
-                if(response.status == 201){
-                    login.user_id = response.user_id;
-                    login.access_token = response.access_token;
-                    login.first_name = response.first_name;
+            .then( (status) => {
+                if(status == 201){
         
                     this.removeLoginChilds();
         
@@ -106,7 +103,7 @@ const fns = {
                     this.removeLoginChilds();
                     els.perror = document.createElement('p');
                     els.perror.classList.add('p-error');
-                    els.perror.innerHTML = els.perror;
+                    els.perror.textContent = 'Login error: invalid email or password.';
                     els.login.appendChild(els.perror);
         
                     setTimeout(() => {
