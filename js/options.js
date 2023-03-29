@@ -94,7 +94,6 @@ const fns = {
 
                     els.greeting = document.createElement('p'); // document.createElement('div');
                     els.greeting.id = 'greeting';
-                    console.log('user.profile is:', user.profile)
                     els.greeting.textContent = `Welcome ${user.profile.first_name}`;
                     els.login.appendChild(els.greeting);
         
@@ -113,37 +112,7 @@ const fns = {
                     } ,2000)
                 }
             } );
-        // @todo fix Smart_rent_api.session call.
-        // const response = smart_rent_api.session(els.emailInput.value, els.passwordInput.value);
-        // console.log('response is: ', response);
 
-        // if(response.status === 201){
-        //     login.user_id = response.user_id;
-        //     login.access_token = response.access_token;
-        //     login.first_name = response.first_name;
-
-        //     this.removeLoginChilds();
-
-        //     els.greeting = document.createElement('p'); // document.createElement('div');
-        //     els.greeting.id = 'greeting';
-        //     els.greeting.textContent = `Welcome ${login.first_name}`;
-        //     els.login.appendChild(els.greeting);
-        //     // els.login.appendChild(fns.createUnitPicker());
-
-        // } else {
-            
-        //     this.removeLoginChilds();
-        //     els.perror = document.createElement('p');
-        //     els.perror.classList.add('p-error');
-        //     els.perror.innerHTML = els.perror;
-        //     els.login.appendChild(els.perror);
-
-        //     setTimeout(() => {
-        //         els.perror.remove();
-        //         fns.createLoginInputs();
-        //         listeners.push( els.loginbtn.addEventListener('click', () => { fns.login();} ));
-        //     } ,2000)
-        // }
     },
     
     removeLoginChilds(){

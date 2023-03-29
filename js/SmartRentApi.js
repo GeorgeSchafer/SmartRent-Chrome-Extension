@@ -48,14 +48,29 @@ export class SmartRentAPI {
         return {code: 121212, type: 'delivery'};
     }
 
+    #setupRequest(endpoint, method, bodyObj){
+        this.#url.endpoint = endpoint;
+        this.#options.method = method;
+        this.#options.Authorization = `Bearer ${user.session.access_token}`;
+
+        if (bodyObj == null) {
+            delete this.#options.body;
+        } else if( typeof(bodyObj) == 'string' ){
+            this.#options.body = bodyObj;
+        } else {
+            throw new Error('Invalid Argument Exception:\n' +
+                            'body must be an string or null');
+        }
+    }
+
     async session(email, password){
 
-        this.#url.endpoint = '/api/v1/sessions';
-        this.#options.method = 'POST';
-        this.#options.body = JSON.stringify({ 
+        const body = { 
             "email": email, 
             "password": password 
-        });
+        };
+
+        this.#setupRequest('/api/v1/sessions','POST', JSON.stringify(body));
 
         this.#options.headers['Content-Length'] = this.#options.body.length;
 
@@ -70,7 +85,7 @@ export class SmartRentAPI {
                 return response.status ;
             } );
         
-        await this.#getProfile();        
+        await this.#getProfile();
         this.#reset();
 
         return result;
@@ -86,9 +101,7 @@ export class SmartRentAPI {
     /**
      * @todo finish
      */
-        this.#url.endpoint = '/api/v1/users/me';
-        this.#options.method = 'GET';
-        this.#options.body = null;
+        this.#setupRequest('/api/v1/users/me','GET', null);
 
         await fetch(this.#url.base + this.#url.endpoint, this.#options)
             .then( async (response) => {
@@ -102,15 +115,18 @@ export class SmartRentAPI {
     }
 
 
-    getUnits(){
-    /** @todo ready for testing */
+    async getUnits(){
+    /** @todo finish */
 
-        this.#url.endpoint = '/api/v2/units';
+        this.#setupRequest('/api/v2/units', 'GET', null);
 
-        fetch(this.#url.base+this.#url.endpoint)
-            .then( (r) => {
-                r = r.records.JSON();
-                user.units = r;
+        await fetch(this.#url.base+this.#url.endpoint, this.#options)
+            .then( async (response) => {
+                await response.json()
+                    .then( (response) => {
+                        console.log(response);
+                        user.units = response.records
+                    } );
             });
         
         this.reset();
@@ -118,7 +134,7 @@ export class SmartRentAPI {
 
     getDevices(user_id){
     /**
-     * @todo ready for testing
+     * @todo finish
      */
         this.#url.endpoint = '/api/v3/units/:unit_id/devices';
 

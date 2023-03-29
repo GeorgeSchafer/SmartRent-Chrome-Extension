@@ -1,9 +1,10 @@
-import { SmartRentAPI as srapi } from './SmartRentApi.js';
+import { SmartRentAPI } from './SmartRentApi.js';
 import { DeliveryCode } from './codeClass.js';
 import { Lock, Binary_Switch}  from './deviceClass.js'
 import { common, user } from './common.js'
 
 
+const srapi = new SmartRentAPI();
 
 /**
  * @summary fns (functions) object literal stores functions for the sake of 
@@ -18,19 +19,23 @@ const fns = {
      * display and allow manipulation. 
      */
     load(){
-        
-        if( user.devices != null ) {
 
-            srdevices.forEach( (device) => {
+        if( user.units != null ) {
+
+            srapi.getUnits();
+
+            els.unitPicker = this.createUnitPicker();
+
+            user.devices.forEach( (device) => {
                 if(device.type == 'entry_control'){
-                      const lock = new Lock(device);
-                      const name = lock.name;
+                    const lock = new Lock(device);
+                    const name = lock.name;
 
-                      devices[`${name}`] = lock;
-                      els[`${name}`] = lock.device_wrapper;
-                      els.devices.appendChild(els[`${name}`]);
-                      listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
-                  } else if ( device.type == 'binary_switch' ){
+                    devices[`${name}`] = lock;
+                    els[`${name}`] = lock.device_wrapper;
+                    els.devices.appendChild(els[`${name}`]);
+                    listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
+                } else if ( device.type == 'binary_switch' ){
                       const binary_switch = new Binary_Switch(device);
                       const name = binary_switch.name;
 
@@ -47,17 +52,44 @@ const fns = {
         } else {
 
           // redirect to options
-          els.meta = document.createElement('meta');
-          els.meta.httpEquiv = 'Refresh';
-          els.meta.content='0; URL=./options.html';
-          document.querySelector('head').appendChild(els.meta);
+            els.meta = document.createElement('meta');
+            els.meta.httpEquiv = 'Refresh';
+            els.meta.content='0; URL=./options.html';
+            document.querySelector('head').appendChild(els.meta);
 
         }
     },
 
     createListeners(element){
-      listeners.push(element.icon.addEventListener('click'));
-    }
+        listeners.push(element.icon.addEventListener('click'));
+    },
+
+
+
+    createUnitPicker(){
+    /**
+     * @todo 
+     *  Write fns.createUnitPicker()
+     *      Should be an input.type="select".
+     *      After selecting the unit, the unit devices should be saved to common.js > user.devices
+     */
+    
+            els.unitPicker = document.createElement('input');
+            els.unitPicker.type = 'select';
+            els.unitPicker.classList.add('selector');
+            fns.createOption('', 'Select a unit' );
+            user.units.forEach( unit => {
+                els.unitPicker.appendChild(createOption(unit.id, `${unit.marketing_name}, ${unit.group.marketing_name}`));
+            } );
+    
+        },
+    
+        createOption(value, text){
+            const option = document.createElement('option');
+            option.value = value;
+            option.innerText = text;
+            els.unitPicker.appendChild(option);
+        }
   
 };
 
@@ -68,7 +100,9 @@ const fns = {
  */
 const els = {
     devices: document.querySelector('.devices'),
-    refresh: document.querySelector('header')
+    refresh: document.querySelector('header'),
+    unitPicker: null,
+
 };
 
 /**

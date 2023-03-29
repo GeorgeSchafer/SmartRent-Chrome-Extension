@@ -3,29 +3,26 @@ export const user = {
     pref: { 
         /** 
          * @todo : add references to preferences from options.js
-         * "dark": {type: boolean}
          * 
          */
             dark: true 
     }, 
 
     profile: {
-        /**
-         * "email": { "type": "string" },
-         * "first_name": { "type": "string" },
-         * "id": { "type": "number" },
-         * "last_name": { "type": "string" },
-         * "mobile_phone": { "type": "string" },
-         * "tos_accepted_at": { "type": "string" },
-         * "user_needs_to_accept_tos": { "type": "boolean" }*/
+        email: null,
+        first_name: null,
+        id: null,
+        last_name: null,
+        mobile_phone: null,
+        tos_accepted_at: null,
+        user_needs_to_accept_tos: null
     },
 
     session: {
-    /**
-        "access_token": {type: string}},
-        "expires": {type: number},
-        "refresh_token": {type: string},
-        "user_id": {type: number} */
+        access_token: null,
+        expires: null,
+        refresh_token: null,
+        user_id: null
     },
     
     units: {
