@@ -59,24 +59,22 @@ export class SmartRentAPI {
 
         this.#options.headers['Content-Length'] = this.#options.body.length;
 
-        await fetch(this.#url.base+this.#url.endpoint, this.#options)
-            .then( (response) => {
-                const text = response.text();
-                return { body: text, status: response.status }
-            } )
-            .then( (response) => {
-                let r;
-                console.log('response is:' , response);
-                response.body( (body)=> {
-                    
-                } );
-                console.log('r is:' , r);
-                r = r.data;
-                r.status = response.status;
-                return r;
+        const result = await fetch(this.#url.base+this.#url.endpoint, this.#options)
+            .then( async (response) => {
+                await response.json()
+                    .then( async (body) => {
+                        user.session = await body.data;
+                        this.#options.headers.Authorization = `Bearer ${body.data.access_token}`;
+                    } );
+
+                return response.status ;
             } );
         
+        this.#getProfile();
+        
         this.#reset();
+
+        return result;
     }
 
     /**
@@ -84,6 +82,25 @@ export class SmartRentAPI {
     *  @todo created a fail mock {endpoint: response} in Postman
     *  },
     */
+
+    async #getProfile(){ // has to be called within session
+    /**
+     * @todo finish
+     */
+        this.#url.endpoint = '/api/v1/users/me';
+        this.#options.method = 'GET';
+        this.#options.body = null;
+
+        await fetch(this.#url.base + this.#url.endpoint, this.#options)
+            .then( async (response) => {
+                await response.json()
+                    .then( async (body) => {
+                        body = await body;
+                        user.profile = body;
+                    } )
+            } );
+
+    }
 
 
     getUnits(){
