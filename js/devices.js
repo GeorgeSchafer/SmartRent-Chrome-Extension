@@ -22,6 +22,7 @@ const fns = {
 
         if( user.units != null ) {
 
+            console.log('access_token is:', user.session.access_token)
             srapi.getUnits();
 
             els.unitPicker = this.createUnitPicker();

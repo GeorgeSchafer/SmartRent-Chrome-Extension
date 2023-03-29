@@ -20,7 +20,7 @@ export class SmartRentAPI {
             "headers": {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJTbWFydFJlbnQiLCJleHAiOjE2Nzk5NDEwNjUsImlhdCI6MTY3OTk0MDE2NSwiaXNzIjoiU21hcnRSZW50IiwianRpIjoiMTY1N2MxNjUtNjQwOC00ZDE5LTk3NzktZDAzOTNkOTcxM2EyIiwibmJmIjoxNjc5OTQwMTY0LCJzdWIiOiJVc2VyOjE4NjE2IiwidHlwIjoiYWNjZXNzIn0._xymzJRIZabw9nLlVLlFtg8JpBZz_gdG0QC3Jb2dqDbDN-XeIMaZQGK-QPEaG1c7ZHoVktIq72hGUDxm-rlgEw`,
+                'Authorization': `Bearer `,
                 'Content-Length': 'calculated in method',
                 'Host': this.#url.host,
                 'Connection': 'keep-alive'
@@ -65,12 +65,12 @@ export class SmartRentAPI {
 
     async session(email, password){
 
-        const body = { 
+        const body = JSON.stringify({ 
             "email": email, 
             "password": password 
-        };
+        });
 
-        this.#setupRequest('/api/v1/sessions','POST', JSON.stringify(body));
+        this.#setupRequest('/api/v1/sessions','POST', body);
 
         this.#options.headers['Content-Length'] = this.#options.body.length;
 
@@ -112,6 +112,8 @@ export class SmartRentAPI {
                     } )
             } );
 
+
+        this.#reset();
     }
 
 
@@ -129,14 +131,14 @@ export class SmartRentAPI {
                     } );
             });
         
-        this.reset();
+        this.#reset();
     }
 
-    getDevices(user_id){
+    getDevices(unit_id){
     /**
      * @todo finish
      */
-        this.#url.endpoint = '/api/v3/units/:unit_id/devices';
+        this.#url.endpoint = `/api/v3/units/${unit_id}/devices`;
 
         fetch(this.#url.base+this.#url.endpoint)
             .then( (r) => {
