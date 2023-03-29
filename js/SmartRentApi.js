@@ -70,8 +70,7 @@ export class SmartRentAPI {
                 return response.status ;
             } );
         
-        this.#getProfile();
-        
+        await this.#getProfile();        
         this.#reset();
 
         return result;

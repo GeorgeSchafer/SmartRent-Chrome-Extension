@@ -89,14 +89,14 @@ const fns = {
         await srapi.session(els.emailInput.value, els.passwordInput.value)
             .then( (status) => {
                 if(status == 201){
-        
+
                     this.removeLoginChilds();
-        
+
                     els.greeting = document.createElement('p'); // document.createElement('div');
                     els.greeting.id = 'greeting';
-                    els.greeting.textContent = `Welcome ${login.first_name}`;
+                    console.log('user.profile is:', user.profile)
+                    els.greeting.textContent = `Welcome ${user.profile.first_name}`;
                     els.login.appendChild(els.greeting);
-                    // els.login.appendChild(fns.createUnitPicker());
         
                 } else {
                     
@@ -150,31 +150,6 @@ const fns = {
         els.login.querySelector('label').remove();
         els.login.querySelector('label').remove();
         els.loginbtn.remove();
-    },
-
-    createUnitPicker(){
-    /**
-     * @todo 
-     *  Write fns.createUnitPicker()
-     *      Should be an input.type="select".
-     *      After selecting the unit, the unit devices should be saved to common.js > user.devices
-     */
-
-        els.unitPicker = document.createElement('input');
-        els.unitPicker.type = 'select';
-        els.unitPicker.classList.add('selector');
-        fns.createOption('', 'Select a unit' );
-        user.units.forEach( unit => {
-            els.unitPicker.appendChild(createOption(unit.id, `${unit.marketing_name}, ${unit.group.marketing_name}`));
-        } );
-
-    },
-
-    createOption(value, text){
-        const option = document.createElement('option');
-        option.value = value;
-        option.innerText = text;
-        els.unitPicker.appendChild(option);
     },
 
     save_options(){
