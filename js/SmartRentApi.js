@@ -120,7 +120,6 @@ export class SmartRentAPI {
         this.#reset();
     }
 
-
     async getUnits(){
     /** @todo finishing */
 
@@ -133,8 +132,6 @@ export class SmartRentAPI {
                         user.units = response.records
                     } );
             });
-
-        this.#storeUser();
             
         this.#reset();
     }
@@ -175,6 +172,7 @@ export class SmartRentAPI {
             user.session = result.session;
             user.profile = result.profile;
             user.units = result.units;
+            user.devices = result.devices;
         });
     }
 
