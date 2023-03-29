@@ -1,7 +1,9 @@
 
 import { user } from './common.js'
 
-
+// resetting user.session to start from the beginning
+// user.session = {};
+// user.session.Authorization = 'Bearer ';
 
 export class SmartRentAPI {
 
@@ -16,8 +18,8 @@ export class SmartRentAPI {
         };
         
         this.#options = {
-            "method": null,
-            "headers": {
+            'method': null,
+            'headers': {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer `,
@@ -25,7 +27,7 @@ export class SmartRentAPI {
                 'Host': this.#url.host,
                 'Connection': 'keep-alive'
             },
-            "body": null
+            'body': null
         };        
         
     }
@@ -66,8 +68,8 @@ export class SmartRentAPI {
     async session(email, password){
 
         const body = JSON.stringify({ 
-            "email": email, 
-            "password": password 
+            'email': email, 
+            'password': password 
         });
 
         this.#setupRequest('/api/v1/sessions','POST', body);
@@ -86,6 +88,9 @@ export class SmartRentAPI {
             } );
         
         await this.#getProfile();
+        await this.getUnits();
+        await this.#storeUser();
+
         this.#reset();
 
         return result;
@@ -112,13 +117,12 @@ export class SmartRentAPI {
                     } )
             } );
 
-
         this.#reset();
     }
 
 
     async getUnits(){
-    /** @todo finish */
+    /** @todo finishing */
 
         this.#setupRequest('/api/v2/units', 'GET', null);
 
@@ -126,11 +130,12 @@ export class SmartRentAPI {
             .then( async (response) => {
                 await response.json()
                     .then( (response) => {
-                        console.log(response);
                         user.units = response.records
                     } );
             });
-        
+
+        this.#storeUser();
+            
         this.#reset();
     }
 
@@ -143,12 +148,34 @@ export class SmartRentAPI {
         fetch(this.#url.base+this.#url.endpoint)
             .then( (r) => {
                 r = r.json();
-                user.devices = r;
-            } 
+                user.devices = r.records;
+            }
         );
 
-        this.reset();
+        this.#storeUser();
 
+        this.#reset();
+
+    }
+
+    async #storeUser(){
+
+        await chrome.storage.session.set({ 'user': user })  
+            .then( () => {
+                console.log('user data stored:', user);
+            } );
+    }
+
+    async loadUser(){
+    /** @todo write this */
+        chrome.storage.session.get(["user"]).then((result) => {
+            // result = result.user;
+            console.log('result is:', result)
+            user.pref = result.pref;
+            user.session = result.session;
+            user.profile = result.profile;
+            user.units = result.units;
+        });
     }
 
     getDemoDevices(){
@@ -163,9 +190,9 @@ export class SmartRentAPI {
         if (toggled){
             return [
                 {
-                    type: "entry_control",
+                    type: 'entry_control',
                     is_locked: false,
-                    name: "Front Door"
+                    name: 'Front Door'
                 },
                 {
                     type: 'binary_switch',
@@ -178,18 +205,18 @@ export class SmartRentAPI {
                     name: 'Kitchen'
                 },
                 {
-                    type: "entry_control",
+                    type: 'entry_control',
                     is_locked: false,
-                    name: "Bedroom"
+                    name: 'Bedroom'
                 }
             ];  
 
         } else {
             return [
                 {
-                    type: "entry_control",
+                    type: 'entry_control',
                     is_locked: true,
-                    name: "Front Door"
+                    name: 'Front Door'
                 },
                 {
                     type: 'binary_switch',
@@ -202,9 +229,9 @@ export class SmartRentAPI {
                     name: 'Kitchen'
                 },
                 {
-                    type: "entry_control",
+                    type: 'entry_control',
                     is_locked: true,
-                    name: "Bedroom"
+                    name: 'Bedroom'
                 }
             ];    
         }

@@ -3,11 +3,11 @@ export const user = {
  * @todo Store this data in chrome.storage.session
  */
     pref: { 
-        /** 
-         * @todo : add references to preferences from options.js
-         * 
-         */
-            dark: true 
+    /** 
+     * @todo : add references to preferences from options.js
+     * 
+     */
+        dark: true
     }, 
 
     profile: {
@@ -27,16 +27,15 @@ export const user = {
         user_id: null
     },
     
-    units: {
-        /** 
-         * {} */
-    },
+    units: [],
 
 
-    devices: null
-        /**
-         * @todo : Add listDevices 
-         */
+    devices: [
+    /**
+     * @todo add listDevices 
+     */
+
+    ]
 }
 
 export const common = {

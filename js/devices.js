@@ -20,10 +20,11 @@ const fns = {
      */
     load(){
 
-        if( user.units != null ) {
+        srapi.loadUser();
+
+        if( user.units.length != 0 ) {
 
             console.log('access_token is:', user.session.access_token)
-            srapi.getUnits();
 
             els.unitPicker = this.createUnitPicker();
 
@@ -67,7 +68,7 @@ const fns = {
 
 
 
-    createUnitPicker(){
+    async createUnitPicker(){
     /**
      * @todo 
      *  Write fns.createUnitPicker()
