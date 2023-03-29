@@ -1,5 +1,7 @@
 export const user = {
-
+/**
+ * @todo Store this data in chrome.storage.session
+ */
     pref: { 
         /** 
          * @todo : add references to preferences from options.js
@@ -35,12 +37,12 @@ export const user = {
         /**
          * @todo : Add listDevices 
          */
- }
+}
 
 export const common = {
 
     load(){
-    
+
     },
     
     darkMode(){
