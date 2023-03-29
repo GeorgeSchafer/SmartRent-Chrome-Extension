@@ -1,7 +1,7 @@
 import { SmartRentAPI } from './SmartRentApi.js';
 import { DeliveryCode } from './codeClass.js';
 import { Lock, Binary_Switch}  from './deviceClass.js'
-import { common, user } from './common.js'
+import { user } from './common.js'
 
 
 const srapi = new SmartRentAPI();
