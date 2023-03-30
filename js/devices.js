@@ -14,44 +14,24 @@ const fns = {
  * @author George Schafer
  */
 
-    load(){
+    async load(){
     /**
      * @function load() is run as soon as the page loads. It seeks out 
      * the devices in the Resident's unit and creates elements to
      * display and allow manipulation. 
      */
-        if( user.session.access_token == null){
-            srapi.loadUser();
-            console.log('user is', user)
-        }
 
+    
+        const loadedUser = await srapi.loadUser();
+        user.pref = loadedUser.pref;
+        user.session = loadedUser.session;
+        user.profile = loadedUser.profile;
+        user.units = loadedUser.units;
+        user.devices = [];
 
-        if( user?.units.length != 0 ) {
-            srapi.loadUser();
+        if( user.units?.length != 0 ) {
 
-            console.log('access_token is:', user.session.access_token)
-
-            els.unitPicker = this.createUnitPicker();
-
-            user.devices.forEach( (device) => {
-                if(device.type == 'entry_control'){
-                    const lock = new Lock(device);
-                    const name = lock.name;
-
-                    devices[`${name}`] = lock;
-                    els[`${name}`] = lock.device_wrapper;
-                    els.devices.appendChild(els[`${name}`]);
-                    listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
-                } else if ( device.type == 'binary_switch' ){
-                      const binary_switch = new Binary_Switch(device);
-                      const name = binary_switch.name;
-
-                      devices[`${name}`] = binary_switch;
-                      els[`${devices[`${name}`].name}`] = binary_switch.device_wrapper;
-                      els.devices.appendChild(els[`${devices[`${name}`].name}`]);
-                      listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
-                }
-            } );
+            this.createUnitPicker();
 
             els.delivery = code.delivery.code_wrapper;
             els.devices.appendChild(els.delivery);
@@ -67,13 +47,13 @@ const fns = {
         }
     },
 
-    createListeners(element){
+    createDeviceListeners(element){
         listeners.push(element.icon.addEventListener('click'));
     },
 
 
 
-    async createUnitPicker(){
+    createUnitPicker(){
     /**
      * @todo 
      *  Write fns.createUnitPicker()
@@ -81,22 +61,52 @@ const fns = {
      *      After selecting the unit, the unit devices should be saved to common.js > user.devices
      */
     
-            els.unitPicker = document.createElement('input');
-            els.unitPicker.type = 'select';
-            els.unitPicker.classList.add('selector');
-            fns.createOption('', 'Select a unit' );
-            user.units.forEach( unit => {
-                els.unitPicker.appendChild(createOption(unit.id, `${unit.marketing_name}, ${unit.group.marketing_name}`));
-            } );
+        els.unitPicker = document.createElement('select');
+        els.unitPicker.classList.add('selector');
+        fns.createOption('', 'Select a unit' );
+        user.units.forEach( unit => {
+            const option = fns.createOption(unit.id, `${unit.marketing_name}, ${unit.group.marketing_name}`);
+        } );
+        els.devices.appendChild(els.unitPicker);
+        listeners.push(els.unitPicker.addEventListener('change', (value) => { this.loadUnitDevices(value) }));
+
+    },
     
-        },
-    
-        createOption(value, text){
-            const option = document.createElement('option');
-            option.value = value;
-            option.innerText = text;
-            els.unitPicker.appendChild(option);
-        }
+    createOption(value, text){
+        const option = document.createElement('option');
+        option.value = value;
+        option.innerText = text;
+        els.unitPicker.appendChild(option);
+    },
+
+    async loadUnitDevices(unit_id){
+        
+        srapi.getDevices(unit_id);
+
+        user.devices = await srapi.loadUser().devices;
+
+        console.log('This unit has these devices:', user.devices)
+
+        user.devices.forEach( (device) => {
+            if(device.type == 'entry_control'){
+                const lock = new Lock(device);
+                const name = lock.name;
+
+                devices[`${name}`] = lock;
+                els[`${name}`] = lock.device_wrapper;
+                els.devices.appendChild(els[`${name}`]);
+                listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
+            } else if ( device.type == 'binary_switch' ){
+                  const binary_switch = new Binary_Switch(device);
+                  const name = binary_switch.name;
+
+                  devices[`${name}`] = binary_switch;
+                  els[`${devices[`${name}`].name}`] = binary_switch.device_wrapper;
+                  els.devices.appendChild(els[`${devices[`${name}`].name}`]);
+                  listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
+            }
+        } );        
+    }
   
 };
 

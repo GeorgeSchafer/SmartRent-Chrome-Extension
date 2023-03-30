@@ -137,20 +137,22 @@ export class SmartRentAPI {
         this.#reset();
     }
 
-    getDevices(unit_id){
+    async getDevices(unit_id){
     /**
      * @todo finish
      */
-        this.#url.endpoint = `/api/v3/units/${unit_id}/devices`;
 
-        fetch(this.#url.base+this.#url.endpoint)
+        this.#updateOptions(`/api/v3/units/${unit_id}/devices`, 'GET', null);
+
+        await fetch(this.#url.base+this.#url.endpoint, this.#options)
             .then( (r) => {
                 r = r.json();
-                user.devices = r.records;
+                r = r.records;
+                user.devices = r;
             }
         );
 
-        this.#storeUser();
+        await this.#storeUser();
 
         this.#reset();
 
@@ -159,9 +161,9 @@ export class SmartRentAPI {
     async #storeUser(){
 
         await chrome.storage.local.set({ 'user': user })  
-            .then( () => {
-                console.log('user data stored:', user);
-            } )
+            // .then( () => {
+            //     console.log('user data stored:', user);
+            // } )
             .catch(err => alert(err));
 
     }
@@ -170,20 +172,20 @@ export class SmartRentAPI {
     /** @todo write this */
     // await chrome.storage.local.get(["key"]).then((result) => {
     //      console.log("Value currently is " + result.key);
-    // }); // from Chrome documentation -- still not working!!!
+    // }); // from Chrome documentation -- yay it is working finally~
 
-        await chrome.storage.local.get(["user"]).
+        const result = await chrome.storage.local.get(["user"]).
             then((result) => {
-                result = result.user;
-                console.log('user data retrieved', result);
-                user.pref = result.pref;
-                user.session = result.session;
-                user.profile = result.profile;
-                user.units = result.units;
-                user.devices = result.devices;
-                console.log('user is set to:', user)
+                return result.user;
+                // user.pref = result.pref;
+                // user.session = result.session;
+                // user.profile = result.profile;
+                // user.units = result.units;
+                // user.devices = result.devices;
             })
             .catch(err => {alert(err)});
+
+        return result;
     }
 
     // getDemoDevices(){ // used for pre-api hookup
