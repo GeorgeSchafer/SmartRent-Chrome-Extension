@@ -6,23 +6,28 @@ import { user } from './common.js'
 
 const srapi = new SmartRentAPI();
 
+
+const fns = {
 /**
  * @summary fns (functions) object literal stores functions for the sake of 
  * organization.
  * @author George Schafer
  */
-const fns = {
-  
+
+    load(){
     /**
      * @function load() is run as soon as the page loads. It seeks out 
      * the devices in the Resident's unit and creates elements to
      * display and allow manipulation. 
      */
-    load(){
+        if( user.session.access_token == null){
+            srapi.loadUser();
+            console.log('user is', user)
+        }
 
-        // srapi.loadUser();
 
-        if( user.units.length != 0 ) {
+        if( user?.units.length != 0 ) {
+            srapi.loadUser();
 
             console.log('access_token is:', user.session.access_token)
 
@@ -53,7 +58,7 @@ const fns = {
 
         } else {
 
-          // redirect to options
+         // redirect to options
             els.meta = document.createElement('meta');
             els.meta.httpEquiv = 'Refresh';
             els.meta.content='0; URL=./options.html';
@@ -104,6 +109,7 @@ const els = {
     devices: document.querySelector('.devices'),
     refresh: document.querySelector('header'),
     unitPicker: null,
+    meta: null
 
 };
 

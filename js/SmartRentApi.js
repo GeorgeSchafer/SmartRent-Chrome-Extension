@@ -169,19 +169,19 @@ export class SmartRentAPI {
     async loadUser(){
     /** @todo write this */
     // await chrome.storage.local.get(["key"]).then((result) => {
-    //     let a = 1;
-    //     alert("Value currently is " + result.key);
-    //   }); // from Chrome documentation
+    //      console.log("Value currently is " + result.key);
+    // }); // from Chrome documentation -- still not working!!!
 
         await chrome.storage.local.get(["user"]).
             then((result) => {
                 result = result.user;
+                console.log('user data retrieved', result);
                 user.pref = result.pref;
                 user.session = result.session;
                 user.profile = result.profile;
                 user.units = result.units;
                 user.devices = result.devices;
-                alert('user is:', result)
+                console.log('user is set to:', user)
             })
             .catch(err => {alert(err)});
     }
