@@ -20,7 +20,7 @@ const fns = {
      */
     load(){
 
-        srapi.loadUser();
+        // srapi.loadUser();
 
         if( user.units.length != 0 ) {
 

@@ -50,7 +50,7 @@ export class SmartRentAPI {
         return {code: 121212, type: 'delivery'};
     }
 
-    #setupRequest(endpoint, method, bodyObj){
+    #updateOptions(endpoint, method, bodyObj){
         this.#url.endpoint = endpoint;
         this.#options.method = method;
         this.#options.Authorization = `Bearer ${user.session.access_token}`;
@@ -72,7 +72,7 @@ export class SmartRentAPI {
             'password': password 
         });
 
-        this.#setupRequest('/api/v1/sessions','POST', body);
+        this.#updateOptions('/api/v1/sessions','POST', body);
 
         this.#options.headers['Content-Length'] = this.#options.body.length;
 
@@ -90,6 +90,7 @@ export class SmartRentAPI {
         await this.#getProfile();
         await this.getUnits();
         await this.#storeUser();
+        await this.loadUser();
 
         this.#reset();
 
@@ -106,7 +107,7 @@ export class SmartRentAPI {
     /**
      * @todo finish
      */
-        this.#setupRequest('/api/v1/users/me','GET', null);
+        this.#updateOptions('/api/v1/users/me','GET', null);
 
         await fetch(this.#url.base + this.#url.endpoint, this.#options)
             .then( async (response) => {
@@ -123,7 +124,7 @@ export class SmartRentAPI {
     async getUnits(){
     /** @todo finishing */
 
-        this.#setupRequest('/api/v2/units', 'GET', null);
+        this.#updateOptions('/api/v2/units', 'GET', null);
 
         await fetch(this.#url.base+this.#url.endpoint, this.#options)
             .then( async (response) => {
@@ -157,84 +158,91 @@ export class SmartRentAPI {
 
     async #storeUser(){
 
-        await chrome.storage.session.set({ 'user': user })  
+        await chrome.storage.local.set({ 'user': user })  
             .then( () => {
                 console.log('user data stored:', user);
-            } );
+            } )
+            .catch(err => alert(err));
+
     }
 
     async loadUser(){
     /** @todo write this */
-        chrome.storage.session.get(["user"]).then((result) => {
-            // result = result.user;
-            console.log('result is:', result)
-            user.pref = result.pref;
-            user.session = result.session;
-            user.profile = result.profile;
-            user.units = result.units;
-            user.devices = result.devices;
-        });
+    // await chrome.storage.local.get(["key"]).then((result) => {
+    //     let a = 1;
+    //     alert("Value currently is " + result.key);
+    //   }); // from Chrome documentation
+
+        await chrome.storage.local.get(["user"]).
+            then((result) => {
+                result = result.user;
+                user.pref = result.pref;
+                user.session = result.session;
+                user.profile = result.profile;
+                user.units = result.units;
+                user.devices = result.devices;
+                alert('user is:', result)
+            })
+            .catch(err => {alert(err)});
     }
 
-    getDemoDevices(){
+    // getDemoDevices(){ // used for pre-api hookup
 
-        const r = Math.floor( Math.random() * 2 );
-        let toggled;
+    //     const r = Math.floor( Math.random() * 2 );
+    //     let toggled;
 
-        r === 0
-            ? toggled = false
-            : toggled = true;
+    //     r === 0
+    //         ? toggled = false
+    //         : toggled = true;
 
-        if (toggled){
-            return [
-                {
-                    type: 'entry_control',
-                    is_locked: false,
-                    name: 'Front Door'
-                },
-                {
-                    type: 'binary_switch',
-                    is_on: true,
-                    name: 'Plug'
-                },
-                {
-                    type: 'binary_switch',
-                    is_on: true,
-                    name: 'Kitchen'
-                },
-                {
-                    type: 'entry_control',
-                    is_locked: false,
-                    name: 'Bedroom'
-                }
-            ];  
-
-        } else {
-            return [
-                {
-                    type: 'entry_control',
-                    is_locked: true,
-                    name: 'Front Door'
-                },
-                {
-                    type: 'binary_switch',
-                    is_on: false,
-                    name: 'Plug'
-                },
-                {
-                    type: 'binary_switch',
-                    is_on: false,
-                    name: 'Kitchen'
-                },
-                {
-                    type: 'entry_control',
-                    is_locked: true,
-                    name: 'Bedroom'
-                }
-            ];    
-        }
-
-    }
+    //     if (toggled){
+    //         return [
+    //             {
+    //                 type: 'entry_control',
+    //                 is_locked: false,
+    //                 name: 'Front Door'
+    //             },
+    //             {
+    //                 type: 'binary_switch',
+    //                 is_on: true,
+    //                 name: 'Plug'
+    //             },
+    //             {
+    //                 type: 'binary_switch',
+    //                 is_on: true,
+    //                 name: 'Kitchen'
+    //             },
+    //             {
+    //                 type: 'entry_control',
+    //                 is_locked: false,
+    //                 name: 'Bedroom'
+    //             }
+    //         ];  
+    //     } else {
+    //         return [
+    //             {
+    //                 type: 'entry_control',
+    //                 is_locked: true,
+    //                 name: 'Front Door'
+    //             },
+    //             {
+    //                 type: 'binary_switch',
+    //                 is_on: false,
+    //                 name: 'Plug'
+    //             },
+    //             {
+    //                 type: 'binary_switch',
+    //                 is_on: false,
+    //                 name: 'Kitchen'
+    //             },
+    //             {
+    //                 type: 'entry_control',
+    //                 is_locked: true,
+    //                 name: 'Bedroom'
+    //             }
+    //         ];    
+    //     }
+    // }
 
 }
 
