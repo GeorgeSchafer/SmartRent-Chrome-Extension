@@ -81,7 +81,7 @@ const fns = {
 
     async loadUnitDevices(unit_id){
         
-        const devices = srapi.getDevices(unit_id);
+        const devices = await srapi.getDevices(unit_id);
 
         user.devices = devices;
 

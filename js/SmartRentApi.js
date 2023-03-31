@@ -53,14 +53,17 @@ export class SmartRentAPI {
     #updateOptions(endpoint, method, bodyStr){
         this.#url.endpoint = endpoint;
         this.#options.method = method;
-        this.#options.headers.Authorization = `Bearer ${user.session.access_token}`;
+
+        if(user.session.access_token != null){
+            this.#options.headers.Authorization = `Bearer ${user.session.access_token}`;
+        }
         console.log('Authorization set as ', this.#options.headers.Authorization)
 
         if (bodyStr == null) {
             delete this.#options.body;
             this.#options.headers['Content-Length'] = 0;
         } else if( typeof(bodyStr) == 'string' ){
-            this.#options.body = JSON.parse(bodyStr);
+            this.#options.body = bodyStr;
             this.#options.headers['Content-Length'] = bodyStr.length;
         } else {
             throw new Error('Invalid Argument Exception:\n' +
@@ -86,17 +89,14 @@ export class SmartRentAPI {
                         user.session = await body.data;
                         this.#options.headers.Authorization = `Bearer ${body.data.access_token}`;
                     } );
-
                 return response.status ;
             } );
         
         await this.#getProfile();
         await this.getUnits();
         await this.#storeUser();
-        await this.loadUser();
 
         this.#reset();
-        console.log('session is', user.session)
         return result;
     }
 
@@ -144,10 +144,9 @@ export class SmartRentAPI {
     /**
      * @todo finish
      */
+        user = this.loadUser();
 
         this.#updateOptions(`/api/v3/units/${unit_id}/devices`, 'GET', null);
-
-        console.log('this.#options:', this.#options) // storage isn't loading the user completely.
 
         user.devices = await fetch(this.#url.base+this.#url.endpoint, this.#options)
             .then( (r) => {
@@ -180,18 +179,16 @@ export class SmartRentAPI {
     //      console.log("Value currently is " + result.key);
     // }); // from Chrome documentation -- yay it is working finally~
 
-        const result = await chrome.storage.local.get(["user"]).
+        await chrome.storage.local.get(["user"]).
             then((result) => {
-                return result.user;
-                // user.pref = result.pref;
-                // user.session = result.session;
-                // user.profile = result.profile;
-                // user.units = result.units;
-                // user.devices = result.devices;
+                result = result.user;
+                user.pref = result.pref;
+                user.session = result.session;
+                user.profile = result.profile;
+                user.units = result.units;
+                user.devices = result.devices;
             })
             .catch(err => {alert(err)});
-
-        return result;
     }
 
     // getDemoDevices(){ // used for pre-api hookup
