@@ -1,3 +1,6 @@
+/**
+ * @author George Schafer
+*/
 import { SmartRentAPI } from './SmartRentApi.js';
 import { DeliveryCode } from './codeClass.js';
 import { Lock, Binary_Switch}  from './deviceClass.js'
@@ -11,7 +14,6 @@ const fns = {
 /**
  * @summary fns (functions) object literal stores functions for the sake of 
  * organization.
- * @author George Schafer
  */
 
     async load(){
@@ -81,9 +83,12 @@ const fns = {
 
     async loadUnitDevices(unit_id){
         
-        const devices = await srapi.getDevices(unit_id);
+        // const devices = 
+        await srapi.getDevices(unit_id);
 
-        user.devices = devices;
+        await srapi.loadUser();
+
+        // user.devices = devices;
 
         console.log('This unit has these devices:', user.devices)
 
@@ -97,13 +102,13 @@ const fns = {
                 els.devices.appendChild(els[`${name}`]);
                 listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
             } else if ( device.type == 'binary_switch' ){
-                  const binary_switch = new Binary_Switch(device);
-                  const name = binary_switch.name;
+                const binary_switch = new Binary_Switch(device);
+                const name = binary_switch.name;
 
-                  devices[`${name}`] = binary_switch;
-                  els[`${devices[`${name}`].name}`] = binary_switch.device_wrapper;
-                  els.devices.appendChild(els[`${devices[`${name}`].name}`]);
-                  listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
+                devices[`${name}`] = binary_switch;
+                els[`${devices[`${name}`].name}`] = binary_switch.device_wrapper;
+                els.devices.appendChild(els[`${devices[`${name}`].name}`]);
+                listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
             }
         } );        
     }

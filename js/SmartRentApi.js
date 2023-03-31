@@ -144,23 +144,26 @@ export class SmartRentAPI {
     /**
      * @todo finish
      */
-        user = this.loadUser();
+        const loadedUser = this.loadUser();
 
         this.#updateOptions(`/api/v3/units/${unit_id}/devices`, 'GET', null);
 
-        user.devices = await fetch(this.#url.base+this.#url.endpoint, this.#options)
-            .then( (r) => {
-                r = r.json();
-                console.log('response from devices endpoint', r);
-                console.log('this unit has these devices', r.records);
-                return r.records;
+        const devices = await fetch(this.#url.base+this.#url.endpoint, this.#options)
+            .then( (response) => {
+                const devices = response.json()
+                    .then( (data) => {
+                        user.devices = data.records;
+                        return data.records
+                    } );
+                return devices;
             });
 
+        user.devices = devices;
+
+
         this.#storeUser();
-
         this.#reset();
-
-        return user.devices;
+        // return devices;
     }
 
     async #storeUser(){
@@ -179,7 +182,7 @@ export class SmartRentAPI {
     //      console.log("Value currently is " + result.key);
     // }); // from Chrome documentation -- yay it is working finally~
 
-        await chrome.storage.local.get(["user"]).
+        const result = await chrome.storage.local.get(["user"]).
             then((result) => {
                 result = result.user;
                 user.pref = result.pref;
@@ -187,8 +190,12 @@ export class SmartRentAPI {
                 user.profile = result.profile;
                 user.units = result.units;
                 user.devices = result.devices;
+
+                return result;
             })
             .catch(err => {alert(err)});
+
+            return result;
     }
 
     // getDemoDevices(){ // used for pre-api hookup
