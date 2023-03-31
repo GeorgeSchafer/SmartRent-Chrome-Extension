@@ -1,7 +1,7 @@
-import { SmartRentAPI as smart_rent_api } from './SmartRentApi.js';
+import { SmartRentAPI } from './SmartRentApi.js';
 import { common, user } from './common.js'
 
-
+const srapi = new SmartRentAPI();
 
 const fns = {
     load(){
@@ -22,22 +22,25 @@ const fns = {
         els.email = document.createElement('label');
         els.emailInput = document.createElement('input');
         els.email.appendChild(els.emailInput);
-        els.email.for = els.login;
+        els.emailInput.for = els.login;
         els.emailInput.id = 'email';
         els.emailInput.type = 'email';
-        els.emailInput.min = 5; // @todo: figure out why this isn't working
+        els.emailInput.min = 5;
+        els.emailInput.value = 'phy@sr.com'; // here for testing purposes
         els.emailInput.placeholder = 'eMail';
         els.emailInput.classList.add('textInput');
         els.emailInput.required = true;
         els.login.appendChild(els.email);
 
         els.password = document.createElement('label');
-        els.password.appendChild(document.createElement('input'));
-        els.password.for = els.login;
+        els.passwordInput = document.createElement('input');
+        els.password.appendChild(els.passwordInput);
+        els.passwordInput.for = els.login;
         els.passwordInput = els.password.querySelector('input');
         els.passwordInput.id = 'password';
         els.passwordInput.type = 'password';
-        els.passwordInput.min = 8; // @todo: figure out why this isn't working
+        els.passwordInput.value = 'Smartrent1!'; // here for testing purposes
+        els.passwordInput.min = 8;
         els.passwordInput.placeholder = 'Password';
         els.passwordInput.classList.add('textInput');
         els.passwordInput.required = true;
@@ -81,56 +84,41 @@ const fns = {
         }
     },
 
-    login(){
-        // @todo fixe Smart_rent_api.session call.
-        const response = smart_rent_api.session(els.emailInput.value, els.passwordInput.value);
+    async login(){
 
-        if(response.status === 201){
-            login.user_id = response.user_id;
-            login.access_token = response.access_token;
-            login.first_name = response.first_name;
+        await srapi.session(els.emailInput.value, els.passwordInput.value)
+            .then( (status) => {
+                if(status == 201){
 
-            els.login.querySelector('label').remove();
-            els.login.querySelector('label').remove();
-            els.loginbtn.remove();
+                    this.removeLoginChilds();
 
-            els.greeting = document.createElement('p'); // document.createElement('div');
-            els.greeting.id = 'greeting';
-            els.greeting.textContent = `Welcome ${login.first_name}`;
-            els.login.appendChild(els.greeting);
-
-        } else {
-            
-            els.login.querySelector('#email').remove();
-            els.login.querySelector('#password').remove();
-            els.loginbtn.remove();
-            els.perror = document.createElement('p');
-            els.perror.classList.add('p-error');
-            els.perror.classList.add('centered');
-            els.perror.innerHTML = session.error;
-            els.login.appendChild(els.perror);
-
-            setTimeout(() => {
-                els.perror.remove();
-                fns.createLoginInputs();
-                listeners.push( els.loginbtn.addEventListener('click', () => { fns.login();} ));
-            } ,1000)
-        }
-    },
-
-    createUnitPicker(){
-    /**
-     * @todo 
-     *  Write fns.createUnitPicker()
-     *      Should be an input.type="select".
-     *      After selecting the unit, the unit devices should be saved to common.js > user.devices
-     */
-
-        els.unitPicker = document.createElement('input');
-        els.unitPicker.type = 'select';
-        els.unitPicker.classList.add('selector');
+                    els.greeting = document.createElement('p'); // document.createElement('div');
+                    els.greeting.id = 'greeting';
+                    els.greeting.textContent = `Welcome ${user.profile.first_name}`;
+                    els.login.appendChild(els.greeting);
         
+                } else {
+                    
+                    this.removeLoginChilds();
+                    els.perror = document.createElement('p');
+                    els.perror.classList.add('p-error');
+                    els.perror.textContent = 'Login error: invalid email or password.';
+                    els.login.appendChild(els.perror);
+        
+                    setTimeout(() => {
+                        els.perror.remove();
+                        fns.createLoginInputs();
+                        listeners.push( els.loginbtn.addEventListener('click', () => { fns.login();} ));
+                    } ,2000)
+                }
+            } );
 
+    },
+    
+    removeLoginChilds(){
+        els.login.querySelector('label').remove();
+        els.login.querySelector('label').remove();
+        els.loginbtn.remove();
     },
 
     save_options(){
@@ -164,9 +152,11 @@ const els = {
     emailInput: null,
     passwordInput: null,
     loginbtn: null,
+    unitPicker: null,
     options: document.querySelector('#options'), 
     dark_preference: document.querySelector('#dark-mode'),
-    save: document.querySelector('#save')
+    save: document.querySelector('#save'),
+    perror: document.createTextNode('Login Error, invalid email or password')
 }
 
 const login = {};
@@ -195,7 +185,7 @@ listeners.push( document.addEventListener('DOMContentLoaded', fns.restore_option
 
 
 
-listeners.push( els.loginbtn.addEventListener('click', (e) => { e.preventDefault(); fns.login();} ));
+listeners.push( els.loginbtn.addEventListener('click', async (e) => { e.preventDefault(); await fns.login();} ));
 listeners.push( els.save.addEventListener('click',(e) => { e.preventDefault(); fns.save_options(); } ));
 
 

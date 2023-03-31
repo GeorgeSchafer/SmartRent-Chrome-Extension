@@ -1,38 +1,47 @@
 export const user = {
-
+/**
+ * @todo Store this data in chrome.storage.session
+ */
     pref: { 
-        /** 
-         * @todo : add references to preferences from options.js
-         * "dark": {type: boolean}
-         * 
-         */
-            dark: true 
+    /** 
+     * @todo : add references to preferences from options.js
+     * 
+     */
+        dark: true
     }, 
+
+    profile: {
+        email: null,
+        first_name: null,
+        id: null,
+        last_name: null,
+        mobile_phone: null,
+        tos_accepted_at: null,
+        user_needs_to_accept_tos: null
+    },
+
     session: {
-    /**
-        "access_token": {type: string}},
-        "expires": {type: number},
-        "refresh_token": {type: string},
-        "user_id": {type: number} */
+        access_token: null,
+        expires: null,
+        refresh_token: null,
+        user_id: null
     },
     
-    units: {
-        /** 
-         * {} */
-    },
+    units: [],
 
 
-    devices: {
-        /**
-         * @todo : Add listDevices 
-         */
-    }
- }
+    devices: [
+    /**
+     * @todo add listDevices 
+     */
+
+    ]
+}
 
 export const common = {
 
     load(){
-    
+
     },
     
     darkMode(){

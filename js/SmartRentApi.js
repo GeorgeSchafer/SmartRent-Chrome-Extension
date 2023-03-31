@@ -1,146 +1,259 @@
 
-import { common, user } from './common.js'
+import { user } from './common.js'
 
+// resetting user.session to start from the beginning
+// user.session = {};
+// user.session.Authorization = 'Bearer ';
 
+export class SmartRentAPI {
 
-const url = {
+    #url;
+    #options;
 
-    base: 'https://d7167c60-a760-4d7d-9fdc-dff440526304.mock.pstmn.io',
-    endpoint: null
+    constructor(){
+        this.#url = {
+            base: 'https://control.smartrent-qa.com',
+            endpoint: null,
+            host: 'control.smartrent-qa.com'
+        };
+        
+        this.#options = {
+            'method': null,
+            'headers': {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJTbWFydFJlbnQiLCJleHAiOjE2Nzk5NDExNDEsImlhdCI6MTY3OTk0MDI0MSwiaXNzIjoiU21hcnRSZW50IiwianRpIjoiZDgyNzRlMmYtYjRiMy00OTczLThjOWYtMGRlNDM2OGYxYThlIiwibmJmIjoxNjc5OTQwMjQwLCJzdWIiOiJVc2VyOjE4NjE2IiwidHlwIjoiYWNjZXNzIn0.v1svkzH4iAFaP1iRHonuqp6_JUI9GTvH8hp4qfBs7-5uW5Ijf19l9cPeRYyvnw9P2LDvAh2Nu5xkBGGDNMX5mA`,
+                'Content-Length': 'calculated in method',
+                'Host': this.#url.host,
+                'Connection': 'keep-alive'
+            },
+            'body': null
+        };        
+        
+    }
 
-};
+    #resetEndpoint(){
+        this.#url.endpoint = null;
+    }
 
-export const SmartRentAPI = {
-    
-    resetEndpoint(){
-        url.endpoint = null;
-    },
+    #resetOptions() {
+        this.#options.method = null;
+        this.#options.body = null;
+    }
 
-    deliveryCode(){f
+    #reset(){
+        this.#resetEndpoint();
+        this.#resetOptions();
+    }
+
+    deliveryCode(){
         return {code: 121212, type: 'delivery'};
-    },
+    }
 
-    session(email, password){
+    #updateOptions(endpoint, method, bodyStr){
+        this.#url.endpoint = endpoint;
+        this.#options.method = method;
 
-        url.endpoint = '/api/v1/sessions';
+        if(user.session.access_token != null){
+            this.#options.headers.Authorization = `Bearer ${user.session.access_token}`;
+        }
+        console.log('Authorization set as ', this.#options.headers.Authorization)
 
-        fetch(`${url.base}${url.endpoint}`, { body: { email: email, password: password }})
-            .then( (r) => {
-                r = r.data.JSON();
-                user.session = r;
-                return r;
+        if (bodyStr == null) {
+            delete this.#options.body;
+            this.#options.headers['Content-Length'] = 0;
+        } else if( typeof(bodyStr) == 'string' ){
+            this.#options.body = bodyStr;
+            this.#options.headers['Content-Length'] = bodyStr.length;
+        } else {
+            throw new Error('Invalid Argument Exception:\n' +
+                            'body must be an string or null');
+        }
+    }
+
+    async session(email, password){
+
+        const body = JSON.stringify({ 
+            'email': email, 
+            'password': password 
+        });
+
+        this.#updateOptions('/api/v1/sessions','POST', body);
+
+        this.#options.headers['Content-Length'] = this.#options.body.length;
+
+        const result = await fetch(this.#url.base+this.#url.endpoint, this.#options)
+            .then( async (response) => {
+                await response.json()
+                    .then( async (body) => {
+                        user.session = await body.data;
+                        this.#options.headers.Authorization = `Bearer ${body.data.access_token}`;
+                    } );
+                return response.status ;
             } );
         
-        this.resetEndpoint();
-    },
+        await this.#getProfile();
+        await this.getUnits();
+        await this.#storeUser();
 
-    sessionFail(){
+        this.#reset();
+        return result;
+    }
 
-        /** @todo created a fail mock {endpoint: response} in Postman */
-
-        const sessions = '/api/v1/sessions';
-        const email = 'a@b.d';
-        const password = '12345678'
-
-        fetch(url.base+sessions, { body: { email: email, password: password }})
-            .then( (r) => {
-                r = r.data.JSON();
-                user.session = r;
-                return r;
-            } 
-        );
-    },
-    
-    getUnits(){
-    /** @todo ready for testing */
-
-        url.endpoint = '/api/v2/units';
-
-        fetch(url.base+url.endpoint)
-            .then( (r) => {
-                r = r.records.JSON();
-                user.units = r;
-            });
-        
-        this.resetEndpoint();
-    },
-
-    getDevices(user_id){
     /**
-     * @todo ready for testing
+    *  sessionFail(){
+    *  @todo created a fail mock {endpoint: response} in Postman
+    *  },
+    */
+
+    async #getProfile(){ // has to be called within session
+    /**
+     * @todo finish
      */
-        url.endpoint = '';
+        this.#updateOptions('/api/v1/users/me','GET', null);
 
-        fetch(url.base+url.endpoint)
-            .then( (r) => {
-                r = r.json();
-                user.devices = r;
-            } 
-        );
+        await fetch(this.#url.base + this.#url.endpoint, this.#options)
+            .then( async (response) => {
+                await response.json()
+                    .then( async (body) => {
+                        body = await body;
+                        user.profile = body;
+                    } )
+            } );
 
-        this.resetEndpoint();
+        this.#reset();
+    }
 
-    },
+    async getUnits(){
+    /** @todo finishing */
 
-    getDemoDevices(){
+        this.#updateOptions('/api/v2/units', 'GET', null);
 
-        const r = Math.floor( Math.random() * 2 );
-        let toggled;
+        await fetch(this.#url.base+this.#url.endpoint, this.#options)
+            .then( async (response) => {
+                await response.json()
+                    .then( (response) => {
+                        user.units = response.records
+                    } );
+            });
+            
+        this.#reset();
+    }
 
-        r === 0
-            ? toggled = false
-            : toggled = true;
+    async getDevices(unit_id){
+    /**
+     * @todo finish
+     */
+        const loadedUser = this.loadUser();
 
-        if (toggled){
-            return [
-                {
-                    type: "entry_control",
-                    is_locked: false,
-                    name: "Front Door"
-                },
-                {
-                    type: 'binary_switch',
-                    is_on: true,
-                    name: 'Plug'
-                },
-                {
-                    type: 'binary_switch',
-                    is_on: true,
-                    name: 'Kitchen'
-                },
-                {
-                    type: "entry_control",
-                    is_locked: false,
-                    name: "Bedroom"
-                }
-            ];  
+        this.#updateOptions(`/api/v3/units/${unit_id}/devices`, 'GET', null);
 
-        } else {
-            return [
-                {
-                    type: "entry_control",
-                    is_locked: true,
-                    name: "Front Door"
-                },
-                {
-                    type: 'binary_switch',
-                    is_on: false,
-                    name: 'Plug'
-                },
-                {
-                    type: 'binary_switch',
-                    is_on: false,
-                    name: 'Kitchen'
-                },
-                {
-                    type: "entry_control",
-                    is_locked: true,
-                    name: "Bedroom"
-                }
-            ];    
-        }
+        const devices = await fetch(this.#url.base+this.#url.endpoint, this.#options)
+            .then( (response) => {
+                const devices = response.json()
+                    .then( (data) => {
+                        user.devices = data.records;
+                        return data.records
+                    } );
+                return devices;
+            });
+
+        user.devices = devices;
+
+
+        this.#storeUser();
+        this.#reset();
+    }
+
+    async #storeUser(){
+
+        await chrome.storage.local.set({ 'user': user })  
+            // .then( () => {
+            //     console.log('user data stored:', user);
+            // } )
+            .catch(err => alert(err));
 
     }
+
+    async loadUser(){
+    /** @todo write this */
+    // await chrome.storage.local.get(["key"]).then((result) => {
+    //      console.log("Value currently is " + result.key);
+    // }); // from Chrome documentation -- yay it is working finally~
+
+        const result = await chrome.storage.local.get(["user"]).
+            then((result) => {
+                result = result.user;
+                user.pref = result.pref;
+                user.session = result.session;
+                user.profile = result.profile;
+                user.units = result.units;
+                user.devices = result.devices;
+
+                return result;
+            })
+            .catch(err => {alert(err)});
+
+            return result;
+    }
+
+    // getDemoDevices(){ // used for pre-api hookup
+
+    //     const r = Math.floor( Math.random() * 2 );
+    //     let toggled;
+
+    //     r === 0
+    //         ? toggled = false
+    //         : toggled = true;
+
+    //     if (toggled){
+    //         return [
+    //             {
+    //                 type: 'entry_control',
+    //                 is_locked: false,
+    //                 name: 'Front Door'
+    //             },
+    //             {
+    //                 type: 'binary_switch',
+    //                 is_on: true,
+    //                 name: 'Plug'
+    //             },
+    //             {
+    //                 type: 'binary_switch',
+    //                 is_on: true,
+    //                 name: 'Kitchen'
+    //             },
+    //             {
+    //                 type: 'entry_control',
+    //                 is_locked: false,
+    //                 name: 'Bedroom'
+    //             }
+    //         ];  
+    //     } else {
+    //         return [
+    //             {
+    //                 type: 'entry_control',
+    //                 is_locked: true,
+    //                 name: 'Front Door'
+    //             },
+    //             {
+    //                 type: 'binary_switch',
+    //                 is_on: false,
+    //                 name: 'Plug'
+    //             },
+    //             {
+    //                 type: 'binary_switch',
+    //                 is_on: false,
+    //                 name: 'Kitchen'
+    //             },
+    //             {
+    //                 type: 'entry_control',
+    //                 is_locked: true,
+    //                 name: 'Bedroom'
+    //             }
+    //         ];    
+    //     }
+    // }
 
 }
 
