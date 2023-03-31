@@ -68,7 +68,7 @@ const fns = {
             const option = fns.createOption(unit.id, `${unit.marketing_name}, ${unit.group.marketing_name}`);
         } );
         els.devices.appendChild(els.unitPicker);
-        listeners.push(els.unitPicker.addEventListener('change', (value) => { this.loadUnitDevices(value) }));
+        listeners.push(els.unitPicker.addEventListener('change', () => { this.loadUnitDevices(els.unitPicker.value) }));
 
     },
     
@@ -81,9 +81,9 @@ const fns = {
 
     async loadUnitDevices(unit_id){
         
-        srapi.getDevices(unit_id);
+        const devices = srapi.getDevices(unit_id);
 
-        user.devices = await srapi.loadUser().devices;
+        user.devices = devices;
 
         console.log('This unit has these devices:', user.devices)
 

@@ -27,7 +27,7 @@ export class SmartRentAPI {
                 'Host': this.#url.host,
                 'Connection': 'keep-alive'
             },
-            'body': null
+            // 'body': null
         };        
         
     }
@@ -53,12 +53,15 @@ export class SmartRentAPI {
     #updateOptions(endpoint, method, bodyObj){
         this.#url.endpoint = endpoint;
         this.#options.method = method;
-        this.#options.Authorization = `Bearer ${user.session.access_token}`;
+        this.#options.headers.Authorization = `Bearer ${user.session.access_token}`;
+        console.log('Authorization set as ', this.#options.headers.Authorization)
 
         if (bodyObj == null) {
             delete this.#options.body;
+            this.#options.headers['Content-Length'] = 0;
         } else if( typeof(bodyObj) == 'string' ){
-            this.#options.body = bodyObj;
+            this.#options.body = JSON.parse(bodyObj);
+            this.#options.headers['Content-Length'] = bodyObj.length;
         } else {
             throw new Error('Invalid Argument Exception:\n' +
                             'body must be an string or null');
@@ -93,7 +96,7 @@ export class SmartRentAPI {
         await this.loadUser();
 
         this.#reset();
-
+        console.log('session is', user.session)
         return result;
     }
 
@@ -144,18 +147,21 @@ export class SmartRentAPI {
 
         this.#updateOptions(`/api/v3/units/${unit_id}/devices`, 'GET', null);
 
-        await fetch(this.#url.base+this.#url.endpoint, this.#options)
+        console.log('this.#options:', this.#options) // storage isn't loading the user completely.
+
+        user.devices = await fetch(this.#url.base+this.#url.endpoint, this.#options)
             .then( (r) => {
                 r = r.json();
-                r = r.records;
-                user.devices = r;
-            }
-        );
+                console.log('response from devices endpoint', r);
+                console.log('this unit has these devices', r.records);
+                return r.records;
+            });
 
-        await this.#storeUser();
+        this.#storeUser();
 
         this.#reset();
 
+        return user.devices;
     }
 
     async #storeUser(){
