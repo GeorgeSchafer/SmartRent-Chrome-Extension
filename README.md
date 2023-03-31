@@ -14,6 +14,7 @@ Links to:
 Resources:
 
 - [Refresh](https://www.iconpacks.net/free-icon/reset-arrow-14418.html)
+- [Loading](https://www.iconpacks.net/free-icon/convert-3215.html)
 - [Off/On](https://www.iconpacks.net/free-icon/turn-off-4779.html)
 - [Unknown](https://www.iconpacks.net/free-icon/red-question-11802.html)
 - [Warning](https://www.iconpacks.net/free-icon/warning-sign-9772.html)
