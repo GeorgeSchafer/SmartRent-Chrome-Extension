@@ -53,8 +53,6 @@ const fns = {
         listeners.push(element.icon.addEventListener('click'));
     },
 
-
-
     createUnitPicker(){
     /**
      * @todo 
@@ -83,16 +81,13 @@ const fns = {
 
     async loadUnitDevices(unit_id){
         
-        // const devices = 
         await srapi.getDevices(unit_id);
-
         await srapi.loadUser();
 
-        // user.devices = devices;
-
-        console.log('This unit has these devices:', user.devices)
+        document.querySelectorAll('.device-wrapper > div').forEach( device => {device.remove()})
 
         user.devices.forEach( (device) => {
+
             if(device.type == 'entry_control'){
                 const lock = new Lock(device);
                 const name = lock.name;
@@ -110,6 +105,7 @@ const fns = {
                 els.devices.appendChild(els[`${devices[`${name}`].name}`]);
                 listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
             }
+
         } );        
     }
   

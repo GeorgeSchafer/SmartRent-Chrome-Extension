@@ -163,7 +163,6 @@ export class SmartRentAPI {
 
         this.#storeUser();
         this.#reset();
-        // return devices;
     }
 
     async #storeUser(){
