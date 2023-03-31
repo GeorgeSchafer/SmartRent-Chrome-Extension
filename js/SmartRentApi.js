@@ -22,12 +22,12 @@ export class SmartRentAPI {
             'headers': {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer `,
+                'Authorization': `Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJTbWFydFJlbnQiLCJleHAiOjE2Nzk5NDExNDEsImlhdCI6MTY3OTk0MDI0MSwiaXNzIjoiU21hcnRSZW50IiwianRpIjoiZDgyNzRlMmYtYjRiMy00OTczLThjOWYtMGRlNDM2OGYxYThlIiwibmJmIjoxNjc5OTQwMjQwLCJzdWIiOiJVc2VyOjE4NjE2IiwidHlwIjoiYWNjZXNzIn0.v1svkzH4iAFaP1iRHonuqp6_JUI9GTvH8hp4qfBs7-5uW5Ijf19l9cPeRYyvnw9P2LDvAh2Nu5xkBGGDNMX5mA`,
                 'Content-Length': 'calculated in method',
                 'Host': this.#url.host,
                 'Connection': 'keep-alive'
             },
-            // 'body': null
+            'body': null
         };        
         
     }
@@ -50,18 +50,18 @@ export class SmartRentAPI {
         return {code: 121212, type: 'delivery'};
     }
 
-    #updateOptions(endpoint, method, bodyObj){
+    #updateOptions(endpoint, method, bodyStr){
         this.#url.endpoint = endpoint;
         this.#options.method = method;
         this.#options.headers.Authorization = `Bearer ${user.session.access_token}`;
         console.log('Authorization set as ', this.#options.headers.Authorization)
 
-        if (bodyObj == null) {
+        if (bodyStr == null) {
             delete this.#options.body;
             this.#options.headers['Content-Length'] = 0;
-        } else if( typeof(bodyObj) == 'string' ){
-            this.#options.body = JSON.parse(bodyObj);
-            this.#options.headers['Content-Length'] = bodyObj.length;
+        } else if( typeof(bodyStr) == 'string' ){
+            this.#options.body = JSON.parse(bodyStr);
+            this.#options.headers['Content-Length'] = bodyStr.length;
         } else {
             throw new Error('Invalid Argument Exception:\n' +
                             'body must be an string or null');
