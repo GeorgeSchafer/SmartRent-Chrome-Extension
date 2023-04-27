@@ -168,11 +168,21 @@ export class SmartRentAPI {
     async #storeUser(){
 
         await chrome.storage.local.set({ 'user': user })  
+            // add logic here.
             // .then( () => {
             //     console.log('user data stored:', user);
             // } )
             .catch(err => alert(err));
 
+    }
+
+    async nullStoredUser(){
+        await chrome.storage.local.set({ 'user': null })  
+        // add logic here.
+        // .then( () => {
+        //     console.log('user data stored:', user);
+        // } )
+        .catch(err => alert(err));
     }
 
     async loadUser(){
@@ -181,20 +191,13 @@ export class SmartRentAPI {
     //      console.log("Value currently is " + result.key);
     // }); // from Chrome documentation -- yay it is working finally~
 
-        const result = await chrome.storage.local.get(["user"]).
-            then((result) => {
-                result = result.user;
-                user.pref = result.pref;
-                user.session = result.session;
-                user.profile = result.profile;
-                user.units = result.units;
-                user.devices = result.devices;
-
-                return result;
+        const loadedUser = await chrome.storage.local.get(["user"]).
+            then((storedUser) => {
+                return storedUser.user;
             })
             .catch(err => {alert(err)});
-
-            return result;
+        
+        return loadedUser;
     }
 
     // getDemoDevices(){ // used for pre-api hookup

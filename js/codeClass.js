@@ -22,7 +22,6 @@ class Code {
         /**
          * @ img is NOT added to this.icon as it has no need to be displayed.
          */
-
     }
 }
 

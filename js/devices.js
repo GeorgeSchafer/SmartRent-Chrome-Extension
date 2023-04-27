@@ -3,11 +3,11 @@
 */
 import { SmartRentAPI } from './SmartRentApi.js';
 import { DeliveryCode } from './codeClass.js';
-import { Lock, Binary_Switch}  from './deviceClass.js'
+import { Lock, Binary_Switch }  from './deviceClass.js'
 import { user } from './common.js'
 
-
 const srapi = new SmartRentAPI();
+
 
 
 const fns = {
@@ -23,15 +23,13 @@ const fns = {
      * display and allow manipulation. 
      */
 
-    
-        const loadedUser = await srapi.loadUser();
-        user.pref = loadedUser.pref;
-        user.session = loadedUser.session;
-        user.profile = loadedUser.profile;
-        user.units = loadedUser.units;
-        user.devices = [];
+        // await this.nullUserValues(); // For testing purposes, remove when testing is done.
 
-        if( user.units?.length != 0 ) {
+        await this.updateUser();
+
+        if(     user.units?.length != 0          &&
+                typeof user.units != 'undefined' &&
+                user.units != null                  ) {
 
             this.createUnitPicker();
 
@@ -49,6 +47,36 @@ const fns = {
         }
     },
 
+    async nullUserValues(){
+    /**
+     * @summary nullUserValues() assigns null to properties inside the user object
+     * The aim is to test the case of a brand new user.
+     * This is for TESTING purposes only.
+     */
+        user.pref = null;
+        user.session = null;
+        user.profile = null;
+        user.units = null;
+        user.devices = [];
+        await srapi.nullStoredUser();
+    },
+    
+    async updateUser(){
+        const loadedUser = await srapi.loadUser();
+
+        if(     
+                loadedUser != undefined &&
+                loadedUser.session != null &&
+                loadedUser.session != undefined && 
+                user.session != null                ){
+            user.pref = loadedUser.pref;
+            user.session = loadedUser.session;
+            user.profile = loadedUser.profile;
+            user.units = loadedUser.units;
+            user.devices = [];
+        }
+    },
+
     createDeviceListeners(element){
         listeners.push(element.icon.addEventListener('click'));
     },
@@ -63,12 +91,12 @@ const fns = {
     
         els.unitPicker = document.createElement('select');
         els.unitPicker.classList.add('selector');
-        fns.createOption('', 'Select a unit' );
-        user.units.forEach( unit => {
+        els.unitPickerInstruction = fns.createOption('', 'Select a unit' );
+        user.units?.forEach( unit => {
             const option = fns.createOption(unit.id, `${unit.marketing_name}, ${unit.group.marketing_name}`);
         } );
         els.devices.appendChild(els.unitPicker);
-        listeners.push(els.unitPicker.addEventListener('change', () => { this.loadUnitDevices(els.unitPicker.value) }));
+        listeners.push(els.unitPicker.addEventListener('change', () => { this.selectUnit() }));
 
     },
     
@@ -77,6 +105,12 @@ const fns = {
         option.value = value;
         option.innerText = text;
         els.unitPicker.appendChild(option);
+        return option;
+    },
+
+    selectUnit(){
+        els.unitPickerInstruction?.remove();
+        this.loadUnitDevices(els.unitPicker.value);
     },
 
     async loadUnitDevices(unit_id){
@@ -106,9 +140,9 @@ const fns = {
                 listeners.push(devices[`${name}`].icon.addEventListener('click', () => {devices[`${name}`].toggle()} ));
             }
 
-        } );        
+        } );
     }
-  
+
 };
 
 /**
@@ -145,9 +179,7 @@ const code = {
  */
 const listeners = [];
 
-
 fns.load();
-
 
 
 
