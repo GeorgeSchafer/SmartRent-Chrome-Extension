@@ -1,8 +1,11 @@
-import { SmartRentAPI as srapi } from "./SmartRentApi.js";
+import { SmartRentAPI } from "./SmartRentApi.js";
+
+const srapi = new SmartRentAPI();
 
 class Code { 
     constructor(){
         this.r = null;
+        this.srapi = new SmartRentAPI();
 
         this.code_wrapper = document.createElement('div');
         this.code_wrapper.classList.add('code-wrapper');
