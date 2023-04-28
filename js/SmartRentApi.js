@@ -46,10 +46,6 @@ export class SmartRentAPI {
         this.#resetOptions();
     }
 
-    deliveryCode(){
-        return {code: 121212, type: 'delivery'};
-    }
-
     #updateOptions(endpoint, method, bodyStr){
         this.#url.endpoint = endpoint;
         this.#options.method = method;
@@ -132,8 +128,10 @@ export class SmartRentAPI {
         await fetch(this.#url.base+this.#url.endpoint, this.#options)
             .then( async (response) => {
                 await response.json()
-                    .then( (response) => {
-                        user.units = response.records
+                    .then( (data) => {
+                        user.units = data.records;
+        
+                        this.#storeUser();
                     } );
             });
             
@@ -152,6 +150,7 @@ export class SmartRentAPI {
             .then( (response) => {
                 const devices = response.json()
                     .then( (data) => {
+                        console.log('response.data:', data)
                         user.devices = data.records;
                         return data.records
                     } );
@@ -200,63 +199,32 @@ export class SmartRentAPI {
         return loadedUser;
     }
 
-    // getDemoDevices(){ // used for pre-api hookup
 
-    //     const r = Math.floor( Math.random() * 2 );
-    //     let toggled;
 
-    //     r === 0
-    //         ? toggled = false
-    //         : toggled = true;
+    deliveryCode(){
+        return {code: 121212, type: 'delivery'};
+    }
 
-    //     if (toggled){
-    //         return [
-    //             {
-    //                 type: 'entry_control',
-    //                 is_locked: false,
-    //                 name: 'Front Door'
-    //             },
-    //             {
-    //                 type: 'binary_switch',
-    //                 is_on: true,
-    //                 name: 'Plug'
-    //             },
-    //             {
-    //                 type: 'binary_switch',
-    //                 is_on: true,
-    //                 name: 'Kitchen'
-    //             },
-    //             {
-    //                 type: 'entry_control',
-    //                 is_locked: false,
-    //                 name: 'Bedroom'
-    //             }
-    //         ];  
-    //     } else {
-    //         return [
-    //             {
-    //                 type: 'entry_control',
-    //                 is_locked: true,
-    //                 name: 'Front Door'
-    //             },
-    //             {
-    //                 type: 'binary_switch',
-    //                 is_on: false,
-    //                 name: 'Plug'
-    //             },
-    //             {
-    //                 type: 'binary_switch',
-    //                 is_on: false,
-    //                 name: 'Kitchen'
-    //             },
-    //             {
-    //                 type: 'entry_control',
-    //                 is_locked: true,
-    //                 name: 'Bedroom'
-    //             }
-    //         ];    
-    //     }
-    // }
+    async fetchDeliveryCode(unit_id){
+        
+        this.#updateOptions(`/api/v2/units/${unit_id}/building-access-codes`, 'GET', null);
+
+        await fetch(this.#url.base+this.#url.endpoint, this.#options)
+            .then( async (response) => {
+                await response.json()
+                    .then( (response) => {
+                        user.code.delivery = response;
+                    } );
+            });
+//  space
+
+        this.#storeUser();
+
+        this.#reset();
+
+        console.log('delivery code:', user.code.delivery)
+
+    }
 
 }
 
