@@ -9,7 +9,9 @@ import { user } from './common.js'
 const srapi = new SmartRentAPI();
 
 
-
+/**
+ * @todo Write a class that determines if the user is logged out.
+ */
 const fns = {
 /**
  * @summary fns (functions) object literal stores functions for the sake of 
@@ -32,9 +34,6 @@ const fns = {
                 user.units != null                  ) {
 
             this.createUnitPicker();
-
-            els.delivery = code.delivery.code_wrapper;
-            els.devices.appendChild(els.delivery);
 
         } else {
 
@@ -111,15 +110,22 @@ const fns = {
     selectUnit(){
         els.unitPickerInstruction?.remove();
         this.loadUnitDevices(els.unitPicker.value);
+
+        els.delivery = unitDeliveryCode.delivery.code_wrapper;
+        els.devices.appendChild(els.delivery);
     },
 
     async loadUnitDevices(unit_id){
-        
+
+        console.log('unit_id:', unit_id)
         await srapi.getDevices(unit_id);
+        /**
+         * @todo  Possibly an uneeded step, verify.  */
         await srapi.loadUser();
 
         document.querySelectorAll('.device-wrapper > div').forEach( device => {device.remove()})
 
+        console.log('user:', user)
         user.devices.forEach( (device) => {
 
             if(device.type == 'entry_control'){
@@ -141,6 +147,10 @@ const fns = {
             }
 
         } );
+    },
+
+    getDeliveryCode(){
+        unitDeliveryCode.delivery = user.code.delivery;
     }
 
 };
@@ -168,9 +178,9 @@ const devices = {};
  * @description
  * code holds the individual codes which are requested from the SR API.
  */
-const code = {
+const unitDeliveryCode = {
     delivery: new DeliveryCode()
-}
+};
 
 /**
  * @description
@@ -189,7 +199,7 @@ fns.load();
  * refer to are created. They are stored in the listeners variable above.
  */
 listeners.push(els.refresh.querySelector('.icon').addEventListener('click', () => location.reload() ));
-listeners.push(code.delivery.code_display.addEventListener('click', () => code.delivery.getCode() ));
-listeners.push(code.delivery.icon.addEventListener( 'click', () => code.delivery.copy() ));
+listeners.push(unitDeliveryCode.delivery.code_display.addEventListener('click', () => fns.getDeliveryCode() ));
+listeners.push(unitDeliveryCode.delivery.icon.addEventListener( 'click', () => unitDeliveryCode.delivery.copy() ));
 
 

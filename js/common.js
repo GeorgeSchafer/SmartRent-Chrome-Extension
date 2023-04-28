@@ -29,13 +29,19 @@ export const user = {
     
     units: [],
 
-
     devices: [
     /**
      * @todo add listDevices 
      */
 
-    ]
+    ],
+
+    code: {
+        delivery: null
+    }
+
+
+    
 }
 
 export const common = {
