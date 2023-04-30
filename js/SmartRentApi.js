@@ -53,7 +53,6 @@ export class SmartRentAPI {
         if(user.session.access_token != null){
             this.#options.headers.Authorization = `Bearer ${user.session.access_token}`;
         }
-        console.log('Authorization set as ', this.#options.headers.Authorization)
 
         if (bodyStr == null) {
             delete this.#options.body;
@@ -150,7 +149,6 @@ export class SmartRentAPI {
             .then( (response) => {
                 const devices = response.json()
                     .then( (data) => {
-                        console.log('response.data:', data)
                         user.devices = data.records;
                         return data.records
                     } );

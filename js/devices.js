@@ -51,7 +51,7 @@ const listeners = [
 ];
 
 /**
- * @todo Write a class that determines if the user is logged out.
+ * @todo Write a function that determines if the user is logged out.
  */
 const fns = {
 /**
@@ -159,7 +159,6 @@ const fns = {
 
     async loadUnitDevices(unit_id){
 
-        console.log('unit_id:', unit_id)
         await srapi.getDevices(unit_id);
         /**
          * @todo  Possibly an uneeded step, verify.  */
@@ -167,7 +166,6 @@ const fns = {
 
         document.querySelectorAll('.device-wrapper > div').forEach( device => {device.remove()})
 
-        console.log('user:', user)
         user.devices.forEach( (device) => {
 
             if(device.type == 'entry_control'){
