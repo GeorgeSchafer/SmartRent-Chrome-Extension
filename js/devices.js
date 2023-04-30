@@ -1,6 +1,6 @@
 /**
  * @author George Schafer
-*/
+ */
 import { SmartRentAPI } from './SmartRentApi.js';
 import { DeliveryCode } from './codeClass.js';
 import { Lock, Binary_Switch }  from './deviceClass.js'
@@ -8,6 +8,47 @@ import { user } from './common.js'
 
 const srapi = new SmartRentAPI();
 
+/**
+ * @description
+ * Els is a collection of html elements that can be refered to for 
+ * other element functions such as document.createElement().
+ */
+const els = {
+    devices: document.querySelector('.devices'),
+    refresh: document.querySelector('header'),
+    unitPicker: null,
+    meta: null
+
+};
+
+/**
+ * @description
+ * devices holds the devices in order to call methods inside devices.
+ */
+const devices = {};
+
+/**
+ * @description
+ * code holds the individual codes which are requested from the SR API.
+ */
+const code = {
+    delivery: new DeliveryCode()
+};
+
+/**
+ * @description
+ * listeners stores event listeners so that created listeners can be
+ * stored and activated.
+ */
+const listeners = [
+    /**
+     * @summary These are event listeners which are created in the body of the code above.
+     * 
+     * els.refresh.querySelector('.icon').addEventListener('click', () => location.reload() ),
+     * code.delivery.icon.addEventListener( 'click', () => code.delivery.copy() ),
+     * code.delivery.code_display.addEventListener('click', () => fns.getDeliveryCode() )
+     */
+];
 
 /**
  * @todo Write a class that determines if the user is logged out.
@@ -111,8 +152,9 @@ const fns = {
         els.unitPickerInstruction?.remove();
         this.loadUnitDevices(els.unitPicker.value);
 
-        els.delivery = unitDeliveryCode.delivery.code_wrapper;
+        els.delivery = code.delivery.code_wrapper;
         els.devices.appendChild(els.delivery);
+        
     },
 
     async loadUnitDevices(unit_id){
@@ -150,44 +192,14 @@ const fns = {
     },
 
     getDeliveryCode(){
-        unitDeliveryCode.delivery = user.code.delivery;
+        /**
+         * Implement check for expired delivery codes
+         */
+        code.delivery = user.code.delivery;
+        code.delivery.code_display.textContent = code.delivery.id;
     }
 
 };
-
-/**
- * @description
- * Els is a collection of html elements that can be refered to for 
- * other element functions such as document.createElement().
- */
-const els = {
-    devices: document.querySelector('.devices'),
-    refresh: document.querySelector('header'),
-    unitPicker: null,
-    meta: null
-
-};
-
-/**
- * @description
- * devices holds the devices in order to call methods inside devices.
- */
-const devices = {};
-
-/**
- * @description
- * code holds the individual codes which are requested from the SR API.
- */
-const unitDeliveryCode = {
-    delivery: new DeliveryCode()
-};
-
-/**
- * @description
- * listeners stores event listeners so that created listeners can be
- * stored and activated.
- */
-const listeners = [];
 
 fns.load();
 
@@ -199,7 +211,6 @@ fns.load();
  * refer to are created. They are stored in the listeners variable above.
  */
 listeners.push(els.refresh.querySelector('.icon').addEventListener('click', () => location.reload() ));
-listeners.push(unitDeliveryCode.delivery.code_display.addEventListener('click', () => fns.getDeliveryCode() ));
-listeners.push(unitDeliveryCode.delivery.icon.addEventListener( 'click', () => unitDeliveryCode.delivery.copy() ));
+listeners.push(code.delivery.icon.addEventListener( 'click', () => code.delivery.copy() ));
 
 
