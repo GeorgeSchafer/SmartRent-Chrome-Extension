@@ -199,7 +199,7 @@ export class SmartRentAPI {
 
 
 
-    deliveryCode(){
+    deliveryCodeMock(){
         return {code: 121212, type: 'delivery'};
     }
 
