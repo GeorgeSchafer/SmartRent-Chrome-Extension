@@ -18,7 +18,6 @@ const els = {
     refresh: document.querySelector('header'),
     unitPicker: null,
     meta: null
-
 };
 
 /**
@@ -149,10 +148,15 @@ const fns = {
     },
 
     selectUnit(){
+
         els.unitPickerInstruction?.remove();
         this.loadUnitDevices(els.unitPicker.value);
 
         els.delivery = code.delivery.code_wrapper;
+        /**
+         * @todo Put an event listener for clicking on the code_wrapper 
+         */
+        listeners.push(code.delivery.code_display.addEventListener('click', () => fns.getDeliveryCode() ));
         els.devices.appendChild(els.delivery);
         
     },
@@ -190,9 +194,9 @@ const fns = {
     },
 
     getDeliveryCode(){
-        /**
-         * Implement check for expired delivery codes
-         */
+    /**
+     * Implement check for expired delivery codes
+     */
         code.delivery = user.code.delivery;
         code.delivery.code_display.textContent = code.delivery.id;
     }
