@@ -197,9 +197,9 @@ const fns = {
     /**
      * Implement check for expired delivery codes
      */
-        code.delivery = user.code.delivery;
-        code.delivery.code_display.textContent = code.delivery.id;
-    }
+        code.delivery.code_display.textContent = user.code.delivery;
+        // els.delivery.code_display.textContent = user.code.delivery;
+}
 
 };
 
