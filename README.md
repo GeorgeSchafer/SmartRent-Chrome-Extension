@@ -7,7 +7,7 @@ This is a short demonstration of a project for a Chrome extension. SmartRent res
 - Retrieve Delivery Codes
 
 Builds:
-- [alpha](https://github.com/GeorgeSchafer/SmartRent-Chrome-Extension/tree/demo/builds)
+- [alpha](https://github.com/GeorgeSchafer/SmartRent-Chrome-Extension/tree/master/builds)
 
 Links to:
 
