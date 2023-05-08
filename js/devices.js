@@ -198,9 +198,7 @@ const fns = {
      */
         await srapi.fetchDeliveryCode(els.unitPicker.value);
         await fns.updateUser();
-        console.log('user.code.delivery.code:', user.code.delivery.code);
         code.delivery.code_display.textContent = user.code.delivery.code;
-        // els.delivery.querySelector('.code').textContent = user.code.delivery.code;
     }
 
 };
