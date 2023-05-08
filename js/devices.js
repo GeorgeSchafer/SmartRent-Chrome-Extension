@@ -17,6 +17,7 @@ const els = {
     devices: document.querySelector('.devices'),
     refresh: document.querySelector('header'),
     unitPicker: null,
+    unit_id: null,
     meta: null
 };
 
@@ -112,6 +113,7 @@ const fns = {
             user.session = loadedUser.session;
             user.profile = loadedUser.profile;
             user.units = loadedUser.units;
+            user.code = loadedUser.code;
             user.devices = [];
         }
     },
@@ -153,9 +155,6 @@ const fns = {
         this.loadUnitDevices(els.unitPicker.value);
 
         els.delivery = code.delivery.code_wrapper;
-        /**
-         * @todo Put an event listener for clicking on the code_wrapper 
-         */
         listeners.push(code.delivery.code_display.addEventListener('click', () => fns.getDeliveryCode() ));
         els.devices.appendChild(els.delivery);
         
@@ -193,13 +192,16 @@ const fns = {
         } );
     },
 
-    getDeliveryCode(){
+    async getDeliveryCode(){
     /**
      * Implement check for expired delivery codes
      */
-        code.delivery.code_display.textContent = user.code.delivery;
-        // els.delivery.code_display.textContent = user.code.delivery;
-}
+        await srapi.fetchDeliveryCode(els.unitPicker.value);
+        await fns.updateUser();
+        console.log('user.code.delivery.code:', user.code.delivery.code);
+        code.delivery.code_display.textContent = user.code.delivery.code;
+        // els.delivery.querySelector('.code').textContent = user.code.delivery.code;
+    }
 
 };
 

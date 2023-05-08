@@ -204,8 +204,8 @@ export class SmartRentAPI {
     }
 
     async fetchDeliveryCode(unit_id){
-        
-        this.#updateOptions(`/api/v2/units/${unit_id}/building-access-codes`, 'GET', null);
+
+        this.#updateOptions(`/api/v2/units/${unit_id}/building-access-codes`, 'POST', null);
 
         await fetch(this.#url.base+this.#url.endpoint, this.#options)
             .then( async (response) => {
@@ -214,13 +214,13 @@ export class SmartRentAPI {
                         user.code.delivery = response;
                     } );
             });
-//  space
+//      end promise
 
         this.#storeUser();
 
         this.#reset();
 
-        console.log('delivery code:', user.code.delivery)
+        // console.log('delivery code:', user.code.delivery);
 
     }
 
