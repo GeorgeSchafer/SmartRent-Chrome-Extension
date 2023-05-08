@@ -59,13 +59,9 @@ export class DeliveryCode extends Code {
     getCode(unit_id){
 
         this.r = srapi.fetchDeliveryCode(unit_id);
-
         this.code_display.textContent = this.r.id;
-
         this.img.src = paths.clipboard.gray;
-
         this.icon.appendChild(this.img);
-
         return this.r;
 
     }

@@ -53,7 +53,6 @@ export class SmartRentAPI {
         if(user.session.access_token != null){
             this.#options.headers.Authorization = `Bearer ${user.session.access_token}`;
         }
-        console.log('Authorization set as ', this.#options.headers.Authorization)
 
         if (bodyStr == null) {
             delete this.#options.body;
@@ -201,13 +200,13 @@ export class SmartRentAPI {
 
 
 
-    deliveryCode(){
+    deliveryCodeMock(){
         return {code: 121212, type: 'delivery'};
     }
 
     async fetchDeliveryCode(unit_id){
-        
-        this.#updateOptions(`/api/v2/units/${unit_id}/building-access-codes`, 'GET', null);
+
+        this.#updateOptions(`/api/v2/units/${unit_id}/building-access-codes`, 'POST', null);
 
         await fetch(this.#url.base+this.#url.endpoint, this.#options)
             .then( async (response) => {
@@ -216,13 +215,13 @@ export class SmartRentAPI {
                         user.code.delivery = response;
                     } );
             });
-//  space
+//      end promise
 
         this.#storeUser();
 
         this.#reset();
 
-        console.log('delivery code:', user.code.delivery)
+        // console.log('delivery code:', user.code.delivery);
 
     }
 
