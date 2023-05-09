@@ -15,7 +15,8 @@ const els = {
     perror: document.createTextNode('Login Error, invalid email or password')
 }
 
-const login = {};
+// @todo Determine if eccessary
+// const login = {};
 
 const listeners = [
 
@@ -109,11 +110,14 @@ const fns = {
 
     async login(){
 
+        els.loginbtn.setAttribute(disabled);
+        els.loginbtn.classList.add(disabled);
+
         await srapi.session(els.emailInput.value, els.passwordInput.value)
             .then( (status) => {
                 if(status == 201){
 
-                    this.removeLoginChilds();
+                    this.removeLoginInputs();
 
                     els.greeting = document.createElement('p'); // document.createElement('div');
                     els.greeting.id = 'greeting';
@@ -122,7 +126,7 @@ const fns = {
         
                 } else {
                     
-                    this.removeLoginChilds();
+                    this.removeLoginInputs();
                     els.perror = document.createElement('p');
                     els.perror.classList.add('p-error');
                     els.perror.textContent = 'Login error: invalid email or password.';
@@ -135,10 +139,11 @@ const fns = {
                     } ,2000)
                 }
             } );
+        // end promise
 
     },
     
-    removeLoginChilds(){
+    removeLoginInputs(){
         els.login.querySelector('label').remove();
         els.login.querySelector('label').remove();
         els.loginbtn.remove();
