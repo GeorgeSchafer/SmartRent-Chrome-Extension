@@ -3,6 +3,29 @@ import { common, user } from './common.js'
 
 const srapi = new SmartRentAPI();
 
+const els = {
+    login: null,
+    emailInput: null,
+    passwordInput: null,
+    loginbtn: null,
+    unitPicker: null,
+    options: document.querySelector('#options'), 
+    dark_preference: document.querySelector('#dark-mode'),
+    save: document.querySelector('#save'),
+    perror: document.createTextNode('Login Error, invalid email or password')
+}
+
+const login = {};
+
+const listeners = [
+
+    /**
+     * document.addEventListener('DOMContentLoaded', fns.restore_options())
+     * els.loginbtn.addEventListener('click', async (e) => { e.preventDefault(); await fns.login();} )
+     * els.save.addEventListener('click',(e) => { e.preventDefault(); fns.save_options(); } )
+     */
+];
+
 const fns = {
     load(){
 
@@ -147,21 +170,6 @@ const fns = {
 };
 
 
-const els = {
-    login: null,
-    emailInput: null,
-    passwordInput: null,
-    loginbtn: null,
-    unitPicker: null,
-    options: document.querySelector('#options'), 
-    dark_preference: document.querySelector('#dark-mode'),
-    save: document.querySelector('#save'),
-    perror: document.createTextNode('Login Error, invalid email or password')
-}
-
-const login = {};
-
-const listeners = [];
 
 fns.load();
 

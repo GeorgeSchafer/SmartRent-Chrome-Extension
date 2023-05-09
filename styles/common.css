@@ -40,12 +40,19 @@ input[type="submit"] {
     box-shadow: -2px -2px 8px 1px #000 inset;
     width: 64px;
     text-align: center;
+    outline: 1px solid black;
 }
 
-button:active, .btn:active {
+input[type="submit"]:active {
     transform: scale(0.98);
     box-shadow: 1px 1px 8px 1px black inset;
 }
+
+input[type="submit"].disabled {
+    background-color: #055;
+    
+}
+
 
 .wrapper {
     background-color: beige;
