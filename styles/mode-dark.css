@@ -22,4 +22,6 @@ a {
     background-color: #000;
 }
 
-
+input:disabled {
+    color: white;
+}

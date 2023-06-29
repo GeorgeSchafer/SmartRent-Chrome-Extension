@@ -1,7 +1,6 @@
 # Works In Progress
 
-## Request Delivery Code
+## disable login button on press
 
-- Doesn't respond when clicked 
-- status: ongoing
+
 
