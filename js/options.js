@@ -57,7 +57,7 @@ const fns = {
          * @TODO Remove - here for testing purposes 
          *      els.emailInput.value = 'phy@sr.com';
          */
-        els.emailInput.value = 'phy@sr.com'; // here for testing purposes
+        els.emailInput.value = 'phy@sr.com';
         els.emailInput.placeholder = 'eMail';
         els.emailInput.classList.add('textInput');
         els.emailInput.required = true;
