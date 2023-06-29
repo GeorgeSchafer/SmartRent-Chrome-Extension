@@ -15,15 +15,17 @@ const els = {
     perror: document.createTextNode('Login Error, invalid email or password')
 }
 
-// @todo Determine if eccessary
+// @todo Determine if neccessary
 // const login = {};
 
 const listeners = [
-
     /**
-     * document.addEventListener('DOMContentLoaded', fns.restore_options())
-     * els.loginbtn.addEventListener('click', async (e) => { e.preventDefault(); await fns.login();} )
-     * els.save.addEventListener('click',(e) => { e.preventDefault(); fns.save_options(); } )
+     *  document.addEventListener('DOMContentLoaded', fns.restore_options())
+     *  location: createLoginInputs()
+     *      els.emailInput.addEventListener('blur', (e) => { fns.enableLogin(e) } )
+     *      els.passwordInput.addEventListener('blur', (e) => { fns.enableLogin(e) } )
+     *  els.loginbtn.addEventListener('click', async (e) => { e.preventDefault(); await fns.login();} )
+     *  els.save.addEventListener('click',(e) => { fns.save_options(e); } )
      */
 ];
 
@@ -47,6 +49,7 @@ const fns = {
         els.emailInput = document.createElement('input');
         els.email.appendChild(els.emailInput);
         els.emailInput.for = els.login;
+        els.emailInput.autocomplete = true; // autocomplete
         els.emailInput.id = 'email';
         els.emailInput.type = 'email';
         els.emailInput.min = 5;
@@ -58,6 +61,7 @@ const fns = {
 
         els.password = document.createElement('label');
         els.passwordInput = document.createElement('input');
+        els.passwordInput.autocomplete = true; // autocomplete
         els.password.appendChild(els.passwordInput);
         els.passwordInput.for = els.login;
         els.passwordInput = els.password.querySelector('input');
@@ -74,9 +78,11 @@ const fns = {
         els.loginbtn.type = "submit";
         els.loginbtn.id = 'loginbtn';
         els.loginbtn.value = 'Login';
-        // els.loginbtn.disabled = true;
-        // els.loginbtn.classList.add('disabled');
+        fns.disable(els.loginbtn);
         els.login.appendChild(els.loginbtn);
+
+        els.emailInput.addEventListener('blur', (e) => { fns.enableLogin(e) } )
+        els.passwordInput.addEventListener('blur', (e) => { fns.enableLogin(e) } )
     },
 
     createUIForm(){
@@ -94,24 +100,33 @@ const fns = {
         els.save = document.createElement('input');
         els.save.type = 'submit';
         els.save.id = 'save';
-        els.save.textContent = 'Save';
+        els.save.value = 'Save';
         els.ui_options.appendChild(els.save);
 
         els.options.appendChild(els.login);
         els.options.appendChild(els.ui_options);
     },
 
-    enableSubmit(){
-        if( els.emailInput.value.length >= 5 || els.passwordInput.value.length >= 8  ){
-            els.save.disabled = false;
+    enableLogin(e){
+        /**
+         * @todo Currently broken, fix
+         */
+
+        const criteria = 
+            els.emailInput.value.length >= 5 && 
+            els.passwordInput.value.length >= 8 &&
+            els.emailInput.value.indexOf('@') != -1 &&
+            els.emailInput.value.indexOf('.') != -1;
+
+        if( criteria ){
+            fns.enable(els.loginbtn);
             els.save.classList.remove('disabled');
         }
     },
 
-    async login(){
-
-        els.loginbtn.setAttribute(disabled);
-        els.loginbtn.classList.add(disabled);
+    async login(e){
+        e.preventDefault();
+        fns.disable(els.loginbtn);
 
         await srapi.session(els.emailInput.value, els.passwordInput.value)
             .then( (status) => {
@@ -142,6 +157,14 @@ const fns = {
         // end promise
 
     },
+
+    disable(button){
+        button.disabled = true;
+    },
+
+    enable(button){
+        button.disabled = false;
+    },
     
     removeLoginInputs(){
         els.login.querySelector('label').remove();
@@ -149,16 +172,22 @@ const fns = {
         els.loginbtn.remove();
     },
 
-    save_options(){
+    save_options(e){
     ///**
     // * @todo save options to storage - Google examples are not working - trying something else.
     // * chrome.storage.sync.set({ key: value }).then(() => {
     //         console.log('Value is set to ' + value);
     //     });
     // */
+        e.preventDefault();
+        console.log('Saving preferences....')
         common.updateDark(els.dark_preference.checked);
-        els.save.textContent = 'Saved!';
-        setTimeout(()=>{els.save.textContent = 'Save'}, 500);
+        els.save.value = 'Saved!';
+        this.disable(els.save);
+        setTimeout(()=>{
+            els.save.value = 'Save';
+            fns.enable(els.save);
+        }, 5000);
     },
 
     restore_options(){
@@ -182,23 +211,7 @@ fns.load();
 
 // Event Listeners
 listeners.push( document.addEventListener('DOMContentLoaded', fns.restore_options()) );
-
-/**
- * Add a css class to group these buttons together so I can listen for changes.
- */
-// listeners.push( login.querySelectorAll('input').forEach( field => {
-//     field.addEventListener('change', () => {
-//         console.log('Login values: ', { "passwordLength": els.passwordInput.value.length, "\npasswordMinLength": field.min})
-
-//         if( els.passwordInput.value.length >= field.min && els.emailInput.value.length >= els.emailInput.min ){
-//             els.loginbtn.classList.remove('disabled');
-//         }
-//     } )
-// }));
-
-
-
-listeners.push( els.loginbtn.addEventListener('click', async (e) => { e.preventDefault(); await fns.login();} ));
-listeners.push( els.save.addEventListener('click',(e) => { e.preventDefault(); fns.save_options(); } ));
+listeners.push( els.loginbtn.addEventListener('click', async (e) => { await fns.login(e) } ));
+listeners.push( els.save.addEventListener('click',(e) => { fns.save_options(e) } ));
 
 
