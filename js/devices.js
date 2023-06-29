@@ -198,7 +198,8 @@ const fns = {
      */
         await srapi.fetchDeliveryCode(els.unitPicker.value);
         await fns.updateUser();
-        code.delivery.code_display.textContent = user.code.delivery.code;
+        code.delivery.code_display = user.code.delivery.code.code_display;
+        code.delivery.img = user.code.delivery.img;
     }
 
 };
