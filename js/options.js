@@ -49,10 +49,14 @@ const fns = {
         els.emailInput = document.createElement('input');
         els.email.appendChild(els.emailInput);
         els.emailInput.for = els.login;
-        els.emailInput.autocomplete = true; // autocomplete
+        els.emailInput.autocomplete = true;
         els.emailInput.id = 'email';
         els.emailInput.type = 'email';
         els.emailInput.min = 5;
+        /**
+         * @TODO Remove - here for testing purposes 
+         *      els.emailInput.value = 'phy@sr.com';
+         */
         els.emailInput.value = 'phy@sr.com'; // here for testing purposes
         els.emailInput.placeholder = 'eMail';
         els.emailInput.classList.add('textInput');
@@ -61,13 +65,17 @@ const fns = {
 
         els.password = document.createElement('label');
         els.passwordInput = document.createElement('input');
-        els.passwordInput.autocomplete = true; // autocomplete
+        els.passwordInput.autocomplete = true;
         els.password.appendChild(els.passwordInput);
         els.passwordInput.for = els.login;
         els.passwordInput = els.password.querySelector('input');
         els.passwordInput.id = 'password';
         els.passwordInput.type = 'password';
-        els.passwordInput.value = 'Smartrent1!'; // here for testing purposes
+        /**
+         * @TODO Remove - here for testing purposes 
+         *      els.passwordInput.value = 'Smartrent1!';
+         */
+        els.passwordInput.value = 'Smartrent1!';
         els.passwordInput.min = 8;
         els.passwordInput.placeholder = 'Password';
         els.passwordInput.classList.add('textInput');
