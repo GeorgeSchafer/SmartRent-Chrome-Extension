@@ -8,4 +8,4 @@ DS_Store
 replit.nix
 SmartRent-Chrome-Extension.pem
 *.git
-
+secrets.json
