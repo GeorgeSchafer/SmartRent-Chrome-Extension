@@ -1,6 +1,6 @@
 # Works In Progress
 
-## disable login button on press
+## Bug: "Get Delivery Code" unclickable
 
 
 
